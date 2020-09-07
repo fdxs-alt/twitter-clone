@@ -5,7 +5,7 @@ import {
     CreateDateColumn,
     BeforeInsert,
 } from 'typeorm';
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 
 @Entity()
 export class User {
@@ -43,9 +43,19 @@ export class User {
         this.fullName = this.name + ' ' + this.surname;
     }
 
-    @BeforeInsert()
     toResponse() {
         const { fullName, email, created, phone, id } = this;
-        return { fullName, email, created, phone, id };
+
+        return {
+            fullName,
+            email,
+            created,
+            phone,
+            id,
+        };
+    }
+
+    async comparePasswords(password: string) {
+        return await compare(password, this.password);
     }
 }
