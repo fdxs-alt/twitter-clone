@@ -4,11 +4,13 @@ import {
     Entity,
     CreateDateColumn,
     BeforeInsert,
+    AfterInsert,
+    BaseEntity,
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
-
+import { createTransport } from 'nodemailer';
 @Entity()
-export class User {
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -24,7 +26,7 @@ export class User {
     @CreateDateColumn()
     created: Date;
 
-    @Column({ unique: true })
+    @Column('numeric', { unique: true })
     phone: number;
 
     @Column('text')
@@ -33,9 +35,41 @@ export class User {
     @Column('varchar')
     fullName: string;
 
+    @Column('varchar', { unique: true })
+    userName: string;
+
+    @Column('boolean', { default: false })
+    confirmed: boolean;
+
+    @Column('int')
+    code: number;
+
+    @Column('text', { nullable: true })
+    profileLink: string;
+
+    @Column('varchar', { nullable: true })
+    country: string;
+
+    @Column('varchar', { nullable: true })
+    city: string;
+
+    @Column('text', { nullable: true })
+    description: string;
+
+    @Column('varchar', { array: true, nullable: true })
+    followers: string[];
+
+    @Column('varchar', { array: true, nullable: true })
+    following: string[];
+
     @BeforeInsert()
     async hashPassword() {
         this.password = await hash(this.password, 10);
+    }
+
+    @BeforeInsert()
+    getCode() {
+        this.code = Math.floor(1000 + Math.random() * 9000);
     }
 
     @BeforeInsert()
@@ -43,19 +77,43 @@ export class User {
         this.fullName = this.name + ' ' + this.surname;
     }
 
-    toResponse() {
-        const { fullName, email, created, phone, id } = this;
-
-        return {
-            fullName,
-            email,
-            created,
-            phone,
-            id,
-        };
-    }
-
     async comparePasswords(password: string) {
         return await compare(password, this.password);
+    }
+
+    async verifyUser(code: number) {
+        if (code === this.code) {
+            this.confirmed = true;
+            await this.save();
+            return true;
+        } else return false;
+    }
+
+    @AfterInsert()
+    async sendEmail() {
+        try {
+            const transporter = createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.email,
+                    pass: process.env.emailPassword,
+                },
+            });
+
+            await transporter.sendMail({
+                from: 'verify@twitter.com',
+                to: this.email,
+                subject: `${this.code} is your code`,
+                html: `
+                <div>
+                <h1>Confirm your email</h1>
+                <p>To start using twitter, pass the veification code:</p>
+                <h1>${this.code}</h1>
+                </div>   
+                `,
+            });
+        } catch (error) {
+            return;
+        }
     }
 }

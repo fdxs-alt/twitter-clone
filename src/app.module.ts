@@ -1,3 +1,4 @@
+import { UserModule } from './User/User.module';
 import { User } from './User/User.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -16,6 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             entities: [User],
             keepConnectionAlive: true,
         }),
+        UserModule,
     ],
 })
 export class AppModule {}

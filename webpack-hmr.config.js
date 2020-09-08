@@ -2,7 +2,7 @@
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const StartServerPlugin = require('start-server-webpack-plugin');
-
+const Dotenv = require('dotenv-webpack');
 module.exports = function(options) {
     return {
         ...options,
@@ -18,6 +18,7 @@ module.exports = function(options) {
             new webpack.HotModuleReplacementPlugin(),
             new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
             new StartServerPlugin({ name: options.output.filename }),
+            new Dotenv(),
         ],
     };
 };
