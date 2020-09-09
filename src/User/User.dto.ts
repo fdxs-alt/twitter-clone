@@ -41,3 +41,9 @@ export class VerifyAccountInput {
     )
     code: number;
 }
+export class UpdateProfileInput {
+    city?: string;
+    country?: string;
+    description?: string;
+    profileLink?: string;
+}

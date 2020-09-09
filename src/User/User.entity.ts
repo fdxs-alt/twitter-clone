@@ -1,3 +1,5 @@
+import { Background } from '../FileUpload/Background.entity';
+import { Avatar } from './../FileUpload/Avatar.entity';
 import {
     PrimaryGeneratedColumn,
     Column,
@@ -6,6 +8,8 @@ import {
     BeforeInsert,
     AfterInsert,
     BaseEntity,
+    JoinColumn,
+    OneToOne,
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
 import { createTransport } from 'nodemailer';
@@ -92,6 +96,8 @@ export class User extends BaseEntity {
             followers,
             following,
             profileLink,
+            avatar,
+            background,
         } = this;
 
         return {
@@ -104,6 +110,8 @@ export class User extends BaseEntity {
             followers,
             following,
             profileLink,
+            avatar,
+            background,
         };
     }
 
@@ -120,6 +128,8 @@ export class User extends BaseEntity {
             email,
             phone,
             id,
+            avatar,
+            background,
         } = this;
 
         return {
@@ -134,6 +144,8 @@ export class User extends BaseEntity {
             email,
             phone,
             id,
+            avatar,
+            background,
         };
     }
 
@@ -172,4 +184,18 @@ export class User extends BaseEntity {
             return;
         }
     }
+
+    @JoinColumn()
+    @OneToOne(() => Avatar, {
+        eager: true,
+        nullable: true,
+    })
+    avatar?: Avatar;
+
+    @JoinColumn()
+    @OneToOne(() => Background, {
+        eager: true,
+        nullable: true,
+    })
+    background?: Background;
 }

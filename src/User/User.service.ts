@@ -1,3 +1,4 @@
+import { FileService } from './../FileUpload/FileUpload.service';
 import {
     Injectable,
     BadRequestException,
@@ -6,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './User.entity';
 import { Repository } from 'typeorm';
-import { createUserInput, loginInput } from './User.dto';
+import { createUserInput, loginInput, UpdateProfileInput } from './User.dto';
 import { sign, verify } from 'jsonwebtoken';
 import { Response, Request } from 'express';
 
@@ -15,6 +16,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        private readonly fileService: FileService,
     ) {}
 
     async getAllUsers() {
@@ -159,5 +161,56 @@ export class UserService {
 
     createRefreshToken(id: string) {
         return sign({ id }, process.env.REFRESH, { expiresIn: '7d' });
+    }
+
+    async updateProfile(
+        id: string,
+        data: UpdateProfileInput,
+        avatar?: any,
+        background?: any,
+    ) {
+        const user = await this.userRepository.findOne({ where: { id } });
+
+        if (!user) {
+            throw new BadRequestException({ message: 'User does not exist' });
+        }
+
+        if (data.city) {
+            user.city = data.city;
+        }
+
+        if (data.profileLink) {
+            user.profileLink = data.profileLink;
+        }
+
+        if (data.country) {
+            user.country = data.country;
+        }
+
+        if (data.description) {
+            user.description = data.description;
+        }
+
+        if (background) {
+            const userbackground = await this.fileService.addAvatarOrBackground(
+                background[0].buffer,
+                false,
+            );
+
+            user.background = userbackground;
+        }
+
+        if (avatar) {
+            const useravatar = await this.fileService.addAvatarOrBackground(
+                avatar[0].buffer,
+                true,
+            );
+
+            user.avatar = useravatar;
+        }
+
+        await user.save();
+
+        return user;
     }
 }

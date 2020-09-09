@@ -1,3 +1,5 @@
+import { Background } from './FileUpload/Background.entity';
+import { Avatar } from './FileUpload/Avatar.entity';
 import { UserModule } from './User/User.module';
 import { User } from './User/User.entity';
 import { Module } from '@nestjs/common';
@@ -14,7 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             logging: true,
             synchronize: true,
             dropSchema: true,
-            entities: [User],
+            entities: [User, Avatar, Background],
             keepConnectionAlive: true,
         }),
         UserModule,
