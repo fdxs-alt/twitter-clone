@@ -81,6 +81,62 @@ export class User extends BaseEntity {
         return await compare(password, this.password);
     }
 
+    toOtherUsersResponse() {
+        const {
+            id,
+            fullName,
+            city,
+            country,
+            created,
+            description,
+            followers,
+            following,
+            profileLink,
+        } = this;
+
+        return {
+            id,
+            fullName,
+            city,
+            country,
+            created,
+            description,
+            followers,
+            following,
+            profileLink,
+        };
+    }
+
+    selfResponse() {
+        const {
+            fullName,
+            city,
+            country,
+            created,
+            description,
+            followers,
+            following,
+            profileLink,
+            email,
+            phone,
+            id,
+        } = this;
+
+        return {
+            fullName,
+            city,
+            country,
+            created,
+            description,
+            followers,
+            following,
+            profileLink,
+            email,
+            phone,
+            id,
+        };
+    }
+
     async verifyUser(code: number) {
         if (code === this.code) {
             this.confirmed = true;

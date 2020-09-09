@@ -7,8 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './User.entity';
 import { Repository } from 'typeorm';
 import { createUserInput, loginInput } from './User.dto';
-import { sign } from 'jsonwebtoken';
-import { Response } from 'express';
+import { sign, verify } from 'jsonwebtoken';
+import { Response, Request } from 'express';
 
 @Injectable()
 export class UserService {
@@ -18,7 +18,9 @@ export class UserService {
     ) {}
 
     async getAllUsers() {
-        return await this.userRepository.find();
+        return await (await this.userRepository.find()).map(user =>
+            user.toOtherUsersResponse(),
+        );
     }
 
     async register(data: createUserInput) {
@@ -79,7 +81,7 @@ export class UserService {
         });
 
         return {
-            user: userWithCode,
+            user: userWithCode.selfResponse(),
             accessToken: this.createAccessToken(userWithCode.id),
         };
     }
@@ -108,14 +110,51 @@ export class UserService {
                 message: 'Email or password is wrong',
             });
         }
+
         res.cookie('jrc', this.createRefreshToken(user.id), {
             httpOnly: true,
         });
-        return { user, accessToken: this.createAccessToken(user.id) };
+
+        return {
+            user: user.selfResponse(),
+            accessToken: this.createAccessToken(user.id),
+        };
+    }
+
+    async revokeToken(req: Request, res: Response) {
+        const refreshToken = req.cookies.jrc;
+
+        if (!refreshToken) {
+            return { ok: false, accessToken: '' };
+        }
+
+        let decoded = null;
+
+        try {
+            decoded = verify(refreshToken, process.env.REFRESH);
+        } catch (error) {
+            return { ok: false, accessToken: '' };
+        }
+        const user = await this.userRepository.findOne({ id: decoded.id });
+
+        if (!user) {
+            return { ok: false, accessToken: '' };
+        }
+
+        res.cookie('jrc', this.createRefreshToken(user.id), {
+            httpOnly: true,
+        });
+
+        return {
+            ok: true,
+            accessToken: this.createAccessToken(user.id),
+        };
     }
 
     createAccessToken(id: string) {
-        return sign({ id }, process.env.ACCESS, { expiresIn: '60m' });
+        return (
+            'Bearer ' + sign({ id }, process.env.ACCESS, { expiresIn: '60m' })
+        );
     }
 
     createRefreshToken(id: string) {
