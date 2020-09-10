@@ -1,5 +1,6 @@
-import { Background } from '../FileUpload/Background.entity';
-import { Avatar } from './../FileUpload/Avatar.entity';
+import { Tweet } from './Tweet.entity';
+import { Background } from './Background.entity';
+import { Avatar } from './Avatar.entity';
 import {
     PrimaryGeneratedColumn,
     Column,
@@ -13,6 +14,7 @@ import {
     ManyToMany,
     JoinTable,
     RelationCount,
+    OneToMany,
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
 import { createTransport } from 'nodemailer';
@@ -83,6 +85,36 @@ export class User extends BaseEntity {
     @RelationCount((user: User) => user.following)
     followingCount: number;
 
+    @OneToMany(
+        () => Tweet,
+        tweets => tweets.user,
+    )
+    tweets: Tweet[];
+
+    @RelationCount((user: User) => user.tweets)
+    tweetsCount: number;
+
+    @ManyToMany(
+        () => Tweet,
+        tweet => tweet.userRe,
+    )
+    @JoinTable()
+    retweets: Tweet[];
+
+    @JoinColumn()
+    @OneToOne(() => Avatar, {
+        eager: true,
+        nullable: true,
+    })
+    avatar?: Avatar;
+
+    @JoinColumn()
+    @OneToOne(() => Background, {
+        eager: true,
+        nullable: true,
+    })
+    background?: Background;
+
     @BeforeInsert()
     async hashPassword() {
         this.password = await hash(this.password, 10);
@@ -137,18 +169,4 @@ export class User extends BaseEntity {
             return;
         }
     }
-
-    @JoinColumn()
-    @OneToOne(() => Avatar, {
-        eager: true,
-        nullable: true,
-    })
-    avatar?: Avatar;
-
-    @JoinColumn()
-    @OneToOne(() => Background, {
-        eager: true,
-        nullable: true,
-    })
-    background?: Background;
 }

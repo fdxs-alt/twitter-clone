@@ -1,14 +1,12 @@
 import {
-    Entity,
     BaseEntity,
+    PrimaryGeneratedColumn,
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
-export class Avatar extends BaseEntity {
+export abstract class AbstractEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

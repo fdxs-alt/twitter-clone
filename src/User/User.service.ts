@@ -5,7 +5,7 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './User.entity';
+import { User } from '../Shared/Entities/User.entity';
 import { Repository } from 'typeorm';
 import { createUserInput, loginInput, UpdateProfileInput } from './User.dto';
 import { sign, verify } from 'jsonwebtoken';

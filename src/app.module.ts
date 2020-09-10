@@ -1,7 +1,9 @@
-import { Background } from './FileUpload/Background.entity';
-import { Avatar } from './FileUpload/Avatar.entity';
+import { Tweet } from './Shared/Entities/Tweet.entity';
+import { TweetImage } from './Shared/Entities/TweetImage.entity';
+import { Background } from './Shared/Entities/Background.entity';
+import { Avatar } from './Shared/Entities/Avatar.entity';
 import { UserModule } from './User/User.module';
-import { User } from './User/User.entity';
+import { User } from './Shared/Entities/User.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
@@ -15,7 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             database: process.env.database,
             logging: true,
             synchronize: true,
-            entities: [User, Avatar, Background],
+            entities: [User, Avatar, Background, TweetImage, Tweet],
             keepConnectionAlive: true,
         }),
         UserModule,
