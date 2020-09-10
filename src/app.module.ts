@@ -15,7 +15,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             database: process.env.database,
             logging: true,
             synchronize: true,
-            dropSchema: true,
             entities: [User, Avatar, Background],
             keepConnectionAlive: true,
         }),

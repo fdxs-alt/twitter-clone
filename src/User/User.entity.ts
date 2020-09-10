@@ -10,9 +10,13 @@ import {
     BaseEntity,
     JoinColumn,
     OneToOne,
+    ManyToMany,
+    JoinTable,
+    RelationCount,
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
 import { createTransport } from 'nodemailer';
+
 @Entity()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -33,7 +37,7 @@ export class User extends BaseEntity {
     @Column('numeric', { unique: true })
     phone: number;
 
-    @Column('text')
+    @Column('text', { select: false })
     password: string;
 
     @Column('varchar')
@@ -45,7 +49,7 @@ export class User extends BaseEntity {
     @Column('boolean', { default: false })
     confirmed: boolean;
 
-    @Column('int')
+    @Column('int', { nullable: true })
     code: number;
 
     @Column('text', { nullable: true })
@@ -60,11 +64,24 @@ export class User extends BaseEntity {
     @Column('text', { nullable: true })
     description: string;
 
-    @Column('varchar', { array: true, nullable: true })
-    followers: string[];
+    @ManyToMany(
+        () => User,
+        user => user.following,
+    )
+    @JoinTable()
+    followers: User[];
 
-    @Column('varchar', { array: true, nullable: true })
-    following: string[];
+    @ManyToMany(
+        () => User,
+        user => user.followers,
+    )
+    following: User[];
+
+    @RelationCount((user: User) => user.followers)
+    followersCount: number;
+
+    @RelationCount((user: User) => user.following)
+    followingCount: number;
 
     @BeforeInsert()
     async hashPassword() {
@@ -83,70 +100,6 @@ export class User extends BaseEntity {
 
     async comparePasswords(password: string) {
         return await compare(password, this.password);
-    }
-
-    toOtherUsersResponse() {
-        const {
-            id,
-            fullName,
-            city,
-            country,
-            created,
-            description,
-            followers,
-            following,
-            profileLink,
-            avatar,
-            background,
-        } = this;
-
-        return {
-            id,
-            fullName,
-            city,
-            country,
-            created,
-            description,
-            followers,
-            following,
-            profileLink,
-            avatar,
-            background,
-        };
-    }
-
-    selfResponse() {
-        const {
-            fullName,
-            city,
-            country,
-            created,
-            description,
-            followers,
-            following,
-            profileLink,
-            email,
-            phone,
-            id,
-            avatar,
-            background,
-        } = this;
-
-        return {
-            fullName,
-            city,
-            country,
-            created,
-            description,
-            followers,
-            following,
-            profileLink,
-            email,
-            phone,
-            id,
-            avatar,
-            background,
-        };
     }
 
     async verifyUser(code: number) {

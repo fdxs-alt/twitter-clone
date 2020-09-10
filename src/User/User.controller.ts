@@ -17,6 +17,9 @@ import {
     Get,
     UseInterceptors,
     UploadedFiles,
+    Patch,
+    Param,
+    Delete,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/Shared/AuthGuard';
@@ -26,7 +29,6 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @Get('')
-    @UseGuards(AuthGuard)
     getAllUsers() {
         return this.userService.getAllUsers();
     }
@@ -59,7 +61,7 @@ export class UserController {
         return res.json(await this.userService.revokeToken(req, res));
     }
 
-    @Post('updateProfile')
+    @Patch('updateProfile')
     @UseGuards(AuthGuard)
     @UseInterceptors(
         FileFieldsInterceptor([
@@ -78,5 +80,17 @@ export class UserController {
             files?.avatar,
             files?.background,
         );
+    }
+
+    @Post('follow/:userId')
+    @UseGuards(AuthGuard)
+    follow(@User('id') id: string, @Param('userId') userId: string) {
+        return this.userService.followUser(userId, id);
+    }
+
+    @Delete('unfollow/:userId')
+    @UseGuards(AuthGuard)
+    unfollow(@User('id') id: string, @Param('userId') userId: string) {
+        return this.userService.unfollowUser(userId, id);
     }
 }

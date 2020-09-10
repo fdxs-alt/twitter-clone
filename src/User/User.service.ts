@@ -20,9 +20,9 @@ export class UserService {
     ) {}
 
     async getAllUsers() {
-        return await (await this.userRepository.find()).map(user =>
-            user.toOtherUsersResponse(),
-        );
+        return await this.userRepository.find({
+            relations: ['followers', 'following'],
+        });
     }
 
     async register(data: createUserInput) {
@@ -78,12 +78,16 @@ export class UserService {
             });
         }
 
+        userWithCode.code = null;
+
         res.cookie('jrc', this.createRefreshToken(userWithCode.id), {
             httpOnly: true,
         });
 
+        await userWithCode.save();
+
         return {
-            user: userWithCode.selfResponse(),
+            user: userWithCode,
             accessToken: this.createAccessToken(userWithCode.id),
         };
     }
@@ -118,7 +122,7 @@ export class UserService {
         });
 
         return {
-            user: user.selfResponse(),
+            user,
             accessToken: this.createAccessToken(user.id),
         };
     }
@@ -212,5 +216,79 @@ export class UserService {
         await user.save();
 
         return user;
+    }
+
+    async followUser(userId: string, loggedId: string) {
+        if (userId === loggedId) {
+            throw new BadRequestException({
+                message: "You can't follow yourself",
+            });
+        }
+
+        const userToFollow = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['followers', 'following'],
+        });
+
+        if (!userToFollow) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+
+        const loggedUser = await this.userRepository.findOne({
+            where: {
+                id: loggedId,
+            },
+        });
+
+        if (!loggedUser) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+
+        if (userToFollow.followers.includes(loggedUser)) {
+            throw new BadRequestException({
+                message: 'You have already been folowing this user',
+            });
+        }
+
+        userToFollow.followers.push(loggedUser);
+
+        await userToFollow.save();
+
+        return userToFollow;
+    }
+
+    async unfollowUser(userId: string, loggedId: string) {
+        if (userId === loggedId) {
+            throw new BadRequestException({
+                message: "You can't do this action",
+            });
+        }
+
+        const userToUnFollow = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['followers', 'following'],
+        });
+
+        if (!userToUnFollow) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+
+        const loggedUser = await this.userRepository.findOne({
+            where: {
+                id: loggedId,
+            },
+        });
+
+        if (!loggedUser) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+
+        userToUnFollow.followers = userToUnFollow.followers.filter(user => {
+            return user.id !== loggedUser.id;
+        });
+
+        await userToUnFollow.save();
+
+        return userToUnFollow;
     }
 }
