@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsNumber } from 'class-validator';
+import { IsString, IsEmail, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class createUserInput {
     @IsString({ message: 'Given value must be a string' })
@@ -27,6 +27,7 @@ export class loginInput {
     email: string;
 
     @IsString({ message: 'Given value must be a string' })
+    @IsNotEmpty({ message: 'You need to provide value' })
     password: string;
 }
 

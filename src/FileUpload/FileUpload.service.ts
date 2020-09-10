@@ -1,3 +1,4 @@
+import { TweetImage } from './../Shared/Entities/TweetImage.entity';
 import { Avatar } from '../Shared/Entities/Avatar.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,8 +15,34 @@ export class FileService {
 
         @InjectRepository(Background)
         private backgroundRepository: Repository<Background>,
+
+        @InjectRepository(TweetImage)
+        private tweetImageRepository: Repository<TweetImage>,
     ) {}
 
+    async addImagesToTweet(files: Express.Multer.File[]) {
+        const s3 = new S3();
+
+        const sendImages = files.map(async file => {
+            const upload = await s3
+                .upload({
+                    Bucket: process.env.BUCKET_NAME,
+                    Body: file.buffer,
+                    Key: uuid(),
+                    ACL: 'public-read',
+                })
+                .promise();
+
+            const image = this.tweetImageRepository.create({
+                key: upload.Key,
+                url: upload.Location,
+            });
+
+            return await image.save();
+        });
+
+        return await Promise.all(sendImages);
+    }
     async addAvatarOrBackground(data: Buffer, isAvatar: boolean) {
         const s3 = new S3();
 

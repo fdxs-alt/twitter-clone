@@ -1,3 +1,4 @@
+import { TweetModule } from './Tweet/Tweet.module';
 import { Tweet } from './Shared/Entities/Tweet.entity';
 import { TweetImage } from './Shared/Entities/TweetImage.entity';
 import { Background } from './Shared/Entities/Background.entity';
@@ -21,6 +22,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             keepConnectionAlive: true,
         }),
         UserModule,
+        TweetModule,
     ],
 })
 export class AppModule {}

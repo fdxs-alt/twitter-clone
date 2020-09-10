@@ -9,11 +9,12 @@ import {
     RelationCount,
     OneToMany,
     PrimaryGeneratedColumn,
+    BaseEntity,
 } from 'typeorm';
 import { User } from 'src/Shared/Entities/User.entity';
 
 @Entity()
-export class Tweet {
+export class Tweet extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -23,8 +24,11 @@ export class Tweet {
     @CreateDateColumn()
     issuedAt: Date;
 
-    @Column('varchar', { array: true })
+    @Column('varchar', { array: true, nullable: true })
     likes: string[];
+
+    @Column('text', { nullable: true })
+    gif: string;
 
     @ManyToOne(
         () => User,
@@ -42,6 +46,7 @@ export class Tweet {
     @OneToMany(
         () => TweetImage,
         images => images.tweet,
+        { eager: true },
     )
-    images: Tweet[];
+    images: TweetImage[];
 }
