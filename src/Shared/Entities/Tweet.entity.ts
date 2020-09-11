@@ -38,6 +38,7 @@ export class Tweet extends BaseEntity {
     @ManyToMany(
         () => User,
         user => user.retweets,
+        { eager: true },
     )
     userRe: User[];
 

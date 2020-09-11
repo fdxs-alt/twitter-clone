@@ -44,9 +44,15 @@ export class TweetControler {
         return this.tweetService.deleteTweet(id);
     }
 
-    @Post('retweet/:tweetId')
+    @Post('/retweet/:tweetId')
     @UseGuards(AuthGuard)
     retweet(@Param('tweetId') tweetId: string, @User('id') id: string) {
         return this.tweetService.retweet(id, tweetId);
+    }
+
+    @Delete('/undoRetweet/:tweetId')
+    @UseGuards(AuthGuard)
+    undoRetweet(@Param('tweetId') tweetId: string, @User('id') id: string) {
+        return this.tweetService.undoRetweet(id, tweetId);
     }
 }

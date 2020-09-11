@@ -100,6 +100,35 @@ export class TweetService {
     async retweet(userId: string, tweetId: string) {
         const user = await this.userRepository.findOne({
             where: { id: userId },
+            relations: ['retweets'],
+        });
+
+        if (!user) {
+            throw new BadRequestException({ message: 'Cannot find the user' });
+        }
+
+        const tweet = await this.tweetRepository.findOne({
+            where: { id: tweetId },
+            relations: ['user'],
+        });
+
+        if (!tweet) {
+            throw new BadRequestException({
+                message: 'Cannot indentify tweet',
+            });
+        }
+
+        user.retweets.push(tweet);
+
+        await user.save();
+
+        return user.retweets;
+    }
+
+    async undoRetweet(userId: string, tweetId: string) {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['retweets'],
         });
 
         if (!user) {
@@ -116,11 +145,13 @@ export class TweetService {
             });
         }
 
-        user.retweets.push(tweet);
+        user.retweets = user.retweets.filter(
+            retweet => retweet.id !== tweet.id,
+        );
 
         await user.save();
 
-        return user;
+        return user.retweets;
     }
 
     sortingFunction(Date_A: Tweet, Date_B: Tweet) {
