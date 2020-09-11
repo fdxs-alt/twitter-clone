@@ -1,3 +1,4 @@
+import { Tag } from './Shared/Entities/Tag.entity';
 import { TweetModule } from './Tweet/Tweet.module';
 import { Tweet } from './Shared/Entities/Tweet.entity';
 import { TweetImage } from './Shared/Entities/TweetImage.entity';
@@ -18,7 +19,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             database: process.env.database,
             logging: true,
             synchronize: true,
-            entities: [User, Avatar, Background, TweetImage, Tweet],
+
+            entities: [User, Avatar, Background, TweetImage, Tweet, Tag],
             keepConnectionAlive: true,
         }),
         UserModule,

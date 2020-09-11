@@ -1,3 +1,4 @@
+import { Tag } from './../Shared/Entities/Tag.entity';
 import { TweetControler } from './Tweet.controller';
 import { FileModule } from './../FileUpload/FileUpload.module';
 import { Tweet } from './../Shared/Entities/Tweet.entity';
@@ -7,7 +8,7 @@ import { User } from 'src/Shared/Entities/User.entity';
 import { TweetService } from './Tweet.Service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User, Tweet]), FileModule],
+    imports: [TypeOrmModule.forFeature([User, Tweet, Tag]), FileModule],
     controllers: [TweetControler],
     providers: [TweetService],
 })

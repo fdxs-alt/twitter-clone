@@ -1,3 +1,4 @@
+import { Tag } from './Tag.entity';
 import { TweetImage } from './TweetImage.entity';
 import {
     Entity,
@@ -5,8 +6,6 @@ import {
     CreateDateColumn,
     ManyToOne,
     ManyToMany,
-    JoinTable,
-    RelationCount,
     OneToMany,
     PrimaryGeneratedColumn,
     BaseEntity,
@@ -36,12 +35,11 @@ export class Tweet extends BaseEntity {
     )
     user: User;
 
-    @ManyToMany(() => User)
-    @JoinTable()
+    @ManyToMany(
+        () => User,
+        user => user.retweets,
+    )
     userRe: User[];
-
-    @RelationCount((tweet: Tweet) => tweet.userRe)
-    userReCount: number;
 
     @OneToMany(
         () => TweetImage,
@@ -49,4 +47,11 @@ export class Tweet extends BaseEntity {
         { eager: true },
     )
     images: TweetImage[];
+
+    @ManyToMany(
+        () => Tag,
+        tag => tag.tweets,
+        { eager: true },
+    )
+    tags: Tag[];
 }

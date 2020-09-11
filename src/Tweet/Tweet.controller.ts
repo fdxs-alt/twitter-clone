@@ -8,6 +8,8 @@ import {
     Body,
     UseInterceptors,
     UploadedFiles,
+    Delete,
+    Param,
 } from '@nestjs/common';
 import { TweetService } from './Tweet.Service';
 import { User } from 'src/User/User.decorator';
@@ -34,5 +36,17 @@ export class TweetControler {
         @UploadedFiles() files?: any,
     ) {
         return this.tweetService.postTweet(data, id, files?.tweetImages);
+    }
+
+    @Delete('/:id')
+    @UseGuards(AuthGuard)
+    deleteTweet(@Param('id') id: string) {
+        return this.tweetService.deleteTweet(id);
+    }
+
+    @Post('retweet/:tweetId')
+    @UseGuards(AuthGuard)
+    retweet(@Param('tweetId') tweetId: string, @User('id') id: string) {
+        return this.tweetService.retweet(id, tweetId);
     }
 }

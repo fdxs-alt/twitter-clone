@@ -13,7 +13,6 @@ import {
     OneToOne,
     ManyToMany,
     JoinTable,
-    RelationCount,
     OneToMany,
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
@@ -79,20 +78,11 @@ export class User extends BaseEntity {
     )
     following: User[];
 
-    @RelationCount((user: User) => user.followers)
-    followersCount: number;
-
-    @RelationCount((user: User) => user.following)
-    followingCount: number;
-
     @OneToMany(
         () => Tweet,
         tweets => tweets.user,
     )
     tweets: Tweet[];
-
-    @RelationCount((user: User) => user.tweets)
-    tweetsCount: number;
 
     @ManyToMany(
         () => Tweet,
