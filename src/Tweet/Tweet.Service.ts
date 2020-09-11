@@ -5,8 +5,8 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import moment from 'moment';
 import { Repository } from 'typeorm';
-import { User } from 'src/Shared/Entities/User.entity';
-import { FileService } from 'src/FileUpload/FileUpload.service';
+import { User } from '../Shared/Entities/User.entity';
+import { FileService } from '../FileUpload/FileUpload.service';
 
 @Injectable()
 export class TweetService {

@@ -12,7 +12,7 @@ import {
     Param,
 } from '@nestjs/common';
 import { TweetService } from './Tweet.Service';
-import { User } from 'src/User/User.decorator';
+import { User } from '../User/User.decorator';
 import { TweetInput } from './Tweet.dto';
 
 @Controller('tweets')

@@ -22,7 +22,7 @@ import {
     Delete,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { AuthGuard } from 'src/Shared/AuthGuard';
+import { AuthGuard } from '../Shared/AuthGuard';
 import { User } from './User.decorator';
 @Controller('auth')
 export class UserController {

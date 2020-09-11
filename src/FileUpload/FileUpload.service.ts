@@ -3,7 +3,7 @@ import { Avatar } from '../Shared/Entities/Avatar.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Background } from 'src/Shared/Entities/Background.entity';
+import { Background } from '../Shared/Entities/Background.entity';
 import { S3 } from 'aws-sdk';
 import { v4 as uuid } from 'uuid';
 

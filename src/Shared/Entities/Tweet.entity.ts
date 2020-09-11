@@ -10,7 +10,7 @@ import {
     PrimaryGeneratedColumn,
     BaseEntity,
 } from 'typeorm';
-import { User } from 'src/Shared/Entities/User.entity';
+import { User } from './User.entity';
 
 @Entity()
 export class Tweet extends BaseEntity {
