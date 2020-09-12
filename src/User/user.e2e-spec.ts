@@ -104,6 +104,7 @@ describe('User routes testing', () => {
             });
         });
     });
+
     describe('Login route', () => {
         it('Throws validation error', async () => {
             const { body } = await supertest

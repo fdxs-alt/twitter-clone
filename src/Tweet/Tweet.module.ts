@@ -5,7 +5,7 @@ import { Tweet } from './../Shared/Entities/Tweet.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './../Shared/Entities/User.entity';
-import { TweetService } from './Tweet.Service';
+import { TweetService } from './Tweet.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([User, Tweet, Tag]), FileModule],

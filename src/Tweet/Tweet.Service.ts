@@ -1,10 +1,10 @@
-import { Tag } from './../Shared/Entities/Tag.entity';
+import { Tag } from '../Shared/Entities/Tag.entity';
 import { TweetInput } from './Tweet.dto';
-import { Tweet } from './../Shared/Entities/Tweet.entity';
+import { Tweet } from '../Shared/Entities/Tweet.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import moment from 'moment';
-import { Repository } from 'typeorm';
+import { Repository, TreeRepository } from 'typeorm';
 import { User } from '../Shared/Entities/User.entity';
 import { FileService } from '../FileUpload/FileUpload.service';
 
@@ -14,7 +14,7 @@ export class TweetService {
         @InjectRepository(User)
         private userRepository: Repository<User>,
         @InjectRepository(Tweet)
-        private tweetRepository: Repository<Tweet>,
+        private tweetRepository: TreeRepository<Tweet>,
         @InjectRepository(Tag)
         private tagRepository: Repository<Tag>,
         private readonly fileService: FileService,
@@ -53,6 +53,7 @@ export class TweetService {
             message: data.message,
             user,
             tags: [],
+            comments: [],
         });
 
         if (files) {
@@ -164,5 +165,73 @@ export class TweetService {
             return -1;
         }
         return 0;
+    }
+
+    async comment(
+        tweetId: string,
+        data: TweetInput,
+        userId: string,
+        files?: Express.Multer.File[],
+    ) {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+        });
+
+        if (!user) {
+            throw new BadRequestException({ message: 'Cannot identify user' });
+        }
+        const parentTweet = await this.tweetRepository.findOne({
+            where: { id: tweetId },
+        });
+
+        const newTweet = this.tweetRepository.create({
+            gif: data.gif,
+            message: data.message,
+            user,
+            tags: [],
+            mainTweet: parentTweet,
+        });
+
+        if (files) {
+            newTweet.images = await this.fileService.addImagesToTweet(files);
+        }
+
+        if (data.tags.length !== 0) {
+            await Promise.all(
+                data.tags.map(async tag => {
+                    const isTag = await this.tagRepository.findOne({
+                        where: { text: tag },
+                    });
+
+                    if (isTag) {
+                        newTweet.tags.push(isTag);
+                    } else {
+                        const newTag = this.tagRepository.create({
+                            text: tag,
+                        });
+                        await newTag.save();
+
+                        newTweet.tags.push(newTag);
+                    }
+                }),
+            );
+        }
+        await newTweet.save();
+
+        return newTweet;
+    }
+
+    async getAllComments(postId: string) {
+        const tweet = await this.tweetRepository.findOne({
+            where: { id: postId },
+        });
+
+        if (!tweet) {
+            throw new BadRequestException({ message: 'Cannot find post ' });
+        }
+
+        const allComents = await this.tweetRepository.findDescendants(tweet);
+
+        return allComents;
     }
 }

@@ -11,7 +11,7 @@ import {
     Delete,
     Param,
 } from '@nestjs/common';
-import { TweetService } from './Tweet.Service';
+import { TweetService } from './Tweet.service';
 import { User } from '../User/User.decorator';
 import { TweetInput } from './Tweet.dto';
 
@@ -54,5 +54,25 @@ export class TweetControler {
     @UseGuards(AuthGuard)
     undoRetweet(@Param('tweetId') tweetId: string, @User('id') id: string) {
         return this.tweetService.undoRetweet(id, tweetId);
+    }
+
+    @Post('/comment/:tweetId')
+    @UseGuards(AuthGuard)
+    @UseInterceptors(
+        FileFieldsInterceptor([{ name: 'tweetImages', maxCount: 5 }]),
+    )
+    comment(
+        @User('id') id: string,
+        @Body() data: TweetInput,
+        @Param('tweetId') tweetId: string,
+        @UploadedFiles() files?: any,
+    ) {
+        return this.tweetService.comment(tweetId, data, id, files?.tweetImages);
+    }
+
+    @Get('/comments/:postId')
+    @UseGuards(AuthGuard)
+    getComments(@Param('postId') postId: string) {
+        return this.tweetService.getAllComments(postId);
     }
 }

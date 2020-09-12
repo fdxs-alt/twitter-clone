@@ -24,14 +24,7 @@ export class FileService {
         const s3 = new S3();
 
         const sendImages = files.map(async file => {
-            const upload = await s3
-                .upload({
-                    Bucket: process.env.BUCKET_NAME,
-                    Body: file.buffer,
-                    Key: uuid(),
-                    ACL: 'public-read',
-                })
-                .promise();
+            const upload = await this.uploadFile(file.buffer, s3);
 
             const image = this.tweetImageRepository.create({
                 key: upload.Key,
@@ -46,14 +39,7 @@ export class FileService {
     async addAvatarOrBackground(data: Buffer, isAvatar: boolean) {
         const s3 = new S3();
 
-        const upload = await s3
-            .upload({
-                Bucket: process.env.BUCKET_NAME,
-                Body: data,
-                Key: uuid(),
-                ACL: 'public-read',
-            })
-            .promise();
+        const upload = await this.uploadFile(data, s3);
 
         if (isAvatar) {
             const avatar = this.avatarRepository.create({
@@ -74,5 +60,16 @@ export class FileService {
         await background.save();
 
         return background;
+    }
+
+    async uploadFile(data: Buffer, s3: S3) {
+        return await s3
+            .upload({
+                Bucket: process.env.BUCKET_NAME,
+                Body: data,
+                Key: uuid(),
+                ACL: 'public-read',
+            })
+            .promise();
     }
 }
