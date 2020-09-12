@@ -25,9 +25,11 @@ export class TweetService {
             where: { id },
             relations: ['retweets'],
         });
+
         const userTweets = await this.tweetRepository.find({
             where: { user: { id } },
         });
+
         const allUserTweets = [...userRetweets.retweets, ...userTweets].sort(
             this.sortingFunction,
         );

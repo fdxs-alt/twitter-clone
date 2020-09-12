@@ -18,7 +18,7 @@ export async function createConn() {
                 port: 5432,
                 username: process.env.user,
                 password: process.env.password,
-                database: 'TESTDB',
+                database: 'test',
                 synchronize: true,
                 dropSchema: true,
                 entities: [User, Avatar, Background, TweetImage, Tweet, Tag],

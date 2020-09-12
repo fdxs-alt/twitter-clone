@@ -103,17 +103,17 @@ export class UserService {
             });
         }
 
-        if (!user.confirmed) {
-            throw new UnauthorizedException({
-                message: 'To log in, email confirmation is required',
-            });
-        }
-
-        const canLogIn = user.comparePasswords(data.password);
+        const canLogIn = await user.comparePasswords(data.password);
 
         if (!canLogIn) {
             throw new UnauthorizedException({
                 message: 'Email or password is wrong',
+            });
+        }
+
+        if (!user.confirmed) {
+            throw new UnauthorizedException({
+                message: 'To log in, email confirmation is required',
             });
         }
 

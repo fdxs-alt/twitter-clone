@@ -1,34 +1,11 @@
 import { Tag } from './Tag.entity';
 import { TweetImage } from './TweetImage.entity';
-import {
-    Entity,
-    Column,
-    CreateDateColumn,
-    ManyToOne,
-    ManyToMany,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    BaseEntity,
-} from 'typeorm';
+import { Entity, ManyToOne, ManyToMany, OneToMany } from 'typeorm';
 import { User } from './User.entity';
+import { AbstractTweetEntity } from './AbstractTweetEntity.entity';
 
 @Entity()
-export class Tweet extends BaseEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
-
-    @Column('text')
-    message: string;
-
-    @CreateDateColumn()
-    issuedAt: Date;
-
-    @Column('varchar', { array: true, nullable: true })
-    likes: string[];
-
-    @Column('text', { nullable: true })
-    gif: string;
-
+export class Tweet extends AbstractTweetEntity {
     @ManyToOne(
         () => User,
         user => user.tweets,
