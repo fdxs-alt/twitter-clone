@@ -4,7 +4,7 @@ import { Tweet } from '../Shared/Entities/Tweet.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import moment from 'moment';
-import { Repository, TreeRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../Shared/Entities/User.entity';
 import { FileService } from '../FileUpload/FileUpload.service';
 
@@ -14,7 +14,7 @@ export class TweetService {
         @InjectRepository(User)
         private userRepository: Repository<User>,
         @InjectRepository(Tweet)
-        private tweetRepository: TreeRepository<Tweet>,
+        private tweetRepository: Repository<Tweet>,
         @InjectRepository(Tag)
         private tagRepository: Repository<Tag>,
         private readonly fileService: FileService,
@@ -183,7 +183,7 @@ export class TweetService {
         const parentTweet = await this.tweetRepository.findOne({
             where: { id: tweetId },
         });
-
+        console.log(parentTweet);
         const newTweet = this.tweetRepository.create({
             gif: data.gif,
             message: data.message,
@@ -230,8 +230,33 @@ export class TweetService {
             throw new BadRequestException({ message: 'Cannot find post ' });
         }
 
-        const allComents = await this.tweetRepository.findDescendants(tweet);
+        const allComents = await this.tweetRepository.find({
+            mainTweet: tweet,
+        });
 
         return allComents;
+    }
+
+    async deleteComment(postId: string, postToDeleteId: string) {
+        const tweet = await this.tweetRepository.findOne({
+            where: { id: postId },
+        });
+
+        if (!tweet) {
+            throw new BadRequestException({ message: 'Cannot find post ' });
+        }
+
+        const tweetToDelete = await this.tweetRepository.findOne({
+            id: postToDeleteId,
+            mainTweet: tweet,
+        });
+
+        if (!tweetToDelete) {
+            throw new BadRequestException({
+                message: 'Cannot find post to delete',
+            });
+        }
+
+        return await tweetToDelete.remove();
     }
 }

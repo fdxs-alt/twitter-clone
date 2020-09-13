@@ -1,19 +1,10 @@
 import { Tag } from './Tag.entity';
 import { TweetImage } from './TweetImage.entity';
-import {
-    Entity,
-    ManyToOne,
-    ManyToMany,
-    OneToMany,
-    TreeChildren,
-    TreeParent,
-    Tree,
-} from 'typeorm';
+import { Entity, ManyToOne, ManyToMany, OneToMany } from 'typeorm';
 import { User } from './User.entity';
 import { AbstractTweetEntity } from './AbstractTweetEntity.entity';
 
 @Entity()
-@Tree('closure-table')
 export class Tweet extends AbstractTweetEntity {
     @ManyToOne(
         () => User,
@@ -24,14 +15,14 @@ export class Tweet extends AbstractTweetEntity {
     @ManyToMany(
         () => User,
         user => user.retweets,
-        { eager: true },
+        { eager: true, onDelete: 'CASCADE' },
     )
     userRe: User[];
 
     @OneToMany(
         () => TweetImage,
         images => images.tweet,
-        { eager: true },
+        { eager: true, onDelete: 'CASCADE' },
     )
     images: TweetImage[];
 
@@ -42,9 +33,16 @@ export class Tweet extends AbstractTweetEntity {
     )
     tags: Tag[];
 
-    @TreeParent()
+    @ManyToOne(
+        () => Tweet,
+        tweet => tweet.comments,
+        { onDelete: 'CASCADE' },
+    )
     mainTweet: Tweet;
 
-    @TreeChildren()
+    @OneToMany(
+        () => Tweet,
+        comments => comments.mainTweet,
+    )
     comments: Tweet[];
 }
