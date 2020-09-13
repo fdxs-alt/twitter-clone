@@ -27,7 +27,7 @@ export class TweetService {
         });
 
         const userTweets = await this.tweetRepository.find({
-            where: { user: { id } },
+            where: { user: { id }, mainTweet: null },
         });
 
         const allUserTweets = [...userRetweets.retweets, ...userTweets].sort(
@@ -61,24 +61,7 @@ export class TweetService {
         }
 
         if (data.tags.length !== 0) {
-            await Promise.all(
-                data.tags.map(async tag => {
-                    const isTag = await this.tagRepository.findOne({
-                        where: { text: tag },
-                    });
-
-                    if (isTag) {
-                        newTweet.tags.push(isTag);
-                    } else {
-                        const newTag = this.tagRepository.create({
-                            text: tag,
-                        });
-                        await newTag.save();
-
-                        newTweet.tags.push(newTag);
-                    }
-                }),
-            );
+            await this.createTags(newTweet, data.tags);
         }
 
         await newTweet.save();
@@ -180,10 +163,11 @@ export class TweetService {
         if (!user) {
             throw new BadRequestException({ message: 'Cannot identify user' });
         }
+
         const parentTweet = await this.tweetRepository.findOne({
             where: { id: tweetId },
         });
-        console.log(parentTweet);
+
         const newTweet = this.tweetRepository.create({
             gif: data.gif,
             message: data.message,
@@ -197,25 +181,9 @@ export class TweetService {
         }
 
         if (data.tags.length !== 0) {
-            await Promise.all(
-                data.tags.map(async tag => {
-                    const isTag = await this.tagRepository.findOne({
-                        where: { text: tag },
-                    });
-
-                    if (isTag) {
-                        newTweet.tags.push(isTag);
-                    } else {
-                        const newTag = this.tagRepository.create({
-                            text: tag,
-                        });
-                        await newTag.save();
-
-                        newTweet.tags.push(newTag);
-                    }
-                }),
-            );
+            await this.createTags(newTweet, data.tags);
         }
+
         await newTweet.save();
 
         return newTweet;
@@ -258,5 +226,55 @@ export class TweetService {
         }
 
         return await tweetToDelete.remove();
+    }
+
+    async createTags(newTweet: Tweet, tags: string[]) {
+        await Promise.all(
+            tags.map(async tag => {
+                const isTag = await this.tagRepository.findOne({
+                    where: { text: tag },
+                });
+
+                if (isTag) {
+                    newTweet.tags.push(isTag);
+                } else {
+                    const newTag = this.tagRepository.create({
+                        text: tag,
+                    });
+                    await newTag.save();
+
+                    newTweet.tags.push(newTag);
+                }
+            }),
+        );
+    }
+    async likeOrUnlikeTweet(userId: string, postId: string) {
+        const tweetToLike = await this.tweetRepository.findOne({
+            where: { id: postId },
+        });
+
+        return await this.likeOrUnlike(tweetToLike, userId);
+    }
+
+    isAlreadyLiked(userId: string, tweetToLike: Tweet) {
+        return tweetToLike.likes.includes(userId);
+    }
+
+    async likeOrUnlike(tweetToLike: Tweet, userId: string) {
+        if (!tweetToLike) {
+            throw new BadRequestException({ message: 'Cannot find tweet' });
+        }
+
+        if (this.isAlreadyLiked(userId, tweetToLike)) {
+            tweetToLike.likes = tweetToLike.likes.filter(
+                like => like !== userId,
+            );
+        } else {
+            tweetToLike.likes.push(userId);
+        }
+
+        await tweetToLike.save();
+
+        return tweetToLike.likes;
     }
 }
