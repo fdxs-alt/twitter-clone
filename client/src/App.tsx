@@ -1,7 +1,8 @@
 import React from "react";
+import Index from "./Routes";
 
 function App() {
-  return <div>App</div>;
+  return <Index />;
 }
 
 export default App;
