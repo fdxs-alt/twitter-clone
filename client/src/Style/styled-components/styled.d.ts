@@ -13,6 +13,7 @@ declare module "styled-components" {
       extraExtraLightGray: string;
       white: string;
       dark: string;
+      secondaryBlue: string;
     };
   }
 }

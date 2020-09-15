@@ -11,6 +11,7 @@ const theme: DefaultTheme = {
     extraExtraLightGray: "#F5F8FA",
     white: "#FFFFFF",
     dark: "#192734",
+    secondaryBlue: "#71C9F8",
   },
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import TwitterIcon from "../Images/Twitter_Logo_WhiteOnImage.svg";
+import TwitterIcon from "../../Images/Twitter_Logo_WhiteOnImage.svg";
 import {
   Wrapper,
   TwitterTag,
@@ -11,7 +11,7 @@ import {
   Button,
   LinkContainer,
   AuthLink,
-} from "../Style/ComponentStyles/LoginPageStyles";
+} from "../../Style/ComponentStyles/LoginPageStyles";
 
 const LoginPage = () => {
   return (
