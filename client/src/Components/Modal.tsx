@@ -1,19 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useRef } from "react";
+import {
+  Wrapper,
+  ModalContent,
+} from "../Style/ComponentStyles/RegisterFormStyles";
+import useClickOutside from "../utils/useClickOutside";
 
-const Wrapper = styled.div`
-  position: fixed;
-  display: flex;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 interface Props {
   open: boolean;
   closeModal: () => void;
@@ -23,7 +14,17 @@ const Modal: React.FC<React.PropsWithChildren<Props>> = ({
   open,
   closeModal,
 }) => {
-  return <Wrapper>{children}</Wrapper>;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useClickOutside(ref, () => {
+    closeModal();
+  });
+
+  return (
+    <Wrapper>
+      <ModalContent ref={ref}>{children}</ModalContent>
+    </Wrapper>
+  );
 };
 
 export default Modal;

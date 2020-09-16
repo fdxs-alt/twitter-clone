@@ -4,18 +4,23 @@ const useClickOutside = (
   ref: React.RefObject<HTMLDivElement>,
   cb: CallableFunction
 ) => {
-  const handleClick = (e: any) => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      cb();
-    }
-  };
   useEffect(() => {
-    document.addEventListener("click", handleClick);
+    const listener = (event: any) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+
+      cb(event);
+    };
+
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
     };
-  });
+  }, [ref, cb]);
 };
 
 export default useClickOutside;

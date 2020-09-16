@@ -10,12 +10,17 @@ import {
 import Logo from "../Images/Twitter_Logo_WhiteOnImage.svg";
 import { useHistory } from "react-router-dom";
 import Modal from "./Modal";
+import RegisterForm from "./RegisterForm";
+
 const WhatsHappening = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const closeModal = () => {
     setIsOpen(false);
   };
+
   const history = useHistory();
+
   return (
     <ButtonsSection>
       <TwitterLogo src={Logo} />
@@ -24,7 +29,7 @@ const WhatsHappening = () => {
       <SignUpButton onClick={() => setIsOpen(true)}>Sign up</SignUpButton>
       {isOpen && (
         <Modal open={isOpen} closeModal={closeModal}>
-          Modal
+          <RegisterForm />
         </Modal>
       )}
       <LogInButton onClick={() => history.push("/login")}>Log in</LogInButton>
