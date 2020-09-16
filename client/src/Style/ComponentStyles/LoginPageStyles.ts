@@ -64,6 +64,11 @@ export const Button = styled.button`
   font-size: 0.9rem;
   background-color: ${(props) => props.theme.colors.secondary};
   font-weight: 700;
+  cursor: pointer;
+  :disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 export const AuthLink = styled(Link)`
   color: ${(props) => props.theme.colors.secondary};
