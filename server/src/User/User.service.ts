@@ -99,7 +99,8 @@ export class UserService {
 
         if (!user) {
             throw new UnauthorizedException({
-                message: 'Email or password is wrong',
+                message:
+                    'The username and password you entered did not match our records. Please double-check and try again.',
             });
         }
 
@@ -107,7 +108,8 @@ export class UserService {
 
         if (!canLogIn) {
             throw new UnauthorizedException({
-                message: 'Email or password is wrong',
+                message:
+                    'The username and password you entered did not match our records. Please double-check and try again.',
             });
         }
 
