@@ -18,6 +18,7 @@ export class UserStore {
 
   @action
   async login(input: LoginInput) {
+    this.error = "";
     this.isLoading = true;
 
     const data = {
@@ -42,6 +43,7 @@ export class UserStore {
 
   @action
   async verify(input: VerifyInput) {
+    this.error = "";
     this.isLoading = true;
 
     const data = {

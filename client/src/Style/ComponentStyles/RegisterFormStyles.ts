@@ -69,7 +69,7 @@ export const ModalContent = styled.div`
   border-radius: 0.8rem;
 `;
 export const RegisterError = styled.h2`
-  color: red;
+  color: ${(props) => props.theme.colors.error}
   padding: 1rem 0;
 `;
 export const VerifyAccountWrapper = styled.div`

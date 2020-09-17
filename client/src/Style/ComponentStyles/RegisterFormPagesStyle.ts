@@ -19,7 +19,7 @@ export const DateInfo = styled.p`
   padding: 0.6rem 0;
 `;
 export const Error = styled.div`
-  color: red;
+  color: ${(props) => props.theme.colors.error};
   background-color: ${(props) => props.theme.colors.primary};
   padding: 0.3rem;
 `;

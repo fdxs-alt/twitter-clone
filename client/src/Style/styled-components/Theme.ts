@@ -12,6 +12,7 @@ const theme: DefaultTheme = {
     white: "#FFFFFF",
     dark: "#192734",
     secondaryBlue: "#71C9F8",
+    error: "#C02356",
   },
 };
 
