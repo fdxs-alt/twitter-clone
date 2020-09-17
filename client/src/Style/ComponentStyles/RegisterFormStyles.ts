@@ -68,3 +68,11 @@ export const ModalContent = styled.div`
   padding: 2rem;
   border-radius: 0.8rem;
 `;
+export const RegisterError = styled.h2`
+  color: red;
+  padding: 1rem 0;
+`;
+export const VerifyAccountWrapper = styled.div`
+  width: 100%;
+  padding: 1rem 0;
+`;

@@ -11,7 +11,9 @@ const Page3 = () => {
       <DateInfo>
         By signing up, you agree to our Terms, Privacy Policy, and Cookie Use
       </DateInfo>
-      <Button type="submit" style={{marginTop: '2rem'}}>Sign up</Button>
+      <Button type="submit" style={{ marginTop: "2rem" }}>
+        Sign up
+      </Button>
     </PageOneWrapper>
   );
 };

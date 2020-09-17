@@ -4,9 +4,16 @@ import * as yup from "yup";
 import Page1 from "./RegisterMultistepForm/Page1";
 import Page2 from "./RegisterMultistepForm/Page2";
 import Page3 from "./RegisterMultistepForm/Page3";
-import { Button, Header } from "../Style/ComponentStyles/RegisterFormStyles";
+import {
+  Button,
+  Header,
+  RegisterError,
+} from "../Style/ComponentStyles/RegisterFormStyles";
+import Axios from "axios";
+import { registerURL } from "../utils/Urls";
+import VerifyAccount from "./RegisterMultistepForm/VerifyAccount";
 
-interface Values {
+export interface Values {
   name: string;
   surname: string;
   email: string;
@@ -20,6 +27,9 @@ interface Values {
 const Pages = [<Page1 />, <Page2 />, <Page3 />];
 const RegisterForm = () => {
   const [page, setPage] = useState(0);
+  const [registerError, setRegisterError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [code, setCode] = useState("");
   return (
     <Formik
       initialValues={{
@@ -74,18 +84,36 @@ const RegisterForm = () => {
           .required("Phone is required")
           .length(9, "Phone number can be only 9 digits"),
       })}
-      onSubmit={(values: Values, { setSubmitting }) => {
-        console.log(values, setSubmitting);
+      onSubmit={async (values: Values, { setSubmitting }) => {
+        const data = {
+          email: values.email,
+          password: values.password,
+          username: values.username,
+          name: values.name,
+          surname: values.surname,
+          phone: parseInt(values.phone),
+        };
+
+        try {
+          await Axios.post(registerURL, data);
+          setSuccess(true);
+        } catch (error) {
+          setRegisterError(error.response.data.message);
+          setTimeout(() => {
+            setRegisterError("");
+          }, 5000);
+        }
         setSubmitting(false);
       }}
     >
-      {({ errors, handleSubmit, touched }) => (
+      {({ errors, handleSubmit, touched, values }) => (
         <Form style={{ width: "100%" }} onSubmit={handleSubmit}>
           <Header first={page === 0 ? true : false}>
             {page > 0 && (
               <Button
                 type="button"
                 onClick={() => setPage((prevPage) => prevPage - 1)}
+                disabled={success}
               >
                 Prev
               </Button>
@@ -131,9 +159,23 @@ const RegisterForm = () => {
                 </Button>
               ))}
           </Header>
-          <h2 style={{ padding: "1rem 0" }}>Create your account</h2>
 
-          {Pages[page]}
+          {!success && (
+            <>
+              <h2 style={{ padding: "1rem 0" }}>Create your account</h2>
+              {Pages[page]}
+            </>
+          )}
+
+          {registerError && (
+            <RegisterError color="red">
+              {registerError}, try once again
+            </RegisterError>
+          )}
+
+          {success && (
+            <VerifyAccount code={code} email={values.email} setCode={setCode} />
+          )}
         </Form>
       )}
     </Formik>
