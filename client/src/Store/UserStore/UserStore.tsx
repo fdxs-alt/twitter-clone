@@ -1,16 +1,20 @@
 import Axios from "axios";
-import { observable, action } from "mobx";
-import { registerURL } from "../../utils/Urls";
+import { observable, action, runInAction } from "mobx";
+import { loginURL, verifyURL } from "../../utils/Urls";
 
 interface LoginInput {
   email: string;
   password: string;
 }
+interface VerifyInput {
+  email: string;
+  code: string;
+}
 export class UserStore {
   @observable accessToken: string = "";
-  @observable userData = [];
+  @observable userData = null;
   @observable isLoading = false;
-  @observable error = [];
+  @observable error = "";
 
   @action
   async login(input: LoginInput) {
@@ -22,10 +26,42 @@ export class UserStore {
     };
 
     try {
-      const response = await Axios.post(registerURL, data);
-      console.log(response);
+      const response = await Axios.post(loginURL, data);
+      runInAction(() => {
+        this.isLoading = false;
+        this.userData = response.data.user;
+        this.accessToken = response.data.accessToken;
+      });
     } catch (error) {
-      console.log(error);
+      runInAction(() => {
+        this.isLoading = false;
+        this.error = error.response.data.message;
+      });
+    }
+  }
+
+  @action
+  async verify(input: VerifyInput) {
+    this.isLoading = true;
+
+    const data = {
+      email: input.email,
+      code: parseInt(input.code),
+    };
+
+    try {
+      const response = await Axios.post(verifyURL, data);
+
+      runInAction(() => {
+        this.isLoading = false;
+        this.userData = response.data.user;
+        this.accessToken = response.data.accessToken;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.isLoading = false;
+        this.error = error.response.data.message;
+      });
     }
   }
 }

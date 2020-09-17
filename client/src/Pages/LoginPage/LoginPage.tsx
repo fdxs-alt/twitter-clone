@@ -14,35 +14,43 @@ import {
   AuthLink,
 } from "../../Style/ComponentStyles/LoginPageStyles";
 import * as yup from "yup";
-
+import { useObserver } from "mobx-react-lite";
+import { useRootStore } from "../../Store/RootStore";
+import { useHistory } from "react-router-dom";
 interface Values {
-  emailPhoneOrUserName: string;
+  email: string;
   password: string;
 }
 
 const LoginPage = () => {
-  return (
+  const { userStore } = useRootStore();
+  const history = useHistory();
+  return useObserver(() => (
     <Wrapper>
       <TwitterTag src={TwitterIcon} />
       <LoginTitle>Log in to Twitter</LoginTitle>
 
       <Formik
-        initialValues={{ emailPhoneOrUserName: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         validationSchema={yup.object({
-          emailPhoneOrUserName: yup.string().required("This field is required"),
+          email: yup.string().required("This field is required"),
           password: yup.string().required("This field is required"),
         })}
-        onSubmit={(values: Values, { setSubmitting }) => {
-          console.log(values, setSubmitting);
-          setSubmitting(false)
+        onSubmit={async (values: Values, { setSubmitting }) => {
+          await userStore.login(values);
+
+          setSubmitting(false);
+
+          if (userStore.accessToken && userStore.userData)
+            history.push("/main");
         }}
       >
         {(formik) => (
           <LoginForm onSubmit={formik.handleSubmit}>
             <InputWrapper>
               <Field
-                name="emailPhoneOrUserName"
-                value={formik.values.emailPhoneOrUserName}
+                name="email"
+                value={formik.values.email}
                 type="text"
                 as={Input}
               />
@@ -59,7 +67,9 @@ const LoginPage = () => {
               />
               <Label htmlFor="Password">Password</Label>
             </InputWrapper>
-            {!formik.values.emailPhoneOrUserName || !formik.values.password ||  formik.isSubmitting ? (
+            {!formik.values.email ||
+            !formik.values.password ||
+            formik.isSubmitting ? (
               <Button type="submit" disabled>
                 Log in
               </Button>
@@ -75,7 +85,7 @@ const LoginPage = () => {
         <AuthLink to="">Sign up for tweeter</AuthLink>
       </LinkContainer>
     </Wrapper>
-  );
+  ));
 };
 
 export default LoginPage;
