@@ -41,6 +41,11 @@ export const Button = styled.button`
   :focus {
     outline: none;
   }
+
+  :disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
 `;
 export const Wrapper = styled.div`
   position: fixed;
@@ -56,8 +61,9 @@ export const Wrapper = styled.div`
   justify-content: center;
 `;
 export const ModalContent = styled.div`
-  width: 30%;
-  height: 60%;
+  width: 40%;
+  max-width: 600px;
+  min-height: 60%;
   background-color: ${(props) => props.theme.colors.primary};
   padding: 2rem;
   border-radius: 0.8rem;

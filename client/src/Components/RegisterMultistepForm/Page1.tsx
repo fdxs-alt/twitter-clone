@@ -1,43 +1,29 @@
-import { Field } from "formik";
+import { ErrorMessage, Field } from "formik";
 import React from "react";
-import styled from "styled-components";
 import {
   Input,
   InputWrapper,
   Label,
 } from "../../Style/ComponentStyles/LoginPageStyles";
-
-const PageOneWrapper = styled.div`
-  width: 100%;
-
-  & > div {
-    margin-bottom: 2.5rem;
-  }
-`;
-const DateInputWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  & > div {
-    margin-right: 2rem;
-  }
-`;
-const DateInfo = styled.p`
-  color: ${(props) => props.theme.colors.lightGray};
-  padding: 0.6rem 0;
-`;
+import {
+  PageOneWrapper,
+  DateInfo,
+  DateInputWrapper,
+  Error,
+} from "../../Style/ComponentStyles/RegisterFormPagesStyle";
 
 const Page1 = () => {
   return (
     <PageOneWrapper>
-      <h2 style={{ padding: "1rem 0" }}>Create your account</h2>
       <InputWrapper>
+        <ErrorMessage name="name" render={(msg) => <Error>{msg}</Error>} />
         <Field name="name" as={Input} />
-        <Label htmlFor="">Name</Label>
+        <Label htmlFor="name">Name</Label>
       </InputWrapper>
       <InputWrapper>
+        <ErrorMessage name="surname" render={(msg) => <Error>{msg}</Error>} />
         <Field name="surname" as={Input} />
-        <Label htmlFor="">Surname</Label>
+        <Label htmlFor="surname">Surname</Label>
       </InputWrapper>
       <div>
         <h5 style={{ padding: "0.2rem 0" }}>Date of birth</h5>
@@ -48,17 +34,20 @@ const Page1 = () => {
         <DateInputWrapper>
           <InputWrapper>
             <Field name="day" as={Input} />
-            <Label htmlFor="">Day</Label>
+            <Label htmlFor="day">Day</Label>
           </InputWrapper>
           <InputWrapper>
             <Field name="month" as={Input} />
-            <Label htmlFor="">Month</Label>
+            <Label htmlFor="month">Month</Label>
           </InputWrapper>
           <InputWrapper style={{ marginRight: "0" }}>
             <Field name="year" as={Input} />
-            <Label htmlFor="">Year</Label>
+            <Label htmlFor="year">Year</Label>
           </InputWrapper>
         </DateInputWrapper>
+        <ErrorMessage name="day" render={(msg) => <Error>{msg}</Error>} />
+        <ErrorMessage name="month" render={(msg) => <Error>{msg}</Error>} />
+        <ErrorMessage name="year" render={(msg) => <Error>{msg}</Error>} />
       </div>
     </PageOneWrapper>
   );
