@@ -16,15 +16,17 @@ import {
 import * as yup from "yup";
 import { useObserver } from "mobx-react-lite";
 import { useRootStore } from "../../Store/RootStore";
-
 import { Error } from "../../Style/ComponentStyles/RegisterFormPagesStyle";
-interface Values {
+import { useHistory } from "react-router-dom";
+export interface Values {
   email: string;
   password: string;
 }
 
 const LoginPage = () => {
   const { userStore } = useRootStore();
+
+  const history = useHistory();
 
   return useObserver(() => {
     return (
@@ -40,8 +42,8 @@ const LoginPage = () => {
           })}
           onSubmit={async (values: Values, { setSubmitting }) => {
             await userStore.login(values);
-
             setSubmitting(false);
+            history.push("/main");
           }}
         >
           {(formik) => (

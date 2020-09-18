@@ -1,6 +1,6 @@
-import Axios from "axios";
+import Axios from "../../utils/Axios";
 import { observable, action, runInAction } from "mobx";
-import { loginURL, verifyURL } from "../../utils/Urls";
+import { loginURL, revokeURL, verifyURL } from "../../utils/Urls";
 
 interface LoginInput {
   email: string;
@@ -14,7 +14,9 @@ export class UserStore {
   @observable accessToken: string = "";
   @observable userData = null;
   @observable isLoading = false;
+  @observable revokeLoading = false;
   @observable error = "";
+  @observable isAuthenticated = false;
 
   @action
   async login(input: LoginInput) {
@@ -32,6 +34,7 @@ export class UserStore {
         this.isLoading = false;
         this.userData = response.data.user;
         this.accessToken = response.data.accessToken;
+        this.isAuthenticated = true;
       });
     } catch (error) {
       runInAction(() => {
@@ -58,11 +61,40 @@ export class UserStore {
         this.isLoading = false;
         this.userData = response.data.user;
         this.accessToken = response.data.accessToken;
+        this.isAuthenticated = true;
       });
     } catch (error) {
       runInAction(() => {
         this.isLoading = false;
         this.error = error.response.data.message;
+      });
+    }
+  }
+
+  @action
+  async revoke() {
+    this.revokeLoading = true;
+
+    try {
+      const response = await Axios.post(revokeURL, null, {
+        withCredentials: true,
+      });
+
+      runInAction(() => {
+        this.revokeLoading = false;
+        this.userData = response.data.user;
+        this.accessToken = response.data.accessToken;
+
+        if (response.data.accessToken) {
+          this.isAuthenticated = true;
+        } else {
+          this.isAuthenticated = false;
+        }
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.revokeLoading = false;
+        this.isAuthenticated = false;
       });
     }
   }

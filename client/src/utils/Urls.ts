@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5000/";
-export const registerURL = baseUrl + "auth/register";
-export const verifyURL = baseUrl + "auth/verify";
-export const loginURL = baseUrl + "auth/login";
+export const registerURL = "auth/register";
+export const verifyURL = "auth/verify";
+export const loginURL = "auth/login";
+export const revokeURL = "auth/revoke";

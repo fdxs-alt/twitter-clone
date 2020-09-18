@@ -133,7 +133,7 @@ export class UserService {
         const refreshToken = req.cookies.jrc;
 
         if (!refreshToken) {
-            return { ok: false, accessToken: '' };
+            return { user: null, accessToken: '' };
         }
 
         let decoded = null;
@@ -141,12 +141,12 @@ export class UserService {
         try {
             decoded = verify(refreshToken, process.env.REFRESH);
         } catch (error) {
-            return { ok: false, accessToken: '' };
+            return { user: null, accessToken: '' };
         }
         const user = await this.userRepository.findOne({ id: decoded.id });
 
         if (!user) {
-            return { ok: false, accessToken: '' };
+            return { user: null, accessToken: '' };
         }
 
         res.cookie('jrc', this.createRefreshToken(user.id), {
@@ -154,7 +154,7 @@ export class UserService {
         });
 
         return {
-            ok: true,
+            user,
             accessToken: this.createAccessToken(user.id),
         };
     }

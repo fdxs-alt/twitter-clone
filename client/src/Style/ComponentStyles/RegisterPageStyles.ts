@@ -72,6 +72,12 @@ export const Button = styled.button`
   border-radius: 25px;
   font-weight: 500;
   background: inherit;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8rem;
+  }
 `;
 export const ButtonsSection = styled.section`
   display: flex;
