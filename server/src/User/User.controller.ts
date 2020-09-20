@@ -93,4 +93,11 @@ export class UserController {
     unfollow(@User('id') id: string, @Param('userId') userId: string) {
         return this.userService.unfollowUser(userId, id);
     }
+
+    @Get('logout')
+    @UseGuards(AuthGuard)
+    logout(@Res() res: Response) {
+        res.clearCookie('jrc');
+        return res.status(200).json({ message: 'Logged out succesfully' });
+    }
 }

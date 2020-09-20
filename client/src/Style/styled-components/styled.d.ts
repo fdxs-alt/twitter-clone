@@ -15,6 +15,7 @@ declare module "styled-components" {
       dark: string;
       secondaryBlue: string;
       error: string;
+      hoverDark: string;
     };
   }
 }

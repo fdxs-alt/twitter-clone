@@ -13,6 +13,7 @@ const theme: DefaultTheme = {
     dark: "#192734",
     secondaryBlue: "#71C9F8",
     error: "#C02356",
+    hoverDark: "#162D40",
   },
 };
 

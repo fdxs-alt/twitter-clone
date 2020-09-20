@@ -1,6 +1,7 @@
 import Axios from "../../utils/Axios";
 import { observable, action, runInAction } from "mobx";
-import { loginURL, revokeURL, verifyURL } from "../../utils/Urls";
+import { loginURL, logoutURL, revokeURL, verifyURL } from "../../utils/Urls";
+import { AxiosRequestConfig } from "axios";
 
 interface LoginInput {
   email: string;
@@ -12,7 +13,7 @@ interface VerifyInput {
 }
 export class UserStore {
   @observable accessToken: string = "";
-  @observable userData = null;
+  @observable userData: null | any;
   @observable isLoading = false;
   @observable revokeLoading = false;
   @observable error = "";
@@ -70,7 +71,23 @@ export class UserStore {
       });
     }
   }
-
+  @action
+  async logout() {
+    try {
+      await Axios.get(logoutURL, this.setConfig());
+      runInAction(() => {
+        this.userData = null;
+        this.accessToken = "";
+        this.isAuthenticated = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.userData = null;
+        this.accessToken = "";
+        this.isAuthenticated = false;
+      });
+    }
+  }
   @action
   async revoke() {
     this.revokeLoading = true;
@@ -97,5 +114,17 @@ export class UserStore {
         this.isAuthenticated = false;
       });
     }
+  }
+
+  setConfig() {
+    const config: AxiosRequestConfig = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+
+    config.headers["Authorization"] = this.accessToken;
+
+    return config;
   }
 }
