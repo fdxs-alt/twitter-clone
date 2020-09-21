@@ -54,7 +54,7 @@ const Navbar = () => {
             <BiBookmark fontSize={28} style={{ marginRight: "1.2rem" }} />
             Bookmarks
           </IconWrapper>
-          <IconWrapper to="home">
+          <IconWrapper to="/home">
             <BiListUl fontSize={28} style={{ marginRight: "1.2rem" }} />
             Lists
           </IconWrapper>
@@ -71,16 +71,15 @@ const Navbar = () => {
         <AvatarContainer>
           <Avatar
             src={
-              userStore.userData.avatar
+              userStore.userData?.avatar
                 ? userStore.userData.avatar.url
                 : DefaultImage
             }
           />
-          <p>
-            {userStore.userData?.userName}
+          <div>
+            {userStore.userData?.userName} <br />
             <p style={{ fontSize: "0.6rem" }}>@{userStore.userData?.email}</p>
-          </p>
-
+          </div>
           <BiLogOut
             fontSize={28}
             style={{ marginLeft: "1.2rem", cursor: "pointer" }}

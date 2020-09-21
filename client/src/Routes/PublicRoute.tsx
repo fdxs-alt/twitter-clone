@@ -10,7 +10,7 @@ const ProtectedRoutes: React.FC<{
   const { userStore } = useRootStore();
 
   return userStore.isAuthenticated ? (
-    <Redirect to="/main" />
+    <Redirect to="/home" />
   ) : (
     <Route path={props.path} exact={props.exact} component={props.component} />
   );

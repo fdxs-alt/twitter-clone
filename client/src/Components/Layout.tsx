@@ -7,7 +7,6 @@ const Main = styled.main`
   width: 80%;
   margin: 0 auto;
   display: flex;
-  height: 100%;
 `;
 const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   return (

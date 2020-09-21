@@ -1,5 +1,5 @@
 import React, { createContext, PropsWithChildren, useContext } from "react";
-import { UserStore } from "./UserStore/UserStore";
+import { UserStore } from "./UserStore";
 
 type RootStateContextValue = {
   userStore: UserStore;

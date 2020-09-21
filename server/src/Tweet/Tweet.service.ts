@@ -1,5 +1,5 @@
 import { Tag } from '../Shared/Entities/Tag.entity';
-import { TweetInput } from './Tweet.dto';
+import { TweetInput, TweetTable } from './Tweet.dto';
 import { Tweet } from '../Shared/Entities/Tweet.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -276,5 +276,39 @@ export class TweetService {
         await tweetToLike.save();
 
         return tweetToLike.likes;
+    }
+
+    async getAllTweets(userId: string) {
+        const following = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['following', 'tweets'],
+        });
+        const postsTable: TweetTable[] = [];
+        following.tweets.forEach(tweet => {
+            postsTable.push({ user: following, tweet });
+        });
+
+        await Promise.all(
+            following.following.map(async user => {
+                const posts = await this.tweetRepository.find({
+                    where: { user },
+                });
+
+                posts.map(post => {
+                    postsTable.push({ tweet: post, user });
+                });
+            }),
+        );
+        return postsTable.sort(this.sortPostTableFunction);
+    }
+
+    sortPostTableFunction(Date_A: TweetTable, Date_B: TweetTable) {
+        if (moment(Date_A.tweet.issuedAt).isBefore(Date_B.tweet.issuedAt)) {
+            return 1;
+        }
+        if (moment(Date_A.tweet.issuedAt).isAfter(Date_B.tweet.issuedAt)) {
+            return -1;
+        }
+        return 0;
     }
 }

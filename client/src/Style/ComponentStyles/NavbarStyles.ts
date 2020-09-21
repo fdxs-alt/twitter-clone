@@ -20,13 +20,15 @@ export const Button = styled.button`
 
 export const NavBar = styled.nav`
   padding: 0.2rem;
-  min-height: 100%;
-  width: 25%;
+  width: 22%;
   color: white;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   border-right: 1px solid ${(props) => props.theme.colors.hoverDark};
   justify-content: space-between;
+  position: sticky;
+  top: 0;
 `;
 export const TwitterLogo = styled.img`
   width: 45px;
@@ -46,6 +48,12 @@ export const IconWrapper = styled(Link)`
   &:hover {
     background-color: ${(props) => props.theme.colors.hoverDark};
     color: ${(props) => props.theme.colors.secondary};
+  }
+  &:focus {
+    outline: none;
+    border-radius: 1.5rem;
+    color: ${(props) => props.theme.colors.secondary};
+    border: 2px solid ${(props) => props.theme.colors.secondaryBlue};
   }
 `;
 export const AvatarContainer = styled.div`

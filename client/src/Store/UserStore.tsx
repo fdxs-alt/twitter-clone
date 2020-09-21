@@ -1,6 +1,6 @@
-import Axios from "../../utils/Axios";
+import Axios from "../utils/Axios";
 import { observable, action, runInAction } from "mobx";
-import { loginURL, logoutURL, revokeURL, verifyURL } from "../../utils/Urls";
+import { loginURL, logoutURL, revokeURL, verifyURL } from "../utils/Urls";
 import { AxiosRequestConfig } from "axios";
 
 interface LoginInput {
@@ -11,9 +11,39 @@ interface VerifyInput {
   email: string;
   code: string;
 }
+interface UserData {
+  avatar?: {
+    id: string;
+    key: string;
+    url: string;
+    created: string;
+    updated: string;
+  };
+  background?: {
+    id: string;
+    key: string;
+    url: string;
+    created: string;
+    updated: string;
+  };
+  city?: string;
+  code?: string;
+  confirmed: boolean;
+  country?: string | null;
+  created?: string;
+  description: string | null;
+  email: string;
+  fullName: string;
+  id: string;
+  name: string;
+  phone: string;
+  profileLink?: string;
+  surname: string;
+  userName: string;
+}
 export class UserStore {
   @observable accessToken: string = "";
-  @observable userData: null | any;
+  @observable userData?: UserData;
   @observable isLoading = false;
   @observable revokeLoading = false;
   @observable error = "";
@@ -76,13 +106,13 @@ export class UserStore {
     try {
       await Axios.get(logoutURL, this.setConfig());
       runInAction(() => {
-        this.userData = null;
+        this.userData = undefined;
         this.accessToken = "";
         this.isAuthenticated = false;
       });
     } catch (error) {
       runInAction(() => {
-        this.userData = null;
+        this.userData = undefined;
         this.accessToken = "";
         this.isAuthenticated = false;
       });
@@ -93,9 +123,7 @@ export class UserStore {
     this.revokeLoading = true;
 
     try {
-      const response = await Axios.post(revokeURL, null, {
-        withCredentials: true,
-      });
+      const response = await Axios.post(revokeURL);
 
       runInAction(() => {
         this.revokeLoading = false;

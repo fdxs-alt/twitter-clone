@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from "../Components/Layout";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import Main from "../Pages/Main/Main";
+import ProfilePage from "../Pages/ProfilePage";
 import RegisterPage from "../Pages/RegisterPage/RegisterPage";
 import ProtectedRoute from "./ProtectedRoutes";
 import PublicRoute from "./PublicRoute";
@@ -15,6 +16,7 @@ const Index = () => {
         <Route>
           <Layout>
             <ProtectedRoute exact path="/home" component={Main} />
+            <ProtectedRoute exact path="/profile" component={ProfilePage} />
           </Layout>
         </Route>
       </Switch>
