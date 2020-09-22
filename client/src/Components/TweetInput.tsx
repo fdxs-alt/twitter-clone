@@ -14,19 +14,18 @@ import {
 } from "../Style/ComponentStyles/TweetInputStyles";
 import { useDropzone } from "react-dropzone";
 import Images from "./Images";
-
+import Axios from "../utils/Axios";
+import { postTweetURL } from "../utils/Urls";
 const TweetInput = () => {
   const { userStore } = useRootStore();
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<any>([]);
-
+  const [filesToSend, setFilesToSend] = useState<any[]>([]);
   const onDrop = useCallback(
     ([file]) => {
-      console.log(file);
       const reader = new FileReader();
-
+      setFilesToSend([file, ...filesToSend]);
       reader.onload = () => {
-        // Do whatever you want with the file contents
         const binaryStr = reader.result;
         setFiles([
           {
@@ -47,8 +46,35 @@ const TweetInput = () => {
     accept: "image/png, img/jpeg",
   });
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const dataToSend = new FormData();
+
+    filesToSend.forEach((file) => {
+      dataToSend.append("tweetImages", file);
+    });
+
+    dataToSend.append("message", description);
+    dataToSend.append("gif", "");
+    dataToSend.append("tags", "");
+
+    try {
+      const response = await Axios.post(
+        postTweetURL,
+        dataToSend,
+        userStore.setFormDataConfig()
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   return (
-    <TweetForm>
+    <TweetForm
+      onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
+    >
       <Wrapper>
         <Avatar
           src={

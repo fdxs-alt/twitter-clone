@@ -5,4 +5,4 @@ export const revokeURL = "auth/revoke";
 export const logoutURL = "auth/logout";
 export const getUserTweetsURL = "tweets";
 export const getAllTweetsURL = "tweets/mytweets";
-
+export const postTweetURL  = "tweets/postTweet"

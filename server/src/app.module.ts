@@ -17,7 +17,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             username: process.env.user,
             password: process.env.password,
             database: process.env.database,
-            logging: true,
+            logging: false,
             synchronize: true,
             entities: [User, Avatar, Background, TweetImage, Tweet, Tag],
             keepConnectionAlive: true,

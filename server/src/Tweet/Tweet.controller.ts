@@ -10,6 +10,7 @@ import {
     UploadedFiles,
     Delete,
     Param,
+    Req,
 } from '@nestjs/common';
 import { TweetService } from './Tweet.service';
 import { User } from '../User/User.decorator';
@@ -33,6 +34,7 @@ export class TweetControler {
     postTweet(
         @User('id') id: string,
         @Body() data: TweetInput,
+        @Req() req: any,
         @UploadedFiles() files?: any,
     ) {
         return this.tweetService.postTweet(data, id, files?.tweetImages);

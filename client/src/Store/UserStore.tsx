@@ -155,4 +155,14 @@ export class UserStore {
 
     return config;
   }
+
+  setFormDataConfig() {
+    const config: AxiosRequestConfig = {
+      headers: {},
+    };
+
+    config.headers["Authorization"] = this.accessToken;
+
+    return config;
+  }
 }
