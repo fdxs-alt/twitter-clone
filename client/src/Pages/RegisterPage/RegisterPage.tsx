@@ -1,14 +1,14 @@
 import React from "react";
-import Footer from "../../Components/Footer";
+import Footer from "../../Components/Register/Footer";
 import {
   Main,
   MainContentContainer,
   OuterContainer,
   Wrapper,
 } from "../../Style/ComponentStyles/RegisterPageStyles";
-import RegisterLogo from "../../Components/RegisterLogo";
-import WhatsHappening from "../../Components/WhatsHappeningComponent";
-import MainPageLoginForm from "../../Components/MainPageLoginForm";
+import RegisterLogo from "../../Components/Register/RegisterLogo";
+import WhatsHappening from "../../Components/Register/WhatsHappeningComponent";
+import MainPageLoginForm from "../../Components/Register/MainPageLoginForm";
 
 const RegisterPage = () => {
   return (

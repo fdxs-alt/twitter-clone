@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const useClickOutside = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<any>,
   cb: CallableFunction
 ) => {
   useEffect(() => {

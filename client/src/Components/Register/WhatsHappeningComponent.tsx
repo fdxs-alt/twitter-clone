@@ -6,10 +6,10 @@ import {
   JoinTitle,
   SignUpButton,
   LogInButton,
-} from "../Style/ComponentStyles/RegisterPageStyles";
-import Logo from "../Images/Twitter_Logo_WhiteOnImage.svg";
+} from "../../Style/ComponentStyles/RegisterPageStyles";
+import Logo from "../../Images/Twitter_Logo_WhiteOnImage.svg";
 import { useHistory } from "react-router-dom";
-import Modal from "./Modal";
+import Modal from "../Modal";
 import RegisterForm from "./RegisterForm";
 
 const WhatsHappening = () => {

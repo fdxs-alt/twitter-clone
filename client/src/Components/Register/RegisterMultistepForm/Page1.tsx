@@ -4,13 +4,13 @@ import {
   Input,
   InputWrapper,
   Label,
-} from "../../Style/ComponentStyles/LoginPageStyles";
+} from "../../../Style/ComponentStyles/LoginPageStyles";
 import {
   PageOneWrapper,
   DateInfo,
   DateInputWrapper,
   Error,
-} from "../../Style/ComponentStyles/RegisterFormPagesStyle";
+} from "../../../Style/ComponentStyles/RegisterFormPagesStyle";
 
 const Page1 = () => {
   return (

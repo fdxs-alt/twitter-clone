@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import Logo from "../Images/Twitter_Logo_WhiteOnImage.svg";
+import Logo from "../../Images/Twitter_Logo_WhiteOnImage.svg";
 import {
   BiHomeCircle,
   BiHash,
@@ -13,8 +13,8 @@ import {
 } from "react-icons/bi";
 import { CgMoreO } from "react-icons/cg";
 import { useObserver } from "mobx-react-lite";
-import { useRootStore } from "../Store/RootStore";
-import DefaultImage from "../Images/default_profile_400x400.png";
+import { useRootStore } from "../../Store/RootStore";
+import DefaultImage from "../../Images/default_profile_400x400.png";
 import {
   Avatar,
   AvatarContainer,
@@ -22,7 +22,7 @@ import {
   IconWrapper,
   NavBar,
   TwitterLogo,
-} from "../Style/ComponentStyles/NavbarStyles";
+} from "../../Style/ComponentStyles/NavbarStyles";
 
 const Navbar = () => {
   const { userStore } = useRootStore();

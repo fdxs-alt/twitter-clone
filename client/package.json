@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.3",
     "axios": "^0.20.0",
+    "dayjs": "^1.8.36",
     "emoji-mart": "^3.0.0",
     "formik": "^2.1.5",
     "mobx": "^5.15.6",

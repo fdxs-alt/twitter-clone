@@ -1,15 +1,15 @@
 import { useObserver } from "mobx-react-lite";
 import React from "react";
-import { useRootStore } from "../../Store/RootStore";
+import { useRootStore } from "../../../Store/RootStore";
 import {
   Button,
   Input,
   InputWrapper,
   Label,
-} from "../../Style/ComponentStyles/LoginPageStyles";
-import { VerifyAccountWrapper } from "../../Style/ComponentStyles/RegisterFormStyles";
+} from "../../../Style/ComponentStyles/LoginPageStyles";
+import { VerifyAccountWrapper } from "../../../Style/ComponentStyles/RegisterFormStyles";
 import { useHistory } from "react-router-dom";
-import { Error } from "../../Style/ComponentStyles/RegisterFormPagesStyle";
+import { Error } from "../../../Style/ComponentStyles/RegisterFormPagesStyle";
 interface Props {
   email: string;
   code: string;

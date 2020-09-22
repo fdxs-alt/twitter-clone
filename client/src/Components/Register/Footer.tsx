@@ -3,7 +3,7 @@ import {
   FooterWrapper,
   FeatureList,
   Feature,
-} from "../Style/ComponentStyles/RegisterPageStyles";
+} from "../../Style/ComponentStyles/RegisterPageStyles";
 
 const Footer = () => {
   return (

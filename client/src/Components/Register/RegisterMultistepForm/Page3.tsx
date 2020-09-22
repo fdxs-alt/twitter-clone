@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "../../Style/ComponentStyles/LoginPageStyles";
+import { Button } from "../../../Style/ComponentStyles/LoginPageStyles";
 import {
   DateInfo,
   PageOneWrapper,
-} from "../../Style/ComponentStyles/RegisterFormPagesStyle";
+} from "../../../Style/ComponentStyles/RegisterFormPagesStyle";
 
 const Page3 = () => {
   return (

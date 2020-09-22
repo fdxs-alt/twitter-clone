@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import AllTweets from "../../Components/AllTweets";
 import TweetInput from "../../Components/TweetInput";
 const Wrapper = styled.section`
   width: 50%;
@@ -8,6 +9,7 @@ const Wrapper = styled.section`
   }
   & > form {
     border: 1px solid ${(props) => props.theme.colors.hoverDark};
+    border-bottom: 10px solid ${(props) => props.theme.colors.hoverDark};
   }
 `;
 const Title = styled.div`
@@ -17,10 +19,12 @@ const Title = styled.div`
   color: white;
 `;
 const Main = () => {
+  const [tweets, setTweets] = useState<any>([]);
   return (
     <Wrapper>
       <Title>Home</Title>
       <TweetInput />
+      <AllTweets setTweets={setTweets} tweets={tweets} />
     </Wrapper>
   );
 };

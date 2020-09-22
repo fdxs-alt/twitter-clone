@@ -4,11 +4,11 @@ import {
   InputWrapper,
   Input,
   Label,
-} from "../../Style/ComponentStyles/LoginPageStyles";
+} from "../../../Style/ComponentStyles/LoginPageStyles";
 import {
   PageOneWrapper,
   Error,
-} from "../../Style/ComponentStyles/RegisterFormPagesStyle";
+} from "../../../Style/ComponentStyles/RegisterFormPagesStyle";
 
 const Page2 = () => {
   return (

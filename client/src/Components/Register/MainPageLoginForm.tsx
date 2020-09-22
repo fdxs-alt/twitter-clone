@@ -1,14 +1,14 @@
 import { Field, Formik } from "formik";
 import React from "react";
-import { useRootStore } from "../Store/RootStore";
-import { Input, Label } from "../Style/ComponentStyles/LoginPageStyles";
+import { useRootStore } from "../../Store/RootStore";
+import { Input, Label } from "../../Style/ComponentStyles/LoginPageStyles";
 import {
   Button,
   InputWrapper,
   LoginForm,
-} from "../Style/ComponentStyles/RegisterPageStyles";
+} from "../../Style/ComponentStyles/RegisterPageStyles";
 import * as yup from "yup";
-import { Values } from "../Pages/LoginPage/LoginPage";
+import { Values } from "../../Pages/LoginPage/LoginPage";
 import { useHistory } from "react-router-dom";
 import { useObserver } from "mobx-react-lite";
 

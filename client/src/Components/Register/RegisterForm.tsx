@@ -8,9 +8,9 @@ import {
   Button,
   Header,
   RegisterError,
-} from "../Style/ComponentStyles/RegisterFormStyles";
+} from "../../Style/ComponentStyles/RegisterFormStyles";
 import Axios from "axios";
-import { registerURL } from "../utils/Urls";
+import { registerURL } from "../../utils/Urls";
 import VerifyAccount from "./RegisterMultistepForm/VerifyAccount";
 
 export interface Values {

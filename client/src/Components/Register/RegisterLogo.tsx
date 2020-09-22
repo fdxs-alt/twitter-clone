@@ -5,7 +5,7 @@ import {
   LogoInfos,
   IconWithTextContainer,
   LogoInfo,
-} from "../Style/ComponentStyles/RegisterPageStyles";
+} from "../../Style/ComponentStyles/RegisterPageStyles";
 
 const RegisterLogo = () => {
   return (
