@@ -283,19 +283,27 @@ export class TweetService {
             where: { id: userId },
             relations: ['following', 'tweets'],
         });
-        const postsTable: TweetTable[] = [];
-        following.tweets.forEach(tweet => {
-            postsTable.push({ user: following, tweet });
+        const { tweets, ...rest } = following;
+        const postsTable: {
+            user: typeof rest;
+            tweet: Tweet;
+        }[] = [];
+
+        tweets.forEach(tweet => {
+            if (!tweet.mainTweet) postsTable.push({ user: rest, tweet });
         });
 
         await Promise.all(
             following.following.map(async user => {
                 const posts = await this.tweetRepository.find({
                     where: { user },
+                    relations: ['mainTweet'],
                 });
 
                 posts.map(post => {
-                    postsTable.push({ tweet: post, user });
+                    if (post.mainTweet === null) {
+                        postsTable.push({ tweet: post, user });
+                    }
                 });
             }),
         );

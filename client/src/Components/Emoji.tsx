@@ -29,7 +29,7 @@ const Emoji: React.FC<Props> = ({ setDescription }) => {
           style={{ position: "absolute", top: "40px" }}
         />
       )}
-      <EmojiButton onClick={() => setIsPickerVisible(!isPickerVisible)} />
+      <EmojiButton fontSize={28} onClick={() => setIsPickerVisible(!isPickerVisible)} />
     </div>
   );
 };
