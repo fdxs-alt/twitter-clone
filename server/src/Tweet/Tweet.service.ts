@@ -65,8 +65,9 @@ export class TweetService {
         }
 
         await newTweet.save();
-
-        return newTweet;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const {tweets, ...rest} = user;
+        return {user: rest, tweet: newTweet};
     }
 
     async deleteTweet(id: string) {

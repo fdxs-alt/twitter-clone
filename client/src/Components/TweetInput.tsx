@@ -16,7 +16,11 @@ import { useDropzone } from "react-dropzone";
 import Images from "./Images";
 import Axios from "../utils/Axios";
 import { postTweetURL } from "../utils/Urls";
-const TweetInput = () => {
+interface Props {
+  setTweets: React.Dispatch<any[]>;
+  tweets: any[];
+}
+const TweetInput: React.FC<Props> = ({ setTweets, tweets }) => {
   const { userStore } = useRootStore();
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<any>([]);
@@ -39,7 +43,7 @@ const TweetInput = () => {
       };
       reader.readAsArrayBuffer(file);
     },
-    [files]
+    [files, filesToSend]
   );
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -51,13 +55,19 @@ const TweetInput = () => {
 
     const dataToSend = new FormData();
 
+    description.match(/#(\w)+/g)?.forEach((word) => {
+      dataToSend.append("tags", word);
+    });
+
+    if (dataToSend.getAll("tags").length === 0) dataToSend.append("tags", "");
+
     filesToSend.forEach((file) => {
       dataToSend.append("tweetImages", file);
     });
 
-    dataToSend.append("message", description);
     dataToSend.append("gif", "");
-    dataToSend.append("tags", "");
+
+    dataToSend.append("message", description);
 
     try {
       const response = await Axios.post(
@@ -65,10 +75,12 @@ const TweetInput = () => {
         dataToSend,
         userStore.setFormDataConfig()
       );
-      console.log(response.data);
-    } catch (error) {
-      console.log(error.response);
-    }
+      console.log(response);
+      setTweets([response.data, ...tweets]);
+      setFilesToSend([]);
+      setFiles([]);
+      setDescription("");
+    } catch (error) {}
   };
 
   return (

@@ -40,6 +40,26 @@ const UserNameTitle = styled.div`
 const TweetContent = styled.p`
   font-size: 1rem;
 `;
+type ContainerProps = {
+  quantity: number;
+};
+const ImagesContainer = styled.div<ContainerProps>`
+  width: 100%;
+  display: grid;
+  grid-template-columns: ${(props) =>
+    props.quantity === 1 ? "60%" : "1fr 1fr"};
+  grid-template-rows: ${(props) =>
+    props.quantity === 1 ? "60%" : "auto auto"};
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.4rem;
+  
+`;
+const Image = styled.img`
+  width: 100%;
+  min-height: 100%;
+  object-fit: contain;
+`;
 const AllTweets: React.FC<Props> = ({ setTweets, tweets }) => {
   const { userStore } = useRootStore();
   const [loading, setLoading] = useState(false);
@@ -64,7 +84,7 @@ const AllTweets: React.FC<Props> = ({ setTweets, tweets }) => {
   }, []);
 
   if (loading) return <h1>Loading...</h1>;
-  
+
   return (
     <>
       {tweets.map((tweet: any) => (
@@ -81,6 +101,13 @@ const AllTweets: React.FC<Props> = ({ setTweets, tweets }) => {
               <Time>{dayjs(tweet.tweet.issuedAt).format("DD.MM.YYYY")}</Time>
             </Info>
             <TweetContent>{tweet.tweet.message}</TweetContent>
+            {tweet.tweet.images.length !== 0 && (
+              <ImagesContainer quantity={tweet.tweet.images.length}>
+                {tweet.tweet.images.map((image: any) => (
+                  <Image src={image.url} key={image.id} loading="lazy" />
+                ))}
+              </ImagesContainer>
+            )}
           </TweetInfoWrapper>
         </Wrapper>
       ))}

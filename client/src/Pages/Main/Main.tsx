@@ -19,11 +19,11 @@ const Title = styled.div`
   color: white;
 `;
 const Main = () => {
-  const [tweets, setTweets] = useState<any>([]);
+  const [tweets, setTweets] = useState<any[]>([]);
   return (
     <Wrapper>
       <Title>Home</Title>
-      <TweetInput />
+      <TweetInput setTweets={setTweets} tweets={tweets} />
       <AllTweets setTweets={setTweets} tweets={tweets} />
     </Wrapper>
   );
