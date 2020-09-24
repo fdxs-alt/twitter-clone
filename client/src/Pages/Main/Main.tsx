@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AllTweets from "../../Components/AllTweets";
 import TweetInput from "../../Components/TweetInput";
+
 const Wrapper = styled.section`
   width: 50%;
   & > div {
@@ -20,6 +21,7 @@ const Title = styled.div`
 `;
 const Main = () => {
   const [tweets, setTweets] = useState<any[]>([]);
+
   return (
     <Wrapper>
       <Title>Home</Title>

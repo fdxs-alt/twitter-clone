@@ -11,20 +11,25 @@ import {
   TextArea,
   TweetForm,
   Wrapper,
+  Gif,
+  ButtonWrapper,
 } from "../Style/ComponentStyles/TweetInputStyles";
 import { useDropzone } from "react-dropzone";
 import Images from "./Images";
 import Axios from "../utils/Axios";
 import { postTweetURL } from "../utils/Urls";
+import GifPicker from "./GifPicker";
+import { useObserver } from "mobx-react-lite";
 interface Props {
   setTweets: React.Dispatch<any[]>;
   tweets: any[];
 }
-const TweetInput: React.FC<Props> = ({ setTweets, tweets }) => {
+const TweetInput: React.FC<Props> = ({ setTweets, tweets }): any => {
   const { userStore } = useRootStore();
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<any>([]);
   const [filesToSend, setFilesToSend] = useState<any[]>([]);
+  const [gif, setGif] = useState("");
   const onDrop = useCallback(
     ([file]) => {
       const reader = new FileReader();
@@ -45,6 +50,7 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }) => {
     },
     [files, filesToSend]
   );
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: "image/png, img/jpeg",
@@ -65,7 +71,7 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }) => {
       dataToSend.append("tweetImages", file);
     });
 
-    dataToSend.append("gif", "");
+    dataToSend.append("gif", gif);
 
     dataToSend.append("message", description);
 
@@ -80,45 +86,55 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }) => {
       setFilesToSend([]);
       setFiles([]);
       setDescription("");
+      setGif("");
     } catch (error) {}
   };
-
-  return (
-    <TweetForm
-      onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
-    >
-      <Wrapper>
-        <Avatar
-          src={
-            userStore.userData?.avatar
-              ? userStore.userData.avatar.url
-              : DefaultImage
-          }
-        />
-        <TextArea
-          name="description"
-          value={description}
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-            setDescription(e.target.value)
-          }
-          placeholder="What's happening"
-        />
-      </Wrapper>
-      <Images files={files} />
-      <IconWrapper>
-        <div style={{ display: "flex" }}>
-          <Emoji setDescription={setDescription} />
-          <ImageButtonWrapper {...getRootProps()}>
-            <input {...getInputProps()} />
-            <ImageButton fontSize={28} />
-          </ImageButtonWrapper>
-        </div>
-        <Button type="submit" disabled={description ? false : true}>
-          Tweet
-        </Button>
-      </IconWrapper>
-    </TweetForm>
-  );
+  return useObserver(() => {
+    return (
+      <>
+        <TweetForm
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
+        >
+          <Wrapper>
+            <Avatar
+              src={
+                userStore.userData?.avatar
+                  ? userStore.userData.avatar.url
+                  : DefaultImage
+              }
+            />
+            <TextArea
+              name="description"
+              value={description}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                setDescription(e.target.value)
+              }
+              placeholder="What's happening"
+            />
+          </Wrapper>
+          <Images files={files} />
+          <div style={{ padding: "0.5rem 2rem" }}>
+            {gif && <Gif src={gif} alt="gif" onClick={() => setGif("")} />}
+          </div>
+          <IconWrapper>
+            <div style={{ display: "flex" }}>
+              <Emoji setDescription={setDescription} />
+              <ImageButtonWrapper {...getRootProps()}>
+                <input {...getInputProps()} disabled={gif ? true : false} />
+                <ButtonWrapper type="button">
+                  <ImageButton fontSize={28} />
+                </ButtonWrapper>
+              </ImageButtonWrapper>
+              <GifPicker setGif={setGif} />
+            </div>
+            <Button type="submit" disabled={description ? false : true}>
+              Tweet
+            </Button>
+          </IconWrapper>
+        </TweetForm>
+      </>
+    );
+  });
 };
 
 export default TweetInput;

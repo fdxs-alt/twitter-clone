@@ -27,7 +27,7 @@ const MainPageLoginForm = () => {
         onSubmit={async (values: Values, { setSubmitting }) => {
           await userStore.login(values);
           setSubmitting(false);
-          history.push("/main");
+          history.push("/home");
         }}
       >
         {(formik) => (

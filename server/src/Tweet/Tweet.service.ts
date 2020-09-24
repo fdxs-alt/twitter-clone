@@ -54,6 +54,7 @@ export class TweetService {
             user,
             tags: [],
             comments: [],
+            images: []
         });
 
         if (files) {

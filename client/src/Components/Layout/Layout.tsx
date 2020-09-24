@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 import Trends from "../Trends";
@@ -8,7 +8,7 @@ const Main = styled.main`
   margin: 0 auto;
   display: flex;
 `;
-const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+const Layout: React.FC<any> = ({ children }) => {
   return (
     <Main>
       <Navbar />

@@ -9,6 +9,11 @@ export const TweetForm = styled.form`
 export const Wrapper = styled.div`
   display: flex;
 `;
+export const Gif = styled.img`
+  width: 100%;
+  max-height: 500px;
+  border-radius: 15px;
+`;
 export const Avatar = styled.img`
   width: 45px;
   height: 45px;
@@ -83,9 +88,16 @@ export const ImageButtonWrapper = styled.div`
     outline: none;
   }
 `;
-
-export const ImageButton = styled(BsImage)`
+export const ButtonWrapper = styled.button`
+  border: none;
+  background-color: inherit;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+`;
+export const ImageButton = styled(BsImage)`
   color: ${(props) => props.theme.colors.secondary};
   padding: 0.4rem;
   box-sizing: content-box;

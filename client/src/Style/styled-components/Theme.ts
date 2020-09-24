@@ -14,6 +14,8 @@ const theme: DefaultTheme = {
     secondaryBlue: "#71C9F8",
     error: "#C02356",
     hoverDark: "#162D40",
+    tweetHover: "#192734",
+    border: "#1F2C38",
   },
 };
 

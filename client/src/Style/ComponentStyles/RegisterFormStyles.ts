@@ -63,13 +63,14 @@ export const Wrapper = styled.div`
 export const ModalContent = styled.div`
   width: 40%;
   max-width: 600px;
-  min-height: 60%;
+  height: 60%;
+  overflow-x: hidden;
   background-color: ${(props) => props.theme.colors.primary};
   padding: 2rem;
   border-radius: 0.8rem;
 `;
 export const RegisterError = styled.h2`
-  color: ${(props) => props.theme.colors.error}
+  color: ${(props) => props.theme.colors.error};
   padding: 1rem 0;
 `;
 export const VerifyAccountWrapper = styled.div`

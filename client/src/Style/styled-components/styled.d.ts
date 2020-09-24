@@ -16,6 +16,8 @@ declare module "styled-components" {
       secondaryBlue: string;
       error: string;
       hoverDark: string;
+      tweetHover: string;
+      border: string
     };
   }
 }
