@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRootStore } from "../Store/RootStore";
 import { getAllTweetsURL } from "../utils/Urls";
 import DefaultImage from "../Images/default_profile_400x400.png";
-import { Avatar} from "../Style/ComponentStyles/TweetInputStyles";
+import { Avatar, Gif } from "../Style/ComponentStyles/TweetInputStyles";
 import dayjs from "dayjs";
 import { useObserver } from "mobx-react-lite";
 import {
@@ -16,6 +16,13 @@ import {
   ImagesContainer,
   Time,
   Image,
+  IconsContainer,
+  IconWrapper,
+  LikeIcon,
+  MessageIcon,
+  MoreActionsIcon,
+  NumberInfo,
+  RetweetIcon,
 } from "../Style/ComponentStyles/AllTwetsStyle";
 interface Props {
   setTweets: React.Dispatch<any>;
@@ -71,6 +78,31 @@ const AllTweets: React.FC<Props> = ({ setTweets, tweets }) => {
                   ))}
                 </ImagesContainer>
               ) : null}
+              {tweet.tweet.gif ? <Gif src={tweet.tweet.gif} alt="gif" /> : null}
+              <IconsContainer>
+                <IconWrapper blue>
+                  <MessageIcon fontSize={22} tabIndex={0} />
+
+                  {tweet.tweet.userRe.length !== 0 && (
+                    <NumberInfo>{tweet.tweet.userRe.length}</NumberInfo>
+                  )}
+                </IconWrapper>
+                <IconWrapper>
+                  <RetweetIcon fontSize={22} tabIndex={0} />
+                  {tweet.tweet.userRe.length !== 0 && (
+                    <NumberInfo>{tweet.tweet.userRe.length}</NumberInfo>
+                  )}
+                </IconWrapper>
+                <IconWrapper red>
+                  <LikeIcon fontSize={22} tabIndex={0} />
+                  {tweet.tweet.likes.length !== 0 && (
+                    <NumberInfo>{tweet.tweet.likes.length}</NumberInfo>
+                  )}
+                </IconWrapper>
+                <IconWrapper blue>
+                  <MoreActionsIcon fontSize={22} tabIndex={0} />
+                </IconWrapper>
+              </IconsContainer>
             </TweetInfoWrapper>
           </Wrapper>
         ))}

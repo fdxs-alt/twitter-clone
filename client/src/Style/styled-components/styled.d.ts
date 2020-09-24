@@ -17,7 +17,9 @@ declare module "styled-components" {
       error: string;
       hoverDark: string;
       tweetHover: string;
-      border: string
+      border: string;
+      iconHover: string;
+      success: string;
     };
   }
 }

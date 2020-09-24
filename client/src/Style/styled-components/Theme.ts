@@ -16,6 +16,8 @@ const theme: DefaultTheme = {
     hoverDark: "#162D40",
     tweetHover: "#192734",
     border: "#1F2C38",
+    iconHover: "#193348",
+    success: "#177B4E",
   },
 };
 

@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 import Trends from "../Trends";
 
 const Main = styled.main`
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
   display: flex;
 `;

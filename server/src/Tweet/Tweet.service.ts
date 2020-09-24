@@ -54,7 +54,9 @@ export class TweetService {
             user,
             tags: [],
             comments: [],
-            images: []
+            images: [],
+            likes: [],
+            userRe: [],
         });
 
         if (files) {
@@ -67,8 +69,8 @@ export class TweetService {
 
         await newTweet.save();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {tweets, ...rest} = user;
-        return {user: rest, tweet: newTweet};
+        const { tweets, ...rest } = user;
+        return { user: rest, tweet: newTweet };
     }
 
     async deleteTweet(id: string) {

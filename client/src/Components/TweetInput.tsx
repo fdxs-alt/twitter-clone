@@ -58,7 +58,8 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }): any => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (!description) return;
+    
     const dataToSend = new FormData();
 
     description.match(/#(\w)+/g)?.forEach((word) => {

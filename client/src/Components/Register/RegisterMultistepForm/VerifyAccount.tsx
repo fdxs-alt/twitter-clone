@@ -44,7 +44,7 @@ const VerifyAccount: React.FC<Props> = ({ email, code, setCode }) => {
 
             await userStore.verify(input);
             if (userStore.accessToken && userStore.userData)
-              history.push("/main");
+              history.push("/home");
           }}
           disabled={userStore.isLoading}
         >

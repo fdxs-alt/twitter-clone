@@ -20,7 +20,7 @@ export const Button = styled.button`
 
 export const NavBar = styled.nav`
   padding: 0.2rem;
-  width: 22%;
+  width: 25%;
   color: white;
   height: 100vh;
   display: flex;
