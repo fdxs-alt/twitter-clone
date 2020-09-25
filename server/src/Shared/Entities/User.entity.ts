@@ -139,8 +139,9 @@ export class User extends BaseEntity {
                 service: 'gmail',
                 auth: {
                     user: process.env.email,
-                    pass: process.env.emailPassword,
+                    pass: process.env.pass,
                 },
+                logger: true,
             });
 
             await transporter.sendMail({

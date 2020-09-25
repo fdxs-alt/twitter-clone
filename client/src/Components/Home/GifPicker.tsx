@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Modal from "./Modal";
-import Axios from "axios";
-import { getSearchURL, getTreningURL } from "../utils/Urls";
+import React, { useState } from "react";
+import Modal from "../Modal";
+
 import {
   GifButton,
   LoadingMessage,
@@ -9,41 +8,15 @@ import {
   Gif,
   SearchContainer,
   SearchInput,
-} from "../Style/ComponentStyles/GifPickerStyles";
+} from "../../Style/ComponentStyles/GifPickerStyles";
+import useGifs from "../../utils/useGifs";
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const GifPicker: React.FC<Props> = ({ setGif }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [modalGifs, setModalGifs] = useState<any[]>([]);
-  const [search, setSearch] = useState("");
-  useEffect(() => {
-    const getTreningGifs = async () => {
-      setLoading(true);
-      try {
-        let response;
-
-        if (search.length === 0) {
-          response = await Axios.get(getTreningURL);
-          setModalGifs(response.data.data);
-        } else {
-          response = await Axios.get(getSearchURL(search));
-          setModalGifs(response.data.data);
-        }
-      } catch (error) {}
-
-      setLoading(false);
-    };
-    const delay = setTimeout(() => {
-      getTreningGifs();
-    }, 1000);
-
-    return () => {
-      clearTimeout(delay);
-    };
-  }, [search]);
+  const { loading, modalGifs, search, setSearch } = useGifs();
 
   if ((!isOpen && loading) || (!isOpen && !loading)) {
     return <GifButton onClick={() => setIsOpen(true)} fontSize={28} />;

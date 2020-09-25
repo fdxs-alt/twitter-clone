@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
-import useClickOutside from "../utils/useClickOutside";
-import { EmojiButton } from "../Style/ComponentStyles/TweetInputStyles";
+import useClickOutside from "../../utils/useClickOutside";
+import { EmojiButton } from "../../Style/ComponentStyles/TweetInputStyles";
 interface Props {
   setDescription: React.Dispatch<React.SetStateAction<string>>;
 }

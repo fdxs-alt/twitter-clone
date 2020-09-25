@@ -99,7 +99,7 @@ export class TweetService {
 
         const tweet = await this.tweetRepository.findOne({
             where: { id: tweetId },
-            relations: ['user'],
+            relations: ['userRe'],
         });
 
         if (!tweet) {
@@ -108,40 +108,15 @@ export class TweetService {
             });
         }
 
-        user.retweets.push(tweet);
-
-        await user.save();
-
-        return user.retweets;
-    }
-
-    async undoRetweet(userId: string, tweetId: string) {
-        const user = await this.userRepository.findOne({
-            where: { id: userId },
-            relations: ['retweets'],
-        });
-
-        if (!user) {
-            throw new BadRequestException({ message: 'Cannot find the user' });
+        if (tweet.userRe.findIndex(element => element.id === userId) !== -1) {
+            tweet.userRe = tweet.userRe.filter(r => r.id !== user.id);
+        } else {
+            tweet.userRe.push(user);
         }
 
-        const tweet = await this.tweetRepository.findOne({
-            where: { id: tweetId },
-        });
+        await tweet.save();
 
-        if (!tweet) {
-            throw new BadRequestException({
-                message: 'Cannot indentify tweet',
-            });
-        }
-
-        user.retweets = user.retweets.filter(
-            retweet => retweet.id !== tweet.id,
-        );
-
-        await user.save();
-
-        return user.retweets;
+        return tweet.userRe;
     }
 
     sortingFunction(Date_A: Tweet, Date_B: Tweet) {

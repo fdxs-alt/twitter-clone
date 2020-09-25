@@ -11,6 +11,7 @@ import {
     Delete,
     Param,
     Req,
+    Patch,
 } from '@nestjs/common';
 import { TweetService } from './Tweet.service';
 import { User } from '../User/User.decorator';
@@ -46,16 +47,10 @@ export class TweetControler {
         return this.tweetService.deleteTweet(id);
     }
 
-    @Post('/retweet/:tweetId')
+    @Patch('/retweet/:tweetId')
     @UseGuards(AuthGuard)
     retweet(@Param('tweetId') tweetId: string, @User('id') id: string) {
         return this.tweetService.retweet(id, tweetId);
-    }
-
-    @Delete('/undoRetweet/:tweetId')
-    @UseGuards(AuthGuard)
-    undoRetweet(@Param('tweetId') tweetId: string, @User('id') id: string) {
-        return this.tweetService.undoRetweet(id, tweetId);
     }
 
     @Post('/comment/:tweetId')
@@ -88,5 +83,11 @@ export class TweetControler {
     @UseGuards(AuthGuard)
     getMyTweets(@User('id') id: string) {
         return this.tweetService.getAllTweets(id);
+    }
+
+    @Patch('/like/:id')
+    @UseGuards(AuthGuard)
+    like(@Param('id') id: string, @User('id') userId: string) {
+        return this.tweetService.likeOrUnlikeTweet(userId, id);
     }
 }

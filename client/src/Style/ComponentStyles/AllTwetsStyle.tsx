@@ -1,4 +1,8 @@
-import { AiOutlineMessage, AiOutlineRetweet, AiOutlineHeart } from "react-icons/ai";
+import {
+  AiOutlineMessage,
+  AiOutlineRetweet,
+  AiOutlineHeart,
+} from "react-icons/ai";
 import { FiUpload } from "react-icons/fi";
 import styled from "styled-components";
 
@@ -70,6 +74,15 @@ export const IconWrapper = styled.div<NumberInfoProps>`
   padding: 0 0.5rem;
   display: flex;
   align-items: center;
+  color: ${(props) =>
+    props.done
+      ? props.blue
+        ? props.theme.colors.secondary
+        : props.red
+        ? "red"
+        : props.theme.colors.success
+      : "inital"};
+
   &:hover {
     color: ${(props) =>
       props.blue
@@ -88,6 +101,9 @@ export const MessageIcon = styled(AiOutlineMessage)`
   &:hover {
     background-color: ${(props) => props.theme.colors.iconHover};
   }
+  &:focus {
+    outline: none;
+  }
 `;
 export const RetweetIcon = styled(AiOutlineRetweet)`
   box-sizing: content-box;
@@ -96,6 +112,9 @@ export const RetweetIcon = styled(AiOutlineRetweet)`
   cursor: pointer;
   &:hover {
     background-color: ${(props) => props.theme.colors.iconHover};
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
@@ -107,6 +126,9 @@ export const LikeIcon = styled(AiOutlineHeart)`
   &:hover {
     background-color: ${(props) => props.theme.colors.iconHover};
   }
+  &:focus {
+    outline: none;
+  }
 `;
 export const MoreActionsIcon = styled(FiUpload)`
   box-sizing: content-box;
@@ -116,11 +138,15 @@ export const MoreActionsIcon = styled(FiUpload)`
   &:hover {
     background-color: ${(props) => props.theme.colors.iconHover};
   }
+  &:focus {
+    outline: none;
+  }
 `;
 
 type NumberInfoProps = {
   blue?: boolean;
   red?: boolean;
+  done?: boolean;
 };
 export const NumberInfo = styled.div`
   margin-left: 0.1rem;

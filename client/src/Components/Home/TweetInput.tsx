@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
-import { useRootStore } from "../Store/RootStore";
-import DefaultImage from "../Images/default_profile_400x400.png";
+import { useRootStore } from "../../Store/RootStore";
+import DefaultImage from "../../Images/default_profile_400x400.png";
 import Emoji from "./Emoji";
 import {
   Avatar,
@@ -13,11 +13,11 @@ import {
   Wrapper,
   Gif,
   ButtonWrapper,
-} from "../Style/ComponentStyles/TweetInputStyles";
+} from "../../Style/ComponentStyles/TweetInputStyles";
 import { useDropzone } from "react-dropzone";
-import Images from "./Images";
-import Axios from "../utils/Axios";
-import { postTweetURL } from "../utils/Urls";
+import Images from "../Images";
+import Axios from "../../utils/Axios";
+import { postTweetURL } from "../../utils/Urls";
 import GifPicker from "./GifPicker";
 import { useObserver } from "mobx-react-lite";
 interface Props {

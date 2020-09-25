@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import AllTweets from "../../Components/AllTweets";
-import TweetInput from "../../Components/TweetInput";
+import AllTweets from "../../Components/Home/AllTweets";
+import TweetInput from "../../Components/Home/TweetInput";
 
 const Wrapper = styled.section`
   width: 50%;
