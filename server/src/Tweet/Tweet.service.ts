@@ -182,11 +182,21 @@ export class TweetService {
             throw new BadRequestException({ message: 'Cannot find post ' });
         }
 
+        const postsTable: {
+            user: User;
+            tweet: any;
+        }[] = [];
+
         const allComents = await this.tweetRepository.find({
-            mainTweet: tweet,
+            where: { mainTweet: tweet },
+            relations: ['user', 'userRe'],
         });
 
-        return allComents;
+        allComents.forEach(comment => {
+            const { user, ...rest } = comment;
+            postsTable.push({ user, tweet: rest });
+        });
+        return postsTable;
     }
 
     async deleteComment(postId: string, postToDeleteId: string) {
@@ -267,7 +277,7 @@ export class TweetService {
             where: { id: userId },
             relations: ['following', 'tweets'],
         });
-        
+
         const userTweets = await this.tweetRepository.find({
             where: { user: following },
             relations: ['mainTweet'],

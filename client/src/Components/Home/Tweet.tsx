@@ -24,29 +24,28 @@ import {
 import { UserStore } from "../../Store/UserStore";
 import Modal from "../Modal";
 import TweetInput from "./TweetInput";
-import Axios from "../../utils/Axios";
-import { postCommentURL } from "../../utils/Urls";
-import { useRootStore } from "../../Store/RootStore";
 import { useObserver } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 interface Props {
   tweet: any;
   userStore: UserStore;
+  addComment: (dataToSend: FormData, tweet: any) => Promise<void>;
+  handleLike: (id: string) => Promise<void>;
+  handleRetweet: (id: string) => Promise<void>;
 }
 
-const Tweet: React.FC<Props> = ({ tweet, userStore }) => {
+const Tweet: React.FC<Props> = ({
+  tweet,
+  userStore,
+  addComment,
+  handleLike,
+  handleRetweet,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { tweetStore } = useRootStore();
+
   const history = useHistory();
-  const addComment = async (dataToSend: FormData) => {
-    const response = await Axios.post(
-      postCommentURL(tweet.tweet.id),
-      dataToSend,
-      userStore.setFormDataConfig()
-    );
-
-    tweetStore.setCommentsCount(tweet.tweet.id, response.data);
-
+  const addPost = async (dataToSend: FormData) => {
+    await addComment(dataToSend, tweet);
     setIsOpen(false);
   };
   return useObserver(() => {
@@ -99,7 +98,7 @@ const Tweet: React.FC<Props> = ({ tweet, userStore }) => {
                 <RetweetIcon
                   fontSize={22}
                   tabIndex={0}
-                  onClick={() => tweetStore.handleRetweet(tweet.tweet.id)}
+                  onClick={() => handleRetweet(tweet.tweet.id)}
                 />
                 {tweet.tweet.userRe.length !== 0 && (
                   <NumberInfo>{tweet.tweet.userRe.length}</NumberInfo>
@@ -112,7 +111,7 @@ const Tweet: React.FC<Props> = ({ tweet, userStore }) => {
                 <LikeIcon
                   fontSize={22}
                   tabIndex={0}
-                  onClick={() => tweetStore.handleLike(tweet.tweet.id)}
+                  onClick={() => handleLike(tweet.tweet.id)}
                 />
                 {tweet.tweet.likes.length !== 0 && (
                   <NumberInfo>{tweet.tweet.likes.length}</NumberInfo>
@@ -147,7 +146,7 @@ const Tweet: React.FC<Props> = ({ tweet, userStore }) => {
                 </TweetInfoWrapper>
               </Wrapper>
               <TweetInput
-                addPost={addComment}
+                addPost={addPost}
                 placeholder="Tweet your reply"
                 isReply
               />
