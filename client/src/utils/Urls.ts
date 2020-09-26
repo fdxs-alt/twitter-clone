@@ -21,3 +21,6 @@ export const retweetUrL = (id: string) => {
 export const postCommentURL = (id: string) => {
   return `tweets/comment/${id}`;
 };
+export const getAllPostCommentsURL = (id: string) => {
+  return `tweets/comments/${id}`;
+};
