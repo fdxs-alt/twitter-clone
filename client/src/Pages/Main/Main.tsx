@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AllTweets from "../../Components/Home/AllTweets";
 import TweetInput from "../../Components/Home/TweetInput";
-
+import { useRootStore } from "../../Store/RootStore";
+import { postTweetURL } from "../../utils/Urls";
+import Axios from "../../utils/Axios";
 const Wrapper = styled.section`
   width: 50%;
   & > div {
@@ -19,13 +21,22 @@ const Title = styled.div`
   font-weight: 700;
   color: white;
 `;
-const Main = () => {
-  const [tweets, setTweets] = useState<any[]>([]);
 
+const Main = () => {
+  const [tweets, setTweets] = useState<any>([]);
+  const { userStore } = useRootStore();
+  const addPost = async (dataToSend: FormData) => {
+    const response = await Axios.post(
+      postTweetURL,
+      dataToSend,
+      userStore.setFormDataConfig()
+    );
+    setTweets([response.data, ...tweets]);
+  };
   return (
     <Wrapper>
       <Title>Home</Title>
-      <TweetInput setTweets={setTweets} tweets={tweets} />
+      <TweetInput addPost={addPost} placeholder="What's happening"/>
       <AllTweets setTweets={setTweets} tweets={tweets} />
     </Wrapper>
   );

@@ -62,8 +62,8 @@ export const Wrapper = styled.div`
 `;
 export const ModalContent = styled.div`
   width: 40%;
-  max-width: 600px;
-  height: 60%;
+  max-width: 700px;
+  height: 75%;
   overflow-x: hidden;
   background-color: ${(props) => props.theme.colors.primary};
   padding: 2rem;

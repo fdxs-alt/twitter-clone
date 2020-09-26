@@ -145,6 +145,7 @@ export class TweetService {
 
         const parentTweet = await this.tweetRepository.findOne({
             where: { id: tweetId },
+            relations: ['comments'],
         });
 
         const newTweet = this.tweetRepository.create({
@@ -152,6 +153,10 @@ export class TweetService {
             message: data.message,
             user,
             tags: [],
+            likes: [],
+            comments: [],
+            images: [],
+            userRe: [],
             mainTweet: parentTweet,
         });
 
@@ -165,7 +170,7 @@ export class TweetService {
 
         await newTweet.save();
 
-        return newTweet;
+        return parentTweet.commentsCount + 1;
     }
 
     async getAllComments(postId: string) {
@@ -262,13 +267,20 @@ export class TweetService {
             where: { id: userId },
             relations: ['following', 'tweets'],
         });
+        
+        const userTweets = await this.tweetRepository.find({
+            where: { user: following },
+            relations: ['mainTweet'],
+        });
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { tweets, ...rest } = following;
         const postsTable: {
             user: typeof rest;
             tweet: Tweet;
         }[] = [];
 
-        tweets.forEach(tweet => {
+        userTweets.forEach(tweet => {
             if (!tweet.mainTweet) postsTable.push({ user: rest, tweet });
         });
 

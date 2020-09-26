@@ -11,7 +11,7 @@ interface VerifyInput {
   email: string;
   code: string;
 }
-interface UserData {
+export interface UserData {
   avatar?: {
     id: string;
     key: string;

@@ -16,15 +16,14 @@ import {
 } from "../../Style/ComponentStyles/TweetInputStyles";
 import { useDropzone } from "react-dropzone";
 import Images from "../Images";
-import Axios from "../../utils/Axios";
-import { postTweetURL } from "../../utils/Urls";
 import GifPicker from "./GifPicker";
 import { useObserver } from "mobx-react-lite";
 interface Props {
-  setTweets: React.Dispatch<any[]>;
-  tweets: any[];
+  addPost: (data: FormData) => Promise<void>;
+  placeholder: string;
+  isReply?: boolean;
 }
-const TweetInput: React.FC<Props> = ({ setTweets, tweets }): any => {
+const TweetInput: React.FC<Props> = ({ addPost, placeholder, isReply }) => {
   const { userStore } = useRootStore();
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<any>([]);
@@ -59,14 +58,14 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }): any => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!description) return;
-    
+
     const dataToSend = new FormData();
 
     description.match(/#(\w)+/g)?.forEach((word) => {
-      dataToSend.append("tags", word);
+      dataToSend.append("tags[]", word);
     });
 
-    if (dataToSend.getAll("tags").length === 0) dataToSend.append("tags", "");
+    if (dataToSend.getAll("tags").length === 0) dataToSend.append("tags[]", "");
 
     filesToSend.forEach((file) => {
       dataToSend.append("tweetImages", file);
@@ -77,17 +76,13 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }): any => {
     dataToSend.append("message", description);
 
     try {
-      const response = await Axios.post(
-        postTweetURL,
-        dataToSend,
-        userStore.setFormDataConfig()
-      );
-      console.log(response);
-      setTweets([response.data, ...tweets]);
-      setFilesToSend([]);
-      setFiles([]);
-      setDescription("");
-      setGif("");
+      await addPost(dataToSend);
+      if (!isReply) {
+        setFilesToSend([]);
+        setFiles([]);
+        setDescription("");
+        setGif("");
+      }
     } catch (error) {}
   };
   return useObserver(() => {
@@ -110,7 +105,7 @@ const TweetInput: React.FC<Props> = ({ setTweets, tweets }): any => {
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                 setDescription(e.target.value)
               }
-              placeholder="What's happening"
+              placeholder={placeholder}
             />
           </Wrapper>
           <Images files={files} />

@@ -43,6 +43,12 @@ export const TweetContent = styled.p`
 type ContainerProps = {
   quantity: number;
 };
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+`;
 export const ImagesContainer = styled.div<ContainerProps>`
   width: 100%;
   display: grid;

@@ -1,6 +1,12 @@
 import { Tag } from './Tag.entity';
 import { TweetImage } from './TweetImage.entity';
-import { Entity, ManyToOne, ManyToMany, OneToMany } from 'typeorm';
+import {
+    Entity,
+    ManyToOne,
+    ManyToMany,
+    OneToMany,
+    RelationCount,
+} from 'typeorm';
 import { User } from './User.entity';
 import { AbstractTweetEntity } from './AbstractTweetEntity.entity';
 
@@ -45,4 +51,7 @@ export class Tweet extends AbstractTweetEntity {
         comments => comments.mainTweet,
     )
     comments: Tweet[];
+
+    @RelationCount('comments')
+    commentsCount: number;
 }
