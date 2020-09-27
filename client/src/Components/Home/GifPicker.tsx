@@ -4,11 +4,11 @@ import Modal from "../Modal";
 import {
   GifButton,
   LoadingMessage,
-  GifContainer,
   SearchContainer,
   SearchInput,
 } from "../../Style/ComponentStyles/GifPickerStyles";
 import useGifs from "../../utils/useGifs";
+import Gifs from "./Gifs";
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -53,22 +53,13 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
               }
             />
           </SearchContainer>
-          <GifContainer>
-            {modalGifs.map((gif: any) => (
-              <video
-                width="100%"
-                muted
-                autoPlay
-                loop
-                onClick={() => {
-                  setGif(gif.images.downsized_small.mp4);
-                  setIsOpen(false);
-                }}
-              >
-                <source src={gif.images.downsized_small.mp4} key={gif.id} />
-              </video>
-            ))}
-          </GifContainer>
+          <Gifs
+            modalGifs={modalGifs}
+            handleClick={(gif: any) => {
+              setGif(gif.images.downsized_small.mp4);
+              setIsOpen(false);
+            }}
+          />
         </div>
       </Modal>
     );

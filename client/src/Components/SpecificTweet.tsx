@@ -9,6 +9,7 @@ import { ImagesContainer, Image } from "../Style/ComponentStyles/AllTwetsStyle";
 import { getSpecifcTweetURL } from "../utils/Urls";
 import Axios from "../utils/Axios";
 import { Gif } from "../Style/ComponentStyles/TweetInputStyles";
+import dayjs from "dayjs";
 const MainTweetWrapper = styled.div`
   width: 100%;
   padding: 0.9rem;
@@ -41,6 +42,15 @@ const TweetContent = styled.p`
   font-size: 1.5rem;
   color: white;
   padding: 0.2rem;
+`;
+const DateInfo = styled.div`
+  width: 100%;
+  padding: 1rem;
+  border-bottom: 1px solid ${(props) => props.theme.colors.hoverDark};
+`;
+const Time = styled.time`
+  color: ${(props) => props.theme.colors.darkGray};
+  font-size: 1rem;
 `;
 const SpecificTweet = () => {
   const params: { id: string } = useParams();
@@ -104,7 +114,15 @@ const SpecificTweet = () => {
               <Gif src={specificTweet.tweet.gif} />
             </video>
           ) : null}
+          <DateInfo>
+            <Time>
+              {dayjs(specificTweet.tweet.issuedAt).format(
+                "h:mm A MMMM D, YYYY"
+              )}
+            </Time>
+          </DateInfo>
         </MainTweetWrapper>
+
         <Comments id={params.id} userStore={userStore} />
       </Wrapper>
     );
