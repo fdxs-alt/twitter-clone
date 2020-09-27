@@ -199,6 +199,17 @@ export class TweetService {
         return postsTable;
     }
 
+    async getSpecificTweet(tweetId: string) {
+        const tweet = await this.tweetRepository.findOne({
+            where: { id: tweetId },
+            relations: ['user'],
+        });
+
+        const { user, ...rest } = tweet;
+
+        return { user, tweet: rest };
+    }
+
     async deleteComment(postId: string, postToDeleteId: string) {
         const tweet = await this.tweetRepository.findOne({
             where: { id: postId },

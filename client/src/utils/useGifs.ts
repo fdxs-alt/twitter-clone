@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { useState, useEffect } from "react";
-import { getTreningURL, getSearchURL } from "./Urls";
+import { getTrendingURL, getSearchURL } from "./Urls";
 
 export default function () {
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ export default function () {
         let response;
 
         if (search.length === 0) {
-          response = await Axios.get(getTreningURL);
+          response = await Axios.get(getTrendingURL);
           setModalGifs(response.data.data);
         } else {
           response = await Axios.get(getSearchURL(search));

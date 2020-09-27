@@ -66,7 +66,6 @@ export const Image = styled.img`
   min-height: 100%;
   object-fit: cover;
   border-radius: 5px;
-  border: 1px solid ${(props) => props.theme.colors.hoverDark};
 `;
 export const IconsContainer = styled.div`
   width: 100%;

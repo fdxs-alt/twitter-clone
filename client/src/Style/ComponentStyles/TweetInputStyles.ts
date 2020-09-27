@@ -9,7 +9,7 @@ export const TweetForm = styled.form`
 export const Wrapper = styled.div`
   display: flex;
 `;
-export const Gif = styled.img`
+export const Gif = styled.source`
   width: 100%;
   max-height: 500px;
   border-radius: 15px;

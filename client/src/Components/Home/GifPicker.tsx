@@ -5,7 +5,6 @@ import {
   GifButton,
   LoadingMessage,
   GifContainer,
-  Gif,
   SearchContainer,
   SearchInput,
 } from "../../Style/ComponentStyles/GifPickerStyles";
@@ -56,14 +55,18 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
           </SearchContainer>
           <GifContainer>
             {modalGifs.map((gif: any) => (
-              <Gif
-                src={gif.images.downsized_medium.url}
-                key={gif.id}
+              <video
+                width="100%"
+                muted
+                autoPlay
+                loop
                 onClick={() => {
-                  setGif(gif.images.downsized_medium.url);
+                  setGif(gif.images.downsized_small.mp4);
                   setIsOpen(false);
                 }}
-              />
+              >
+                <source src={gif.images.downsized_small.mp4} key={gif.id} />
+              </video>
             ))}
           </GifContainer>
         </div>

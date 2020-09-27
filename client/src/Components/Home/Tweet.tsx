@@ -71,11 +71,15 @@ const Tweet: React.FC<Props> = ({
               {tweet.tweet.images?.length !== 0 ? (
                 <ImagesContainer quantity={tweet.tweet.images?.length}>
                   {tweet.tweet.images?.map((image: any) => (
-                    <Image src={image.url} key={image.id} loading="lazy" />
+                    <Image src={image.url} key={image.id} />
                   ))}
                 </ImagesContainer>
               ) : null}
-              {tweet.tweet.gif ? <Gif src={tweet.tweet.gif} alt="gif" /> : null}
+              {tweet.tweet.gif ? (
+                <video width="100%" muted autoPlay loop>
+                  <Gif src={tweet.tweet.gif} />{" "}
+                </video>
+              ) : null}
             </div>
             <IconsContainer>
               <IconWrapper blue>

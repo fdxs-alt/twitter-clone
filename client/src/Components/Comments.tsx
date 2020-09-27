@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { UserStore } from "../Store/UserStore";
 import Axios from "../utils/Axios";
 import {
@@ -18,74 +18,85 @@ const Comments: React.FC<Props> = ({ id, userStore }) => {
   const [comments, setComments] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
-  const addComment = async (dataToSend: FormData, tweet: any) => {
-    try {
-      const response = await Axios.post(
-        postCommentURL(tweet.tweet.id),
-        dataToSend,
-        userStore.setFormDataConfig()
-      );
+  const addComment = useCallback(
+    async (dataToSend: FormData, tweet: any) => {
+      try {
+        const response = await Axios.post(
+          postCommentURL(tweet.tweet.id),
+          dataToSend,
+          userStore.setFormDataConfig()
+        );
 
-      const element = comments.findIndex(
-        (element: any) => element.tweet.id === tweet.tweet.id
-      );
+        const element = comments.findIndex(
+          (element: any) => element.tweet.id === tweet.tweet.id
+        );
 
-      let newTweets = [...comments];
+        let newTweets = [...comments];
 
-      newTweets[element] = {
-        user: { ...newTweets[element].user },
-        tweet: { ...newTweets[element].tweet, commentsCount: response.data },
-      };
+        newTweets[element] = {
+          user: { ...newTweets[element].user },
+          tweet: { ...newTweets[element].tweet, commentsCount: response.data },
+        };
 
-      setComments(newTweets);
-    } catch (error) {}
-  };
+        setComments(newTweets);
+      } catch (error) {}
+    },
+    [comments, userStore]
+  );
 
-  const handleLike = async (id: string) => {
-    try {
-      const response = await Axios.patch(
-        likeURL(id),
-        null,
-        userStore.setConfig()
-      );
+  const handleLike = useCallback(
+    async (id: string) => {
+      try {
+        const response = await Axios.patch(
+          likeURL(id),
+          null,
+          userStore.setConfig()
+        );
 
-      const element = comments.findIndex(
-        (element: any) => element.tweet.id === id
-      );
+        const element = comments.findIndex(
+          (element: any) => element.tweet.id === id
+        );
 
-      let newTweets = [...comments];
+        let newTweets = [...comments];
 
-      newTweets[element] = {
-        user: { ...newTweets[element].user },
-        tweet: { ...newTweets[element].tweet, likes: response.data },
-      };
+        newTweets[element] = {
+          user: { ...newTweets[element].user },
+          tweet: { ...newTweets[element].tweet, likes: response.data },
+        };
 
-      setComments(newTweets);
-    } catch (error) {}
-  };
+        setComments(newTweets);
+      } catch (error) {}
+    },
+    [comments, userStore]
+  );
 
-  const handleRetweet = async (id: string) => {
-    try {
-      const response = await Axios.patch(
-        retweetUrL(id),
-        null,
-        userStore.setConfig()
-      );
+  const handleRetweet = useCallback(
+    async (id: string) => {
+      try {
+        const response = await Axios.patch(
+          retweetUrL(id),
+          null,
+          userStore.setConfig()
+        );
 
-      const element = comments.findIndex(
-        (element: any) => element.tweet.id === id
-      );
+        const element = comments.findIndex(
+          (element: any) => element.tweet.id === id
+        );
 
-      let newTweets = [...comments];
-      newTweets[element] = {
-        user: { ...newTweets[element].user },
-        tweet: { ...newTweets[element].tweet, userRe: response.data },
-      };
+        let newTweets = [...comments];
+        newTweets[element] = {
+          user: { ...newTweets[element].user },
+          tweet: { ...newTweets[element].tweet, userRe: response.data },
+        };
 
-      setComments(newTweets);
-    } catch (error) {}
-  };
+        setComments(newTweets);
+      } catch (error) {}
+    },
+    [comments, userStore]
+  );
+
   useEffect(() => {
+    
     const getALlComments = async () => {
       setLoading(true);
       try {
@@ -99,6 +110,9 @@ const Comments: React.FC<Props> = ({ id, userStore }) => {
     };
 
     getALlComments();
+    return () => {
+     
+    };
   }, [id, userStore]);
 
   if (loading) return null;

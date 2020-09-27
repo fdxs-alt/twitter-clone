@@ -73,6 +73,12 @@ export class TweetControler {
         return this.tweetService.getAllComments(postId);
     }
 
+    @Get('/comment/:postId')
+    @UseGuards(AuthGuard)
+    getSpecificTweet(@Param('postId') postId: string) {
+        return this.tweetService.getSpecificTweet(postId);
+    }
+
     @Delete('/comment/:postId/:id')
     @UseGuards(AuthGuard)
     deleteComment(@Param('postId') postId: string, @Param('id') id: string) {
