@@ -58,7 +58,7 @@ const Navbar = () => {
             <BiListUl fontSize={28} style={{ marginRight: "1.2rem" }} />
             Lists
           </IconWrapper>
-          <IconWrapper to="/home">
+          <IconWrapper to="/profile">
             <BiUser fontSize={28} style={{ marginRight: "1.2rem" }} />
             Profile
           </IconWrapper>

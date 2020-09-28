@@ -56,7 +56,7 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
           <Gifs
             modalGifs={modalGifs}
             handleClick={(gif: any) => {
-              setGif(gif.images.downsized_small.mp4);
+              setGif(gif.images.fixed_height.mp4);
               setIsOpen(false);
             }}
           />

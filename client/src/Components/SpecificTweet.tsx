@@ -3,55 +3,25 @@ import { Wrapper, Title } from "../Style/ComponentStyles/SharedStyles";
 import { useParams } from "react-router-dom";
 import { useRootStore } from "../Store/RootStore";
 import Comments from "./Comments";
-import styled from "styled-components";
 import DefaultImage from "../Images/default_profile_400x400.png";
 import { ImagesContainer, Image } from "../Style/ComponentStyles/AllTwetsStyle";
 import { getSpecifcTweetURL } from "../utils/Urls";
 import Axios from "../utils/Axios";
 import { Gif } from "../Style/ComponentStyles/TweetInputStyles";
 import dayjs from "dayjs";
-const MainTweetWrapper = styled.div`
-  width: 100%;
-  padding: 0.9rem;
-`;
+import {
+  Avatar,
+  AvatarWrapper,
+  ContentWrapper,
+  DateInfo,
+  Email,
+  InfoWrapper,
+  MainTweetWrapper,
+  Time,
+  TweetContent,
+  UserName,
+} from "../Style/ComponentStyles/SpecifcTweetStyles";
 
-const AvatarWrapper = styled.div`
-  display: flex;
-`;
-const Avatar = styled.img`
-  width: 45px;
-  border-radius: 50%;
-`;
-const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 0.6rem;
-`;
-const UserName = styled.h4`
-  color: white;
-`;
-const Email = styled.p`
-  color: ${(props) => props.theme.colors.darkGray};
-  font-size: 0.8rem;
-`;
-const ContentWrapper = styled.div`
-  width: 100%;
-`;
-const TweetContent = styled.p`
-  font-size: 1.5rem;
-  color: white;
-  padding: 0.2rem;
-`;
-const DateInfo = styled.div`
-  width: 100%;
-  padding: 1rem;
-  border-bottom: 1px solid ${(props) => props.theme.colors.hoverDark};
-`;
-const Time = styled.time`
-  color: ${(props) => props.theme.colors.darkGray};
-  font-size: 1rem;
-`;
 const SpecificTweet = () => {
   const params: { id: string } = useParams();
   const [loading, setLoading] = useState(true);

@@ -13,11 +13,10 @@ const Gifs: React.FC<Props> = ({ modalGifs, handleClick }) => {
           <video
             width="100%"
             muted
-            autoPlay
-            loop
             onClick={() => handleClick(gif)}
+            key={gif.id}
           >
-            <source src={gif.images.downsized_small.mp4} key={gif.id} />
+            <source src={gif.images.downsized_small.mp4} />
           </video>
         ))}
       </GifContainer>

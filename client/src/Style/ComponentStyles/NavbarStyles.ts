@@ -41,6 +41,7 @@ export const IconWrapper = styled(Link)`
   color: white;
   padding: 0.5rem 0.8rem;
   margin-top: 0.8rem;
+  box-sizing: content-box;
   display: flex;
   align-items: center;
   width: fit-content;

@@ -111,8 +111,14 @@ const TweetInput: React.FC<Props> = ({ addPost, placeholder, isReply }) => {
           <Images files={files} />
           <div style={{ padding: "0.5rem 2rem" }}>
             {gif && (
-              <video width="100%" muted autoPlay loop>
-                <Gif src={gif} onClick={() => setGif("")} />
+              <video
+                width="100%"
+                muted
+                autoPlay
+                loop
+                onClick={() => setGif("")}
+              >
+                <Gif src={gif} />
               </video>
             )}
           </div>
