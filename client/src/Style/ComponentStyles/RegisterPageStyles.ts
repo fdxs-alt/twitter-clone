@@ -78,6 +78,9 @@ export const Button = styled.button`
     cursor: not-allowed;
     opacity: 0.8rem;
   }
+  &:hover {
+    background-color: ${(props) => props.theme.colors.hoverDark};
+  }
 `;
 export const ButtonsSection = styled.section`
   display: flex;

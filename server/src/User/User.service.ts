@@ -56,8 +56,10 @@ export class UserService {
     async verifyUser(email: string, code: number, res: Response) {
         const userWithCode = await this.userRepository.findOne({
             where: { email },
+            relations: ['followers', 'following'],
         });
 
+        const { followers, following, ...rest } = userWithCode;
         if (!userWithCode) {
             throw new BadRequestException({
                 message: 'Cannot find given user',
@@ -85,9 +87,14 @@ export class UserService {
         });
 
         await userWithCode.save();
+        const user = {
+            ...rest,
+            followingCount: following ? following.length : 0,
+            followersCount: followers ? followers.length : 0,
+        };
 
         return {
-            user: userWithCode,
+            user,
             accessToken: this.createAccessToken(userWithCode.id),
         };
     }
@@ -95,6 +102,7 @@ export class UserService {
     async login(data: loginInput, res: Response) {
         const user = await this.userRepository.findOne({
             where: { email: data.email },
+            relations: ['followers', 'following'],
         });
 
         if (!user) {
@@ -119,12 +127,18 @@ export class UserService {
             });
         }
 
+        const { followers, following, ...rest } = user;
+        const userData = {
+            ...rest,
+            followingCount: following ? following.length : 0,
+            followersCount: followers ? followers.length : 0,
+        };
         res.cookie('jrc', this.createRefreshToken(user.id), {
             httpOnly: true,
         });
 
         return {
-            user,
+            user: userData,
             accessToken: this.createAccessToken(user.id),
         };
     }
@@ -153,8 +167,15 @@ export class UserService {
             httpOnly: true,
         });
 
+        const { followers, following, ...rest } = user;
+        const userData = {
+            ...rest,
+            followingCount: following ? following.length : 0,
+            followersCount: followers ? followers.length : 0,
+        };
+
         return {
-            user,
+            user: userData,
             accessToken: this.createAccessToken(user.id),
         };
     }
@@ -216,7 +237,7 @@ export class UserService {
         }
 
         await user.save();
-        
+
         return user;
     }
 

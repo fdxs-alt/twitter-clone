@@ -23,10 +23,12 @@ export const Gif = styled.img`
 export const SearchContainer = styled.div`
   width: 100%;
   padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
   color: ${(props) => props.theme.colors.secondary};
 `;
 export const SearchInput = styled.input`
-  width: 80%;
+  width: 60%;
   border: 1px solid ${(props) => props.theme.colors.secondary};
   border-radius: 1rem;
   padding: 0.6rem 0.4rem;

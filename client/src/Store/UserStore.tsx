@@ -40,6 +40,8 @@ export interface UserData {
   profileLink?: string;
   surname: string;
   userName: string;
+  followingCount: number;
+  followersCount: number;
 }
 export class UserStore {
   @observable accessToken: string = "";

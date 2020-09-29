@@ -9,6 +9,7 @@ import {
 } from "../../Style/ComponentStyles/GifPickerStyles";
 import useGifs from "../../utils/useGifs";
 import Gifs from "./Gifs";
+import { Button } from "../../Style/ComponentStyles/RegisterPageStyles";
 interface Props {
   setGif: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -16,7 +17,8 @@ interface Props {
 const GifPicker: React.FC<Props> = ({ setGif }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { loading, modalGifs, search, setSearch } = useGifs();
-
+  const [autoPlay, setAutoPlay] = useState(false);
+  
   if ((!isOpen && loading) || (!isOpen && !loading)) {
     return <GifButton onClick={() => setIsOpen(true)} fontSize={28} />;
   } else if (isOpen && loading) {
@@ -52,6 +54,13 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
                 setSearch(e.target.value)
               }
             />
+            <Button
+              type="button"
+              onClick={() => setAutoPlay(!autoPlay)}
+              style={{ fontSize: "0.8rem" }}
+            >
+              Auto play gifs
+            </Button>
           </SearchContainer>
           <Gifs
             modalGifs={modalGifs}
@@ -59,6 +68,7 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
               setGif(gif.images.fixed_height.mp4);
               setIsOpen(false);
             }}
+            autoPlay={autoPlay}
           />
         </div>
       </Modal>
