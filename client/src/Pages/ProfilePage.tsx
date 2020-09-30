@@ -1,5 +1,5 @@
 import { useObserver } from "mobx-react-lite";
-import React from "react";
+import React, { useState } from "react";
 import { useRootStore } from "../Store/RootStore";
 import { Title, Wrapper } from "../Style/ComponentStyles/SharedStyles";
 import Default from "../Images/default_profile_400x400.png";
@@ -9,6 +9,7 @@ import { UserName, Email } from "../Style/ComponentStyles/SpecifcTweetStyles";
 import dayjs from "dayjs";
 import { BsFillCalendarFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import ProfileModal from "../Components/ProfileModal";
 const ProfileInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,6 +55,7 @@ const ProfileLink = styled(Link)`
 `;
 const ProfilePage = () => {
   const { userStore } = useRootStore();
+  const [isOpen, setIsOpen] = useState(false);
 
   return useObserver(() => {
     return (
@@ -80,7 +82,9 @@ const ProfilePage = () => {
                     : Default
                 }
               />
-              <Button type="button">Set up profile</Button>
+              <Button type="button" onClick={() => setIsOpen(!isOpen)}>
+                Set up profile
+              </Button>
             </div>
 
             <UserName>{userStore.userData?.userName}</UserName>
@@ -100,6 +104,9 @@ const ProfilePage = () => {
             </WhenJoinedInfo>
           </UserInformation>
         </ProfileInfoWrapper>
+        {isOpen && (
+          <ProfileModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+        )}
       </Wrapper>
     );
   });
