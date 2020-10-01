@@ -10,26 +10,28 @@ interface Props {
 }
 const ProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
   const [page, setPage] = useState(0);
-  const [background, setBackgorund] = useState<any>();
-  const [profilePhoto, setProfilePhoto] = useState<any>();
+  const [background, setBackgorund] = useState<any>(null);
+  const [profilePhoto, setProfilePhoto] = useState<any>(null);
 
   return (
     <Modal open={isOpen} closeModal={closeModal}>
-      {page === 0 && (
-        <AddProfilePhoto
-          profilePhoto={profilePhoto}
-          setProfilePhoto={(photo: any) => setProfilePhoto(photo)}
-          setPage={() => setPage((prev) => prev + 1)}
-        />
-      )}
-      {page === 1 && (
-        <AddBackground
-          background={background}
-          setBackgroundPhoto={(background: any) => setBackgorund(background)}
-          setPage={() => setPage((prev) => prev + 1)}
-        />
-      )}
-      {page === 2 && <UpdateBio />}
+      <form>
+        {page === 0 && (
+          <AddProfilePhoto
+            profilePhoto={profilePhoto}
+            setProfilePhoto={(photo: any) => setProfilePhoto(photo)}
+            setPage={setPage}
+          />
+        )}
+        {page === 1 && (
+          <AddBackground
+            background={background}
+            setBackgroundPhoto={(background: any) => setBackgorund(background)}
+            setPage={setPage}
+          />
+        )}
+        {page === 2 && <UpdateBio />}
+      </form>
     </Modal>
   );
 };
