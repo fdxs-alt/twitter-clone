@@ -6,6 +6,7 @@ export const logoutURL = "auth/logout";
 export const getUserTweetsURL = "tweets";
 export const getAllTweetsURL = "tweets/mytweets";
 export const postTweetURL = "tweets/postTweet";
+export const updateProfileURL = "auth/updateProfile";
 export const getTrendingURL =
   "https://api.giphy.com/v1/gifs/trending?api_key=Q386e6Vj3A4LpLDWCy3EigWlv3i2fTjl&limit=24&rating=g";
 

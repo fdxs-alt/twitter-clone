@@ -47,7 +47,7 @@ const AddProfilePhoto: React.FC<Props> = ({
       };
       reader.readAsArrayBuffer(file);
     },
-    [file, profilePhoto]
+    [setProfilePhoto]
   );
 
   const { getRootProps, getInputProps } = useDropzone({

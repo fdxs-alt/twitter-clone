@@ -1,6 +1,12 @@
 import Axios from "../utils/Axios";
 import { observable, action, runInAction } from "mobx";
-import { loginURL, logoutURL, revokeURL, verifyURL } from "../utils/Urls";
+import {
+  loginURL,
+  logoutURL,
+  revokeURL,
+  updateProfileURL,
+  verifyURL,
+} from "../utils/Urls";
 import { AxiosRequestConfig } from "axios";
 
 interface LoginInput {
@@ -166,5 +172,24 @@ export class UserStore {
     config.headers["Authorization"] = this.accessToken;
 
     return config;
+  }
+
+  @action
+  async updateProfile(data: FormData) {
+    try {
+      this.error = "";
+      const response = await Axios.patch(
+        updateProfileURL,
+        data,
+        this.setFormDataConfig()
+      );
+      runInAction(() => {
+        this.userData = response.data;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.error = error.response.data.message;
+      });
+    }
   }
 }

@@ -12,9 +12,12 @@ export const Button = styled.button`
   font-weight: 700;
   margin-top: 1rem;
   cursor: pointer;
-  :disabled {
+  &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 

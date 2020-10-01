@@ -10,6 +10,7 @@ export const AvatarWrapper = styled.div`
 `;
 export const Avatar = styled.img`
   width: 45px;
+  height: 45px;
   border-radius: 50%;
 `;
 export const InfoWrapper = styled.div`

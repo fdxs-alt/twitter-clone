@@ -7,14 +7,16 @@ import { DateInfo } from "../../Style/ComponentStyles/RegisterFormPagesStyle";
 import { MdAddAPhoto } from "react-icons/md";
 import {
   AddButton,
-  BackgroundPhoto,
   ImageWrapper,
   Navigation,
   TwitterLogo,
   Wrapper,
 } from "../../Style/ComponentStyles/MultiStepUpdateProfile";
 import { initalState } from "./AddProfilePhoto";
-import { Background } from "../../Style/ComponentStyles/ProfilePageStyles";
+import {
+  Background,
+  BackgroundPhoto,
+} from "../../Style/ComponentStyles/ProfilePageStyles";
 interface Props {
   background: any;
   setBackgroundPhoto: (background: any) => void;
@@ -41,7 +43,7 @@ const AddBackground: React.FC<Props> = ({
       };
       reader.readAsArrayBuffer(file);
     },
-    [file, background]
+    [setBackgroundPhoto]
   );
 
   const { getRootProps, getInputProps } = useDropzone({

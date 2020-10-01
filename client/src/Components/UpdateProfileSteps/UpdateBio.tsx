@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-
 import {
   Input,
   InputWrapper,
@@ -9,12 +8,26 @@ import {
 const Wrapper = styled.div`
   width: 100%;
 `;
-const UpdateBio = () => {
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [description, setDescription] = useState("");
-  const [link, setLink] = useState("");
-
+interface Props {
+  city: string;
+  description: string;
+  link: string;
+  country: string;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
+  setCity: React.Dispatch<React.SetStateAction<string>>;
+  setLink: React.Dispatch<React.SetStateAction<string>>;
+  setCountry: React.Dispatch<React.SetStateAction<string>>;
+}
+const UpdateBio: React.FC<Props> = ({
+  setDescription,
+  setCity,
+  setLink,
+  setCountry,
+  link,
+  city,
+  description,
+  country,
+}) => {
   return (
     <Wrapper>
       <div
@@ -24,7 +37,7 @@ const UpdateBio = () => {
           padding: "1rem",
         }}
       >
-        <InputWrapper>
+        <InputWrapper style={{ width: "40%" }}>
           <Input
             type="text"
             value={city}
@@ -52,7 +65,7 @@ const UpdateBio = () => {
           padding: "1rem",
         }}
       >
-        <InputWrapper>
+        <InputWrapper style={{ width: "40%" }}>
           <Input
             type="text"
             value={link}

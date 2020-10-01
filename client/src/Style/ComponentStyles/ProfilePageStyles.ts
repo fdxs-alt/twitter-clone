@@ -8,12 +8,12 @@ export const ProfileInfoWrapper = styled.div`
 `;
 export const BackgroundPhoto = styled.img`
   width: 100%;
-  min-height: 100%;
+  height: 230px;
   object-fit: cover;
 `;
 export const Background = styled.div`
   width: 100%;
-  min-height: 25vh;
+  min-height: 230px;
   background-color: rgb(61, 84, 102);
 `;
 export const UserInformation = styled.div`
@@ -43,4 +43,9 @@ export const ProfileLink = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+`;
+export const ColumnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

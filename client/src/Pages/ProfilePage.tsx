@@ -11,7 +11,7 @@ import {
 } from "../Style/ComponentStyles/SpecifcTweetStyles";
 import dayjs from "dayjs";
 import { BsFillCalendarFill } from "react-icons/bs";
-import ProfileModal from "../Components/ProfileModal";
+import ProfileModal from "../Components/UpdateProfileSteps/ProfileModal";
 import {
   ProfileInfoWrapper,
   Background,

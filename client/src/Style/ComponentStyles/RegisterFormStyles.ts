@@ -66,7 +66,7 @@ export const ModalContent = styled.div`
   height: 75%;
   overflow-x: hidden;
   background-color: ${(props) => props.theme.colors.primary};
-  padding: 2rem;
+  padding: 1.2rem;
   border-radius: 0.8rem;
 `;
 export const RegisterError = styled.h2`
