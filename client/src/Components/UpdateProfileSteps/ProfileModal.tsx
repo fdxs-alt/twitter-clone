@@ -21,6 +21,7 @@ const ProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
   const { userStore } = useRootStore();
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dataToSend = new FormData();

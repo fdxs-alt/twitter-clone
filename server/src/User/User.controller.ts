@@ -100,4 +100,10 @@ export class UserController {
         res.clearCookie('jrc');
         return res.status(200).json({ message: 'Logged out succesfully' });
     }
+
+    @Get('follow/:skip')
+    @UseGuards(AuthGuard)
+    getMyTweets(@Param('skip') skip: number, @User('id') id: string) {
+        return this.userService.getUsersToFollow(id, skip);
+    }
 }

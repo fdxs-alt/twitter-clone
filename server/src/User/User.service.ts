@@ -6,10 +6,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../Shared/Entities/User.entity';
-import { Repository } from 'typeorm';
+import { Repository, MoreThanOrEqual } from 'typeorm';
 import { createUserInput, loginInput, UpdateProfileInput } from './User.dto';
 import { sign, verify } from 'jsonwebtoken';
 import { Response, Request } from 'express';
+import moment from 'moment';
 
 @Injectable()
 export class UserService {
@@ -313,5 +314,23 @@ export class UserService {
         await userToUnFollow.save();
 
         return userToUnFollow;
+    }
+
+    async getUsersToFollow(id: string, numberToSkip: number) {
+        const userOfAccount = await this.userRepository.findOne({
+            where: { id },
+            relations: ['following'],
+        });
+
+        const usersToFollow = await this.userRepository.find({
+            take: 5,
+            skip: numberToSkip,
+            relations: ['followers'],
+            where: { created: MoreThanOrEqual(moment().subtract(10, 'days')) },
+        });
+
+        return usersToFollow
+            .filter(user => user.id !== userOfAccount.id)
+            .filter(user => !user.followers.includes(userOfAccount));
     }
 }

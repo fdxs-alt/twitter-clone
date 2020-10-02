@@ -21,10 +21,12 @@ export const InfoWrapper = styled.div`
 `;
 export const UserName = styled.h4`
   color: white;
+  padding: 0.2rem 0.4rem;
 `;
 export const Email = styled.p`
   color: ${(props) => props.theme.colors.darkGray};
   font-size: 0.8rem;
+  padding: 0.2rem 0.4rem;
 `;
 export const ContentWrapper = styled.div`
   width: 100%;

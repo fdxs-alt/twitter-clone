@@ -40,7 +40,7 @@ export const TwitterLogo = styled.img`
 export const IconWrapper = styled(Link)`
   text-decoration: none;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: white;
   padding: 0.5rem 0.8rem;
   margin-top: 0.8rem;

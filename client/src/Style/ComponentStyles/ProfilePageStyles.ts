@@ -34,7 +34,7 @@ export const WhenJoinedInfo = styled.div`
   align-items: center;
   color: ${(props) => props.theme.colors.darkGray};
   font-size: 0.8rem;
-  padding: 0.2rem 0;
+  padding: 0.2rem 0.4rem;
 `;
 export const ProfileLink = styled(Link)`
   text-decoration: none;
@@ -47,5 +47,11 @@ export const ProfileLink = styled(Link)`
 export const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+`;
+export const InfoContent = styled.div`
+  display: flex;
+  width: 100%;
+  flex: 30% 30% 30%;
   align-items: center;
 `;

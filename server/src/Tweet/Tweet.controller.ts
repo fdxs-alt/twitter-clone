@@ -96,4 +96,10 @@ export class TweetControler {
     like(@Param('id') id: string, @User('id') userId: string) {
         return this.tweetService.likeOrUnlikeTweet(userId, id);
     }
+
+    @Get('/tags/:skip')
+    @UseGuards(AuthGuard)
+    getPopularTags(@Param('skip') skip: number) {
+        return this.tweetService.getPopularTags(skip);
+    }
 }

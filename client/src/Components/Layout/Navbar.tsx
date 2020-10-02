@@ -35,35 +35,35 @@ const Navbar = () => {
         <div>
           <TwitterLogo src={Logo} />
           <IconWrapper to="/home">
-            <BiHomeCircle fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiHomeCircle fontSize={24} style={{ marginRight: "1.2rem" }} />
             Home
           </IconWrapper>
           <IconWrapper to="/home">
-            <BiHash fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiHash fontSize={24} style={{ marginRight: "1.2rem" }} />
             Explore
           </IconWrapper>
           <IconWrapper to="/home">
-            <BiBell fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiBell fontSize={24} style={{ marginRight: "1.2rem" }} />
             Notifications
           </IconWrapper>
           <IconWrapper to="/home">
-            <BiMessage fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiMessage fontSize={24} style={{ marginRight: "1.2rem" }} />
             Messages
           </IconWrapper>
           <IconWrapper to="/home">
-            <BiBookmark fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiBookmark fontSize={24} style={{ marginRight: "1.2rem" }} />
             Bookmarks
           </IconWrapper>
           <IconWrapper to="/home">
-            <BiListUl fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiListUl fontSize={24} style={{ marginRight: "1.2rem" }} />
             Lists
           </IconWrapper>
           <IconWrapper to="/profile">
-            <BiUser fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <BiUser fontSize={24} style={{ marginRight: "1.2rem" }} />
             Profile
           </IconWrapper>
           <IconWrapper to="/home">
-            <CgMoreO fontSize={28} style={{ marginRight: "1.2rem" }} />
+            <CgMoreO fontSize={24} style={{ marginRight: "1.2rem" }} />
             More
           </IconWrapper>
           <Button type="button">Tweet</Button>
@@ -81,7 +81,7 @@ const Navbar = () => {
             <p style={{ fontSize: "0.6rem" }}>@{userStore.userData?.email}</p>
           </div>
           <BiLogOut
-            fontSize={28}
+            fontSize={24}
             style={{ marginLeft: "1.2rem", cursor: "pointer" }}
             onClick={async () => {
               await userStore.logout();

@@ -47,7 +47,6 @@ export class TweetService {
         if (!user) {
             throw new BadRequestException({ message: 'Cannot identify user' });
         }
-
         const newTweet = this.tweetRepository.create({
             gif: data.gif,
             message: data.message,
@@ -63,7 +62,7 @@ export class TweetService {
             newTweet.images = await this.fileService.addImagesToTweet(files);
         }
 
-        if (data.tags.length !== 0) {
+        if (data.tags.length !== 0 && data.tags[0] !== '') {
             await this.createTags(newTweet, data.tags);
         }
 
@@ -164,7 +163,7 @@ export class TweetService {
             newTweet.images = await this.fileService.addImagesToTweet(files);
         }
 
-        if (data.tags.length !== 0) {
+        if (data.tags.length !== 0 && data.tags[0] !== '') {
             await this.createTags(newTweet, data.tags);
         }
 
@@ -330,5 +329,16 @@ export class TweetService {
             return -1;
         }
         return 0;
+    }
+
+    async getPopularTags(numberToSkip: number) {
+        const mostPopularTags = await this.tagRepository
+            .createQueryBuilder('tag')
+            .loadRelationCountAndMap('tag.count', 'tag.tweets')
+            .skip(numberToSkip)
+            .take(5)
+            .getMany();
+
+        return mostPopularTags;
     }
 }

@@ -10,8 +10,9 @@ import {
   Avatar,
 } from "../Style/ComponentStyles/SpecifcTweetStyles";
 import dayjs from "dayjs";
-import { BsFillCalendarFill } from "react-icons/bs";
 import ProfileModal from "../Components/UpdateProfileSteps/ProfileModal";
+import { BsFillCalendarFill } from "react-icons/bs";
+import { SiAboutDotMe } from "react-icons/si";
 import {
   ProfileInfoWrapper,
   Background,
@@ -19,7 +20,10 @@ import {
   WhenJoinedInfo,
   ProfileLink,
   BackgroundPhoto,
+  InfoContent,
 } from "../Style/ComponentStyles/ProfilePageStyles";
+import { AiOutlineHome, AiOutlineLink } from "react-icons/ai";
+import { FaCity } from "react-icons/fa";
 
 const ProfilePage = () => {
   const { userStore } = useRootStore();
@@ -62,6 +66,32 @@ const ProfilePage = () => {
               Joined
               {dayjs(userStore.userData?.created).format(" MMMM YYYY")}
             </WhenJoinedInfo>
+            {userStore.userData?.description && (
+              <WhenJoinedInfo>
+                <SiAboutDotMe style={{ marginRight: "0.4rem" }} />
+                {userStore.userData?.description}
+              </WhenJoinedInfo>
+            )}
+            <InfoContent>
+              {userStore.userData?.country && (
+                <WhenJoinedInfo>
+                  <AiOutlineHome style={{ marginRight: "0.4rem" }} />
+                  {userStore.userData?.country}
+                </WhenJoinedInfo>
+              )}
+              {userStore.userData?.profileLink && (
+                <WhenJoinedInfo>
+                  <AiOutlineLink style={{ marginRight: "0.4rem" }} />
+                  {userStore.userData?.profileLink}
+                </WhenJoinedInfo>
+              )}
+              {userStore.userData?.city && (
+                <WhenJoinedInfo>
+                  <FaCity style={{ marginRight: "0.4rem" }} />
+                  {userStore.userData?.city}
+                </WhenJoinedInfo>
+              )}
+            </InfoContent>
             <WhenJoinedInfo>
               <ProfileLink to="/followers">
                 {userStore.userData?.followersCount} Followers
