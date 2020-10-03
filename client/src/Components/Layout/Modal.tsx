@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import {
   Wrapper,
   ModalContent,
-} from "../Style/ComponentStyles/RegisterFormStyles";
-import useClickOutside from "../utils/useClickOutside";
+} from "../../Style/ComponentStyles/RegisterFormStyles";
+import useClickOutside from "../../utils/useClickOutside";
 
 interface Props {
   open: boolean;

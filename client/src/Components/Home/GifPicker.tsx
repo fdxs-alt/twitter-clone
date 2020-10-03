@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../Layout/Modal";
 
 import {
   GifButton,

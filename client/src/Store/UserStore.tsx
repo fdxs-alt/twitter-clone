@@ -134,7 +134,6 @@ export class UserStore {
       const response = await Axios.post(revokeURL);
 
       runInAction(() => {
-        this.revokeLoading = false;
         this.userData = response.data.user;
         this.accessToken = response.data.accessToken;
 
@@ -143,11 +142,12 @@ export class UserStore {
         } else {
           this.isAuthenticated = false;
         }
+        this.revokeLoading = false;
       });
     } catch (error) {
       runInAction(() => {
-        this.revokeLoading = false;
         this.isAuthenticated = false;
+        this.revokeLoading = false;
       });
     }
   }

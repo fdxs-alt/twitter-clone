@@ -29,4 +29,6 @@ export const getAllPostCommentsURL = (id: string) => {
 export const getSpecifcTweetURL = (id: string) => {
   return `tweets/comment/${id}`;
 };
-
+export const getTagsURL = (skip: number) => {
+  return `tweets/tags/${skip}`;
+};

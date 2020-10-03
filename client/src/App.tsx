@@ -10,14 +10,15 @@ const App = () => {
 
   useEffect(() => {
     userStore.revoke();
-  }, []);
+  }, [userStore]);
 
   useInteval(() => {
     userStore.revoke();
   }, 3300000);
 
   return useObserver(() => {
-    if (userStore.revokeLoading) return <LoadingPage />;
+    if (userStore.revokeLoading) return <LoadingPage />
+    else
     return <Index />;
   });
 };

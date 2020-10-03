@@ -22,7 +22,7 @@ import {
   Container,
 } from "../../Style/ComponentStyles/AllTwetsStyle";
 import { UserStore } from "../../Store/UserStore";
-import Modal from "../Modal";
+import Modal from "../Layout/Modal";
 import TweetInput from "./TweetInput";
 import { useObserver } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";

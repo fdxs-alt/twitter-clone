@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRootStore } from "../../Store/RootStore";
 import { Button } from "../../Style/ComponentStyles/NavbarStyles";
 import { ColumnWrapper } from "../../Style/ComponentStyles/ProfilePageStyles";
-import Modal from "../Modal";
+import Modal from "../Layout/Modal";
 import AddBackground from "./AddBackground";
 import AddProfilePhoto from "./AddProfilePhoto";
 import UpdateBio from "./UpdateBio";

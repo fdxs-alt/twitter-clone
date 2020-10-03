@@ -9,7 +9,7 @@ import {
 } from "../../Style/ComponentStyles/RegisterPageStyles";
 import Logo from "../../Images/Twitter_Logo_WhiteOnImage.svg";
 import { useHistory } from "react-router-dom";
-import Modal from "../Modal";
+import Modal from "../Layout/Modal";
 import RegisterForm from "./RegisterForm";
 
 const WhatsHappening = () => {
