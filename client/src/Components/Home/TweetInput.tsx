@@ -65,7 +65,8 @@ const TweetInput: React.FC<Props> = ({ addPost, placeholder, isReply }) => {
       dataToSend.append("tags[]", word);
     });
 
-    if (dataToSend.getAll("tags").length === 0) dataToSend.append("tags[]", "");
+    if (dataToSend.getAll("tags[]").length === 0)
+      dataToSend.append("tags[]", "");
 
     filesToSend.forEach((file) => {
       dataToSend.append("tweetImages", file);

@@ -1,33 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRootStore } from "../../Store/RootStore";
 import Tweet from "./Tweet";
 import { useObserver } from "mobx-react-lite";
-import { postCommentURL } from "../../utils/Urls";
-import Axios from "../../utils/Axios";
+
+import useAllTweets from "../../utils/useAllTweets";
 const AllTweets = () => {
   const { userStore, tweetStore } = useRootStore();
 
-  const addComment = async (dataToSend: FormData, tweet: any) => {
-    const response = await Axios.post(
-      postCommentURL(tweet.tweet.id),
-      dataToSend,
-      userStore.setFormDataConfig()
-    );
-
-    tweetStore.setCommentsCount(tweet.tweet.id, response.data);
-  };
-
-  const handleLike = async (id: string) => {
-    await tweetStore.handleLike(id);
-  };
-
-  const handleRetweet = async (id: string) => {
-    await tweetStore.handleRetweet(id);
-  };
-
-  useEffect(() => {
-    tweetStore.getTweets();
-  }, []);
+  const { addComment, handleLike, handleRetweet } = useAllTweets(
+    tweetStore,
+    userStore
+  );
 
   return useObserver(() => {
     if (tweetStore.tweetsLoading) return <h1>Loading...</h1>;

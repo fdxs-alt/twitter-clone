@@ -25,19 +25,16 @@ const ProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dataToSend = new FormData();
-
     dataToSend.append("avatar", profilePhoto);
     dataToSend.append("background", background);
-
     dataToSend.append("city", city);
     dataToSend.append("country", country);
     dataToSend.append("profileLink", link);
     dataToSend.append("description", description);
-
     await userStore.updateProfile(dataToSend);
-
     closeModal();
   };
+  
   return useObserver(() => {
     return (
       <Modal open={isOpen} closeModal={closeModal}>

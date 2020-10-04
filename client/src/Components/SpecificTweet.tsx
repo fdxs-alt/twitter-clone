@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Wrapper, Title } from "../Style/ComponentStyles/SharedStyles";
 import { useParams } from "react-router-dom";
 import { useRootStore } from "../Store/RootStore";
 import Comments from "./Comments";
 import DefaultImage from "../Images/default_profile_400x400.png";
 import { ImagesContainer, Image } from "../Style/ComponentStyles/AllTwetsStyle";
-import { getSpecifcTweetURL } from "../utils/Urls";
-import Axios from "../utils/Axios";
 import { Gif } from "../Style/ComponentStyles/TweetInputStyles";
 import dayjs from "dayjs";
 import {
@@ -21,33 +19,12 @@ import {
   TweetContent,
   UserName,
 } from "../Style/ComponentStyles/SpecifcTweetStyles";
+import useSpecificTweet from "../utils/useSpecificTweet";
 
 const SpecificTweet = () => {
   const params: { id: string } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [specificTweet, setSpecificTweet] = useState<any>(null);
   const { userStore } = useRootStore();
-
-  useEffect(() => {
-    setLoading(true);
-    const getSpecifcTweet = async () => {
-      try {
-        const response = await Axios.get(
-          getSpecifcTweetURL(params.id),
-          userStore.setConfig()
-        );
-
-        setSpecificTweet(response.data);
-        setLoading(false);
-      } catch (error) {}
-    };
-
-    getSpecifcTweet();
-
-    return () => {
-      setSpecificTweet(null);
-    };
-  }, [userStore, params.id]);
+  const { loading, specificTweet } = useSpecificTweet(userStore, params.id);
 
   if (loading) return <h1>Loading...</h1>;
   else
