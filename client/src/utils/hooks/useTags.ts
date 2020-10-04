@@ -1,12 +1,14 @@
-import Axios from "./Axios";
+import Axios from "../Axios";
 import { useState, useEffect } from "react";
-import { UserStore } from "./../Store/UserStore";
-import { getTagsURL } from "./Urls";
+import { UserStore } from "../../Store/UserStore";
+import { getTagsURL } from "../Urls";
 
 function useTags(userStore: UserStore) {
   const [loading, setLoading] = useState(true);
   const [tags, setTags] = useState<any>([]);
   const [page, setPage] = useState(0);
+
+  
   useEffect(() => {
     const getTags = async () => {
       setLoading(true);

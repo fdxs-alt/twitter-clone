@@ -1,8 +1,8 @@
-import { UserStore } from "./../Store/UserStore";
-import { TweetStore } from "../Store/TweetStore";
-import Axios from "./Axios";
+import { UserStore } from "../../Store/UserStore";
+import { TweetStore } from "../../Store/TweetStore";
+import Axios from "../Axios";
 import { useEffect } from "react";
-import { postCommentURL } from "./Urls";
+import { postCommentURL } from "../Urls";
 
 function useAllTweets(tweetStore: TweetStore, userStore: UserStore) {
   const addComment = async (dataToSend: FormData, tweet: any) => {

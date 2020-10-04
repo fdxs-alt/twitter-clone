@@ -3,7 +3,7 @@ import {
   Wrapper,
   ModalContent,
 } from "../../Style/ComponentStyles/RegisterFormStyles";
-import useClickOutside from "../../utils/useClickOutside";
+import useClickOutside from "../../utils/hooks/useClickOutside";
 
 interface Props {
   open: boolean;

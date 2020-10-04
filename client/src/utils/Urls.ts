@@ -32,3 +32,6 @@ export const getSpecifcTweetURL = (id: string) => {
 export const getTagsURL = (skip: number) => {
   return `tweets/tags/${skip}`;
 };
+export const getUserToFollowURL = (skip: number) => {
+  return `auth/follow/${skip}`;
+};

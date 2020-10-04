@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
-import useClickOutside from "../../utils/useClickOutside";
+import useClickOutside from "../../utils/hooks/useClickOutside";
 import { EmojiButton } from "../../Style/ComponentStyles/TweetInputStyles";
 interface Props {
   setDescription: React.Dispatch<React.SetStateAction<string>>;
 }
-
 
 const Emoji: React.FC<Props> = ({ setDescription }) => {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
@@ -29,7 +28,10 @@ const Emoji: React.FC<Props> = ({ setDescription }) => {
           style={{ position: "absolute", top: "40px" }}
         />
       )}
-      <EmojiButton fontSize={28} onClick={() => setIsPickerVisible(!isPickerVisible)} />
+      <EmojiButton
+        fontSize={28}
+        onClick={() => setIsPickerVisible(!isPickerVisible)}
+      />
     </div>
   );
 };

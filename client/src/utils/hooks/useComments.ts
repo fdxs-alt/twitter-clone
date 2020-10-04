@@ -1,12 +1,12 @@
-import Axios from "./Axios";
+import Axios from "../Axios";
 import { useState, useCallback, useEffect } from "react";
-import { UserStore } from "./../Store/UserStore";
+import { UserStore } from "../../Store/UserStore";
 import {
   postCommentURL,
   likeURL,
   retweetUrL,
   getAllPostCommentsURL,
-} from "./Urls";
+} from "../Urls";
 
 function useComments(userStore: UserStore, id: string) {
   const [comments, setComments] = useState<any>([]);

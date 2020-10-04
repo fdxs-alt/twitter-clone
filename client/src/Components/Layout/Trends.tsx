@@ -1,9 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import FollowUsers from "../FollowUsers";
 import Tags from "./Tags";
 
-const Wrapper = styled.div`
+const TrendsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 24%;
+`;
+const Wrapper = styled.div`
+  margin: 1rem 0;
   border-radius: 1rem;
   background-color: #192734;
   height: fit-content;
@@ -11,9 +17,14 @@ const Wrapper = styled.div`
 `;
 const Trends = () => {
   return (
-    <Wrapper>
-      <Tags />
-    </Wrapper>
+    <TrendsWrapper>
+      <Wrapper>
+        <Tags />
+      </Wrapper>
+      <Wrapper>
+        <FollowUsers />
+      </Wrapper>
+    </TrendsWrapper>
   );
 };
 

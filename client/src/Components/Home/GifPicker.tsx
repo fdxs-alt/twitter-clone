@@ -7,7 +7,7 @@ import {
   SearchContainer,
   SearchInput,
 } from "../../Style/ComponentStyles/GifPickerStyles";
-import useGifs from "../../utils/useGifs";
+import useGifs from "../../utils/hooks/useGifs";
 import Gifs from "./Gifs";
 import { Button } from "../../Style/ComponentStyles/RegisterPageStyles";
 interface Props {

@@ -77,6 +77,7 @@ export const AvatarContainer = styled.div`
 `;
 export const Avatar = styled.img`
   width: 40px;
+  height: 40px;
   margin-right: 1.5rem;
   border-radius: 50%;
 `;

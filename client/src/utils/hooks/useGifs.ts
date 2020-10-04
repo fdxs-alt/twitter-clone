@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { useState, useEffect } from "react";
-import { getTrendingURL, getSearchURL } from "./Urls";
+import { getTrendingURL, getSearchURL } from "../Urls";
 
 export default function () {
   const [loading, setLoading] = useState(false);

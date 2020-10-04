@@ -1,6 +1,6 @@
 import React from "react";
 import { UserStore } from "../Store/UserStore";
-import useComments from "../utils/useComments";
+import useComments from "../utils/hooks/useComments";
 import Tweet from "./Home/Tweet";
 
 interface Props {

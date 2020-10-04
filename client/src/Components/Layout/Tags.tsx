@@ -8,7 +8,7 @@ import {
   Tag,
   Button,
 } from "../../Style/ComponentStyles/TagStyles";
-import useTags from "../../utils/useTags";
+import useTags from "../../utils/hooks/useTags";
 
 const Tags = () => {
   const { userStore } = useRootStore();

@@ -3,7 +3,7 @@ import { useRootStore } from "../../Store/RootStore";
 import Tweet from "./Tweet";
 import { useObserver } from "mobx-react-lite";
 
-import useAllTweets from "../../utils/useAllTweets";
+import useAllTweets from "../../utils/hooks/useAllTweets";
 const AllTweets = () => {
   const { userStore, tweetStore } = useRootStore();
 

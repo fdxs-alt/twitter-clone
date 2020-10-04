@@ -19,7 +19,7 @@ import {
   TweetContent,
   UserName,
 } from "../Style/ComponentStyles/SpecifcTweetStyles";
-import useSpecificTweet from "../utils/useSpecificTweet";
+import useSpecificTweet from "../utils/hooks/useSpecificTweet";
 
 const SpecificTweet = () => {
   const params: { id: string } = useParams();

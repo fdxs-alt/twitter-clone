@@ -1,7 +1,7 @@
-import Axios from "./Axios";
+import Axios from "../Axios";
 import { useState, useEffect } from "react";
-import { UserStore } from "./../Store/UserStore";
-import { getSpecifcTweetURL } from "./Urls";
+import { UserStore } from "../../Store/UserStore";
+import { getSpecifcTweetURL } from "../Urls";
 function useSpecificTweet(userStore: UserStore, id: string) {
   const [loading, setLoading] = useState(true);
   const [specificTweet, setSpecificTweet] = useState<any>(null);
