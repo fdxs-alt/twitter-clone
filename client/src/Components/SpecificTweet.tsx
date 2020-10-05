@@ -8,7 +8,6 @@ import { ImagesContainer, Image } from "../Style/ComponentStyles/AllTwetsStyle";
 import { Gif } from "../Style/ComponentStyles/TweetInputStyles";
 import dayjs from "dayjs";
 import {
-  Avatar,
   AvatarWrapper,
   ContentWrapper,
   DateInfo,
@@ -20,6 +19,7 @@ import {
   UserName,
 } from "../Style/ComponentStyles/SpecifcTweetStyles";
 import useSpecificTweet from "../utils/hooks/useSpecificTweet";
+import { Avatar } from "../Style/ComponentStyles/FollowUserStyles";
 
 const SpecificTweet = () => {
   const params: { id: string } = useParams();

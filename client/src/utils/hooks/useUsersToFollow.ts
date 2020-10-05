@@ -10,7 +10,7 @@ function useUsersToFollow(userStore: UserStore) {
 
   useEffect(() => {
     const getUsersToFollow = async () => {
-      setLoading(false);
+      setLoading(true);
 
       if (!userStore.accessToken) return;
 

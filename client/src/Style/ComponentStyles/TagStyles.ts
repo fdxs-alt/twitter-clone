@@ -6,7 +6,7 @@ export const TrendWrapper = styled.div`
   cursor: pointer;
   &:hover {
     background-color: ${(props) => props.theme.colors.hoverDark};
-  }
+  } 
 `;
 export const Tag = styled.h4`
   color: white;

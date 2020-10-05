@@ -16,3 +16,9 @@ export const Title = styled.div`
   font-weight: 700;
   color: white;
 `;
+
+export const Main = styled.main`
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+`;

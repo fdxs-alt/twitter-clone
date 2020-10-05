@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import FollowUsers from "../FollowUsers";
+import FollowUsers from "./FollowUsers";
 import Tags from "./Tags";
 
 const TrendsWrapper = styled.div`

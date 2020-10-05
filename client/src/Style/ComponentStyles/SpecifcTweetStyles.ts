@@ -9,9 +9,11 @@ export const AvatarWrapper = styled.div`
   display: flex;
 `;
 export const Avatar = styled.img`
-  width: 45px;
-  height: 45px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
+  margin-top: -75px;
+  border: 4px solid ${props => props.theme.colors.dark}
 `;
 export const InfoWrapper = styled.div`
   display: flex;

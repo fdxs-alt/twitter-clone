@@ -30,11 +30,14 @@ const Tags = () => {
               {tag.count > 20 && <TrendingTitle>{tag.count}</TrendingTitle>}
             </TrendWrapper>
           ))}
-          <Tag>
-            <Button type="button" onClick={() => setPage((prev) => prev + 5)}>
-              Show more
-            </Button>
-          </Tag>
+
+          {tags.length % 5 === 0 && (
+            <Tag>
+              <Button type="button" onClick={() => setPage((prev) => prev + 5)}>
+                Show more
+              </Button>
+            </Tag>
+          )}
         </div>
       );
   });
