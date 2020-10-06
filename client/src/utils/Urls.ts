@@ -35,3 +35,6 @@ export const getTagsURL = (skip: number) => {
 export const getUserToFollowURL = (skip: number) => {
   return `auth/follow/${skip}`;
 };
+export const followUserURL = (id: string) => {
+  return `auth/follow/${id}`;
+};

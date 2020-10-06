@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 import Default from "../../Images/default_profile_400x400.png";
+import { useRootStore } from "../../Store/RootStore";
 import {
   Avatar,
   UserLink,
@@ -7,7 +8,9 @@ import {
   FollowButton,
   InfoEmail,
 } from "../../Style/ComponentStyles/FollowUserStyles";
+import Axios from "../../utils/Axios";
 import { User } from "../../utils/hooks/useUsersToFollow";
+import { followUserURL } from "../../utils/Urls";
 
 interface Props {
   user: User;
@@ -15,6 +18,29 @@ interface Props {
 
 const UserToFollow: React.FC<Props> = ({ user }) => {
   const [isFollowed, setIsFollowed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { userStore } = useRootStore();
+
+  const config = useMemo(() => {
+    return userStore.setConfig();
+  }, [userStore]);
+
+  const handleClick = useCallback(
+    async (id: string) => {
+      setLoading(true);
+
+      try {
+        const result = await Axios.post(followUserURL(id), null, config);
+        console.log(result);
+        setIsFollowed(!isFollowed);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    },
+    [isFollowed]
+  );
+
   return (
     <UserWrapper>
       <Avatar src={user.avatar ? user.avatar.url : Default} />
@@ -24,10 +50,11 @@ const UserToFollow: React.FC<Props> = ({ user }) => {
       </div>
       <FollowButton
         type="button"
-        onClick={() => setIsFollowed(!isFollowed)}
+        onClick={() => handleClick(user.id)}
         followed={isFollowed}
+        disabled={loading}
       >
-        {isFollowed ? "Following" : "Followed"}
+        {loading ? "Loading" : isFollowed ? "Following" : "Follow"}
       </FollowButton>
     </UserWrapper>
   );

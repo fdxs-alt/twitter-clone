@@ -59,6 +59,10 @@ export const FollowButton = styled.button<FollowButton>`
   &:hover {
     opacity: 0.8;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 export const InfoEmail = styled.p`
   color: ${(props) => props.theme.colors.darkGray};

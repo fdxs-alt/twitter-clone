@@ -19,7 +19,7 @@ const FollowUsers = () => {
           {usersToFollow.map((user: User) => (
             <UserToFollow user={user} key={user.id} />
           ))}
-          {usersToFollow.length % 5 === 0 && (
+          {usersToFollow.length % 5 === 0 && usersToFollow.length !== 0 && (
             <Button type="button" onClick={() => setPage((prev) => prev + 5)}>
               Show more
             </Button>

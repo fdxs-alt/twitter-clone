@@ -262,13 +262,14 @@ export class UserService {
             where: {
                 id: loggedId,
             },
+            relations: ['followers', 'following'],
         });
 
         if (!loggedUser) {
             throw new BadRequestException({ message: "User doesn't exist" });
         }
 
-        if (user.followers.includes(loggedUser)) {
+        if (user.followers.some(u => u.id === loggedUser.id)) {
             user.followers = user.followers.filter(user => {
                 return user.id !== loggedUser.id;
             });
@@ -278,10 +279,7 @@ export class UserService {
 
         await user.save();
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { followers, following, ...rest } = user;
-        
-        return rest;
+        return true;
     }
 
     async getUsersToFollow(id: string, numberToSkip: number) {
@@ -299,6 +297,6 @@ export class UserService {
 
         return usersToFollow
             .filter(user => user.id !== userOfAccount.id)
-            .filter(user => !user.followers.includes(userOfAccount));
+            .filter(user => !user.followers.some(u => u.id === userOfAccount.id));
     }
 }
