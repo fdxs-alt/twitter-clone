@@ -19,7 +19,6 @@ import {
     UploadedFiles,
     Patch,
     Param,
-    Delete,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '../Shared/AuthGuard';
@@ -86,12 +85,6 @@ export class UserController {
     @UseGuards(AuthGuard)
     follow(@User('id') id: string, @Param('userId') userId: string) {
         return this.userService.followUser(userId, id);
-    }
-
-    @Delete('unfollow/:userId')
-    @UseGuards(AuthGuard)
-    unfollow(@User('id') id: string, @Param('userId') userId: string) {
-        return this.userService.unfollowUser(userId, id);
     }
 
     @Get('logout')

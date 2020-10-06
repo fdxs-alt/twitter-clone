@@ -1,5 +1,5 @@
 import React from "react";
-import { Wrapper, Title } from "../Style/ComponentStyles/SharedStyles";
+import { Title } from "../Style/ComponentStyles/SharedStyles";
 import { useParams } from "react-router-dom";
 import { useRootStore } from "../Store/RootStore";
 import Comments from "./Comments";
@@ -29,7 +29,7 @@ const SpecificTweet = () => {
   if (loading) return <h1>Loading...</h1>;
   else
     return (
-      <Wrapper>
+      <>
         <Title>Tweet</Title>
         <MainTweetWrapper>
           <AvatarWrapper>
@@ -71,7 +71,7 @@ const SpecificTweet = () => {
         </MainTweetWrapper>
 
         <Comments id={params.id} userStore={userStore} />
-      </Wrapper>
+      </>
     );
 };
 

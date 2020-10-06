@@ -18,6 +18,7 @@ const Gifs: React.FC<Props> = ({ modalGifs, handleClick, autoPlay }) => {
             onClick={() => handleClick(gif)}
             key={gif.id}
             autoPlay={autoPlay ? true : false}
+            loop={autoPlay ? true : false}
           >
             <source src={gif.images.preview.mp4} />
           </video>

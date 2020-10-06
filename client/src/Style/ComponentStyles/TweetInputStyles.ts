@@ -30,6 +30,7 @@ export const TextArea = styled(TextareaAutosize)`
   font-size: 1.1rem;
   padding: 0.4rem;
   font-family: inherit;
+  overflow: hidden;
   &:focus {
     outline: none;
   }

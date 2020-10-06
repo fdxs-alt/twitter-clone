@@ -41,13 +41,17 @@ export const Avatar = styled.img`
   margin-right: 0.4rem;
   border-radius: 50%;
 `;
-
-export const FollowButton = styled.button`
+interface FollowButton {
+  followed: boolean;
+}
+export const FollowButton = styled.button<FollowButton>`
   border: none;
-  background-color: inherit;
+  background-color: ${(props) =>
+    props.followed ? props.theme.colors.secondary : "inherit"};
   padding: 0.3rem 1.4rem;
   text-align: center;
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) =>
+    props.followed ? "white" : props.theme.colors.secondary};
   cursor: pointer;
   border: 1px solid ${(props) => props.theme.colors.secondary};
   border-radius: 1.5rem;

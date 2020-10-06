@@ -16,9 +16,9 @@ interface Props {
 
 const GifPicker: React.FC<Props> = ({ setGif }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { loading, modalGifs, search, setSearch } = useGifs();
   const [autoPlay, setAutoPlay] = useState(false);
-  
+  const { loading, modalGifs, search, setSearch } = useGifs(isOpen, autoPlay);
+
   if ((!isOpen && loading) || (!isOpen && !loading)) {
     return <GifButton onClick={() => setIsOpen(true)} fontSize={28} />;
   } else if (isOpen && loading) {
@@ -58,6 +58,7 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
               type="button"
               onClick={() => setAutoPlay(!autoPlay)}
               style={{ fontSize: "0.8rem" }}
+              disabled={loading}
             >
               Auto play gifs
             </Button>

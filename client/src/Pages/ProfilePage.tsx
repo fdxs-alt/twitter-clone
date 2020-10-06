@@ -1,7 +1,7 @@
 import { useObserver } from "mobx-react-lite";
 import React, { useState } from "react";
 import { useRootStore } from "../Store/RootStore";
-import { Title, Wrapper } from "../Style/ComponentStyles/SharedStyles";
+import { Title } from "../Style/ComponentStyles/SharedStyles";
 import Default from "../Images/default_profile_400x400.png";
 import { Button } from "../Style/ComponentStyles/RegisterPageStyles";
 import {
@@ -31,7 +31,7 @@ const ProfilePage = () => {
 
   return useObserver(() => {
     return (
-      <Wrapper>
+      <>
         <Title>{userStore.userData?.userName} </Title>
         <ProfileInfoWrapper>
           <Background>
@@ -105,7 +105,7 @@ const ProfilePage = () => {
         {isOpen && (
           <ProfileModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
         )}
-      </Wrapper>
+      </>
     );
   });
 };

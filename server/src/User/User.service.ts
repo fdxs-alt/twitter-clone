@@ -249,12 +249,12 @@ export class UserService {
             });
         }
 
-        const userToFollow = await this.userRepository.findOne({
+        const user = await this.userRepository.findOne({
             where: { id: userId },
             relations: ['followers', 'following'],
         });
 
-        if (!userToFollow) {
+        if (!user) {
             throw new BadRequestException({ message: "User doesn't exist" });
         }
 
@@ -268,52 +268,20 @@ export class UserService {
             throw new BadRequestException({ message: "User doesn't exist" });
         }
 
-        if (userToFollow.followers.includes(loggedUser)) {
-            throw new BadRequestException({
-                message: 'You have already been folowing this user',
+        if (user.followers.includes(loggedUser)) {
+            user.followers = user.followers.filter(user => {
+                return user.id !== loggedUser.id;
             });
+        } else {
+            user.followers.push(loggedUser);
         }
 
-        userToFollow.followers.push(loggedUser);
+        await user.save();
 
-        await userToFollow.save();
-
-        return userToFollow;
-    }
-
-    async unfollowUser(userId: string, loggedId: string) {
-        if (userId === loggedId) {
-            throw new BadRequestException({
-                message: "You can't do this action",
-            });
-        }
-
-        const userToUnFollow = await this.userRepository.findOne({
-            where: { id: userId },
-            relations: ['followers', 'following'],
-        });
-
-        if (!userToUnFollow) {
-            throw new BadRequestException({ message: "User doesn't exist" });
-        }
-
-        const loggedUser = await this.userRepository.findOne({
-            where: {
-                id: loggedId,
-            },
-        });
-
-        if (!loggedUser) {
-            throw new BadRequestException({ message: "User doesn't exist" });
-        }
-
-        userToUnFollow.followers = userToUnFollow.followers.filter(user => {
-            return user.id !== loggedUser.id;
-        });
-
-        await userToUnFollow.save();
-
-        return userToUnFollow;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { followers, following, ...rest } = user;
+        
+        return rest;
     }
 
     async getUsersToFollow(id: string, numberToSkip: number) {

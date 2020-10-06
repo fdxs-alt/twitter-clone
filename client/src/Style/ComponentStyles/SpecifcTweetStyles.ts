@@ -12,8 +12,9 @@ export const Avatar = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  object-fit: cover;
   margin-top: -75px;
-  border: 4px solid ${props => props.theme.colors.dark}
+  border: 4px solid ${(props) => props.theme.colors.dark};
 `;
 export const InfoWrapper = styled.div`
   display: flex;

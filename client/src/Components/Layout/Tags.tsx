@@ -27,7 +27,7 @@ const Tags = () => {
             >
               <TrendingTitle>Trending now</TrendingTitle>
               <Tag>{tag.text}</Tag>
-              {tag.count > 20 && <TrendingTitle>{tag.count}</TrendingTitle>}
+              {tag.count > 20 && <TrendingTitle>{tag.count} Tweets</TrendingTitle>}
             </TrendWrapper>
           ))}
 
