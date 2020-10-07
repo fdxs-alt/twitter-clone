@@ -4,6 +4,7 @@ import {
   AiOutlineHeart,
 } from "react-icons/ai";
 import { FiUpload } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -32,9 +33,15 @@ export const Time = styled.time`
   padding: 0.4rem;
   color: ${(props) => props.theme.colors.darkGray};
 `;
-export const UserNameTitle = styled.div`
+export const UserNameTitle = styled(Link)`
   font-size: 1.2rem;
+  color: white;
+  text-decoration: none;
   font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 export const TweetContent = styled.p`
   font-size: 1rem;
@@ -58,7 +65,6 @@ export const ImagesContainer = styled.div<ContainerProps>`
   justify-content: center;
   gap: 0.4rem;
   padding: 0.4rem 0.6rem;
-  border: 2px solid ${(props) => props.theme.colors.hoverDark};
   border-radius: 10px;
 `;
 export const Image = styled.img`

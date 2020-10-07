@@ -1,10 +1,11 @@
+import { TweetDataType } from "./../../Store/TweetStore";
 import Axios from "../Axios";
 import { useState, useEffect } from "react";
 import { UserStore } from "../../Store/UserStore";
 import { getSpecifcTweetURL } from "../Urls";
 function useSpecificTweet(userStore: UserStore, id: string) {
   const [loading, setLoading] = useState(true);
-  const [specificTweet, setSpecificTweet] = useState<any>(null);
+  const [specificTweet, setSpecificTweet] = useState<TweetDataType | null>(null);
 
   useEffect(() => {
     setLoading(true);

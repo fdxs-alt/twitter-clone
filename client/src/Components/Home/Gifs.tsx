@@ -4,7 +4,6 @@ import { GifContainer } from "../../Style/ComponentStyles/GifPickerStyles";
 interface Props {
   handleClick: (gif: any) => void;
   modalGifs: any;
-
   autoPlay: boolean;
 }
 const Gifs: React.FC<Props> = ({ modalGifs, handleClick, autoPlay }) => {
@@ -25,7 +24,7 @@ const Gifs: React.FC<Props> = ({ modalGifs, handleClick, autoPlay }) => {
         ))}
       </GifContainer>
     );
-  }, [modalGifs, autoPlay]);
+  }, [modalGifs, autoPlay, handleClick]);
 };
 
 export default Gifs;

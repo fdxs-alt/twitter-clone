@@ -17,7 +17,7 @@ const AllTweets = () => {
 
     return (
       <>
-        {tweetStore.tweetData.map((tweet: any) => (
+        {tweetStore.tweetData.map((tweet) => (
           <Tweet
             key={tweet.tweet.id}
             tweet={tweet}

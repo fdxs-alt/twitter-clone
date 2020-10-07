@@ -1,11 +1,11 @@
 import { UserStore } from "../../Store/UserStore";
-import { TweetStore } from "../../Store/TweetStore";
+import { TweetDataType, TweetStore } from "../../Store/TweetStore";
 import Axios from "../Axios";
 import { useEffect } from "react";
 import { postCommentURL } from "../Urls";
 
 function useAllTweets(tweetStore: TweetStore, userStore: UserStore) {
-  const addComment = async (dataToSend: FormData, tweet: any) => {
+  const addComment = async (dataToSend: FormData, tweet: TweetDataType) => {
     const response = await Axios.post(
       postCommentURL(tweet.tweet.id),
       dataToSend,
@@ -25,7 +25,7 @@ function useAllTweets(tweetStore: TweetStore, userStore: UserStore) {
 
   useEffect(() => {
     tweetStore.getTweets();
-  }, []);
+  }, [tweetStore]);
 
   return { addComment, handleLike, handleRetweet };
 }

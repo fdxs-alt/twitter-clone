@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Picker } from "emoji-mart";
+import { BaseEmoji, Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import useClickOutside from "../../utils/hooks/useClickOutside";
 import { EmojiButton } from "../../Style/ComponentStyles/TweetInputStyles";
@@ -22,7 +22,7 @@ const Emoji: React.FC<Props> = ({ setDescription }) => {
         <Picker
           theme="dark"
           title="Pick emoji"
-          onClick={(emoji: any) =>
+          onClick={(emoji: BaseEmoji) =>
             setDescription((prev) => prev + emoji.native)
           }
           style={{ position: "absolute", top: "40px" }}

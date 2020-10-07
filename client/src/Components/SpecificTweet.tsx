@@ -36,34 +36,34 @@ const SpecificTweet = () => {
             <Avatar
               alt="userAvatar"
               src={
-                specificTweet.user.avatar
+                specificTweet?.user.avatar
                   ? specificTweet.user.avatar.url
                   : DefaultImage
               }
             />
             <InfoWrapper>
-              <UserName>{specificTweet.user.userName}</UserName>
-              <Email>{specificTweet.user.email}</Email>
+              <UserName>{specificTweet?.user.userName}</UserName>
+              <Email>{specificTweet?.user.email}</Email>
             </InfoWrapper>
           </AvatarWrapper>
           <ContentWrapper>
-            <TweetContent>{specificTweet.tweet.message}</TweetContent>
-            {specificTweet.tweet.images?.length !== 0 ? (
-              <ImagesContainer quantity={specificTweet.tweet.images?.length}>
-                {specificTweet.tweet.images?.map((image: any) => (
+            <TweetContent>{specificTweet?.tweet.message}</TweetContent>
+            {specificTweet?.tweet.images ? (
+              <ImagesContainer quantity={specificTweet?.tweet.images?.length}>
+                {specificTweet?.tweet.images.map((image) => (
                   <Image src={image.url} key={image.id} />
                 ))}
               </ImagesContainer>
             ) : null}
           </ContentWrapper>
-          {specificTweet.tweet.gif ? (
+          {specificTweet?.tweet.gif ? (
             <video width="100%" muted autoPlay loop>
               <Gif src={specificTweet.tweet.gif} />
             </video>
           ) : null}
           <DateInfo>
             <Time>
-              {dayjs(specificTweet.tweet.issuedAt).format(
+              {dayjs(specificTweet?.tweet.issuedAt).format(
                 "h:mm A MMMM D, YYYY"
               )}
             </Time>

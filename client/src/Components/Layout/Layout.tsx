@@ -1,9 +1,11 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { Main, Wrapper } from "../../Style/ComponentStyles/SharedStyles";
 import Navbar from "./Navbar";
 import Trends from "./Trends";
 
-const Layout: React.FC<any> = ({ children }) => {
+interface Props {}
+
+const Layout: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   return (
     <Main>
       <Navbar />

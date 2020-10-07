@@ -26,10 +26,11 @@ import Modal from "../Layout/Modal";
 import TweetInput from "./TweetInput";
 import { useObserver } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
+import { TweetDataType } from "../../Store/TweetStore";
 interface Props {
-  tweet: any;
+  tweet: TweetDataType;
   userStore: UserStore;
-  addComment: (dataToSend: FormData, tweet: any) => Promise<void>;
+  addComment: (dataToSend: FormData, tweet: TweetDataType) => Promise<void>;
   handleLike: (id: string) => Promise<void>;
   handleRetweet: (id: string) => Promise<void>;
 }
@@ -59,18 +60,26 @@ const Tweet: React.FC<Props> = ({
             />
           </AvatarWrapper>
           <TweetInfoWrapper>
+            <Info>
+              <UserNameTitle
+                to={
+                  userStore.userData?.id === tweet.user.id
+                    ? `/profile`
+                    : `/users/${tweet.user.id}`
+                }
+              >
+                {tweet.user.userName}
+              </UserNameTitle>
+              <Time>{dayjs(tweet.tweet.issuedAt).format("DD.MM.YYYY")}</Time>
+            </Info>
             <div
               onClick={() => history.push(`/tweet/${tweet.tweet.id}`)}
               style={{ cursor: "pointer" }}
             >
-              <Info>
-                <UserNameTitle>{tweet.user.userName}</UserNameTitle>
-                <Time>{dayjs(tweet.tweet.issuedAt).format("DD.MM.YYYY")}</Time>
-              </Info>
               <TweetContent>{tweet.tweet.message}</TweetContent>
-              {tweet.tweet.images?.length !== 0 ? (
-                <ImagesContainer quantity={tweet.tweet.images?.length}>
-                  {tweet.tweet.images?.map((image: any) => (
+              {tweet.tweet.images ? (
+                <ImagesContainer quantity={tweet.tweet.images.length}>
+                  {tweet.tweet.images?.map((image) => (
                     <Image src={image.url} key={image.id} />
                   ))}
                 </ImagesContainer>
@@ -95,7 +104,7 @@ const Tweet: React.FC<Props> = ({
               <IconWrapper
                 done={
                   tweet.tweet.userRe.findIndex(
-                    (element: any) => element.id === userStore.userData?.id
+                    (element) => element.id === userStore.userData?.id
                   ) !== -1
                 }
               >
@@ -141,7 +150,15 @@ const Tweet: React.FC<Props> = ({
                 </AvatarWrapper>
                 <TweetInfoWrapper>
                   <Info>
-                    <UserNameTitle>{tweet.user.userName}</UserNameTitle>
+                    <UserNameTitle
+                      to={
+                        userStore.userData?.id === tweet.user.id
+                          ? `/profile`
+                          : `/dupa`
+                      }
+                    >
+                      {tweet.user.userName}
+                    </UserNameTitle>
                     <Time>
                       {dayjs(tweet.tweet.issuedAt).format("DD.MM.YYYY")}
                     </Time>

@@ -5,11 +5,42 @@ import {
   postTweetURL,
   retweetUrL,
 } from "../utils/Urls";
-import { UserStore } from "./UserStore";
+import { UserData, UserStore } from "./UserStore";
 import Axios from "../utils/Axios";
+
+interface Tweet {
+  commentsCount: number;
+  gif: string;
+  id: string;
+  images: [
+    {
+      id: string;
+      key: string;
+      url: string;
+      created: string;
+      updated: string;
+    }
+  ];
+  issuedAt: string;
+  likes: string[];
+  mainTweet?: Tweet[];
+  message: string;
+  tags: [
+    {
+      id: string;
+      text: string;
+    }
+  ];
+  userRe: UserData[];
+}
+
+export interface TweetDataType {
+  user: UserData;
+  tweet: Tweet;
+}
 export class TweetStore {
   @observable tweetsLoading = false;
-  @observable tweetData: any = [];
+  @observable tweetData: TweetDataType[] = [];
   @observable error = "";
 
   constructor(private userStore: UserStore) {}
@@ -21,6 +52,7 @@ export class TweetStore {
         getAllTweetsURL,
         this.userStore.setConfig()
       );
+      console.log(response.data);
       runInAction(() => {
         this.tweetData = response.data;
       });
@@ -39,7 +71,7 @@ export class TweetStore {
       );
 
       const element = this.tweetData.findIndex(
-        (element: any) => element.tweet.id === id
+        (element) => element.tweet.id === id
       );
 
       let newTweets = [...this.tweetData];
@@ -64,7 +96,7 @@ export class TweetStore {
       );
 
       const element = this.tweetData.findIndex(
-        (element: any) => element.tweet.id === id
+        (element) => element.tweet.id === id
       );
 
       let newTweets = [...this.tweetData];
@@ -82,7 +114,7 @@ export class TweetStore {
   @action
   async setCommentsCount(id: string, data: number) {
     const element = this.tweetData.findIndex(
-      (element: any) => element.tweet.id === id
+      (element) => element.tweet.id === id
     );
 
     let newTweets = [...this.tweetData];
@@ -110,6 +142,6 @@ export class TweetStore {
   }
 
   getSpecifcTweet(id: string) {
-    return this.tweetData.filter((data: any) => data.tweet.id === id);
+    return this.tweetData.filter((data) => data.tweet.id === id);
   }
 }

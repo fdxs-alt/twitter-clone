@@ -6,6 +6,7 @@ import LoginPage from "../Pages/LoginPage/LoginPage";
 import Main from "../Pages/Main/Main";
 import ProfilePage from "../Pages/ProfilePage";
 import RegisterPage from "../Pages/RegisterPage/RegisterPage";
+import SpecificUser from "../Pages/SpecificUser";
 import ProtectedRoute from "./ProtectedRoutes";
 import PublicRoute from "./PublicRoute";
 const Index = () => {
@@ -19,6 +20,7 @@ const Index = () => {
             <ProtectedRoute exact path="/home" component={Main} />
             <ProtectedRoute exact path="/profile" component={ProfilePage} />
             <ProtectedRoute path="/tweet/:id" component={SpecificTweet} />
+            <ProtectedRoute path="/users/:id" component={SpecificUser} />
           </Layout>
         </Route>
       </Switch>

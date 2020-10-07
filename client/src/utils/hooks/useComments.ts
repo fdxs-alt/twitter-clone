@@ -7,13 +7,14 @@ import {
   retweetUrL,
   getAllPostCommentsURL,
 } from "../Urls";
+import { TweetDataType } from "../../Store/TweetStore";
 
 function useComments(userStore: UserStore, id: string) {
-  const [comments, setComments] = useState<any>([]);
+  const [comments, setComments] = useState<TweetDataType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const addComment = useCallback(
-    async (dataToSend: FormData, tweet: any) => {
+    async (dataToSend: FormData, tweet: TweetDataType) => {
       try {
         const response = await Axios.post(
           postCommentURL(tweet.tweet.id),
@@ -22,7 +23,7 @@ function useComments(userStore: UserStore, id: string) {
         );
 
         const element = comments.findIndex(
-          (element: any) => element.tweet.id === tweet.tweet.id
+          (element) => element.tweet.id === tweet.tweet.id
         );
 
         let newTweets = [...comments];
@@ -48,7 +49,7 @@ function useComments(userStore: UserStore, id: string) {
         );
 
         const element = comments.findIndex(
-          (element: any) => element.tweet.id === id
+          (element) => element.tweet.id === id
         );
 
         let newTweets = [...comments];
@@ -74,7 +75,7 @@ function useComments(userStore: UserStore, id: string) {
         );
 
         const element = comments.findIndex(
-          (element: any) => element.tweet.id === id
+          (element) => element.tweet.id === id
         );
 
         let newTweets = [...comments];

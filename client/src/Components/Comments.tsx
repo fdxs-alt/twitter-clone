@@ -1,4 +1,5 @@
 import React from "react";
+import { TweetDataType } from "../Store/TweetStore";
 import { UserStore } from "../Store/UserStore";
 import useComments from "../utils/hooks/useComments";
 import Tweet from "./Home/Tweet";
@@ -21,7 +22,7 @@ const Comments: React.FC<Props> = ({ id, userStore }) => {
 
   return (
     <>
-      {comments.map((comment: any) => (
+      {comments.map((comment: TweetDataType) => (
         <Tweet
           tweet={comment}
           userStore={userStore}
