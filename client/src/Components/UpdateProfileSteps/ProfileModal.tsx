@@ -21,7 +21,7 @@ const ProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
   const { userStore } = useRootStore();
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dataToSend = new FormData();
@@ -34,11 +34,11 @@ const ProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
     await userStore.updateProfile(dataToSend);
     closeModal();
   };
-  
+
   return useObserver(() => {
     return (
       <Modal open={isOpen} closeModal={closeModal}>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={handleSubmit}>
           {page === 0 && (
             <AddProfilePhoto
               profilePhoto={profilePhoto}

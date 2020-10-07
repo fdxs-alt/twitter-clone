@@ -99,4 +99,10 @@ export class UserController {
     getMyTweets(@Param('skip') skip: number, @User('id') id: string) {
         return this.userService.getUsersToFollow(id, skip);
     }
+
+    @Get('user/:id')
+    @UseGuards(AuthGuard)
+    getSpecificUser(@Param('id') id: string) {
+        return this.userService.getSpecifcUser(id);
+    }
 }

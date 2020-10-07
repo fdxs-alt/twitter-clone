@@ -297,6 +297,21 @@ export class UserService {
 
         return usersToFollow
             .filter(user => user.id !== userOfAccount.id)
-            .filter(user => !user.followers.some(u => u.id === userOfAccount.id));
+            .filter(
+                user => !user.followers.some(u => u.id === userOfAccount.id),
+            );
+    }
+
+    async getSpecifcUser(userId: string) {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['tweets', 'following', 'followers'],
+        });
+
+        if (!user) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+
+        return user;
     }
 }

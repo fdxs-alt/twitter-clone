@@ -38,3 +38,6 @@ export const getUserToFollowURL = (skip: number) => {
 export const followUserURL = (id: string) => {
   return `auth/follow/${id}`;
 };
+export const getSpecificUserURL = (id: string) => {
+  return `auth/user/${id}`;
+};

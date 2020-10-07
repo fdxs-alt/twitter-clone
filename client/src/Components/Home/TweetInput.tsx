@@ -90,7 +90,7 @@ const TweetInput: React.FC<Props> = ({ addPost, placeholder, isReply }) => {
     return (
       <>
         <TweetForm
-          onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
+          onSubmit={handleSubmit}
         >
           <Wrapper>
             <Avatar
