@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const MainTweetWrapper = styled.div`
@@ -13,6 +14,7 @@ export const Avatar = styled.img`
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
+  background-color: ${(props) => props.theme.colors.primary};
   margin-top: -75px;
   border: 4px solid ${(props) => props.theme.colors.dark};
 `;
@@ -22,9 +24,14 @@ export const InfoWrapper = styled.div`
   justify-content: center;
   margin-left: 0.6rem;
 `;
-export const UserName = styled.h4`
+export const UserName = styled(Link)`
   color: white;
   padding: 0.2rem 0.4rem;
+  text-decoration: none;
+  font-weight: 700;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 export const Email = styled.p`
   color: ${(props) => props.theme.colors.darkGray};

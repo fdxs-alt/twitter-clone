@@ -158,7 +158,10 @@ export class UserService {
         } catch (error) {
             return { user: null, accessToken: '' };
         }
-        const user = await this.userRepository.findOne({ id: decoded.id });
+        const user = await this.userRepository.findOne({
+            where: { id: decoded.id },
+            relations: ['following', 'followers'],
+        });
 
         if (!user) {
             return { user: null, accessToken: '' };
@@ -169,10 +172,11 @@ export class UserService {
         });
 
         const { followers, following, ...rest } = user;
+
         const userData = {
             ...rest,
-            followingCount: following ? following.length : 0,
-            followersCount: followers ? followers.length : 0,
+            followingCount: !!following.length ? following.length : 0,
+            followersCount: !!followers.length ? followers.length : 0,
         };
 
         return {
@@ -312,6 +316,12 @@ export class UserService {
             throw new BadRequestException({ message: "User doesn't exist" });
         }
 
-        return user;
+        const { following, followers, ...rest } = user;
+
+        return {
+            ...rest,
+            followingCount: following.length,
+            followersCount: followers.length,
+        };
     }
 }

@@ -24,12 +24,36 @@ import {
 } from "../Style/ComponentStyles/ProfilePageStyles";
 import { AiOutlineHome, AiOutlineLink } from "react-icons/ai";
 import { FaCity } from "react-icons/fa";
+import { TweetDataType } from "../Store/TweetStore";
+import Tweet from "../Components/Home/Tweet";
+import Axios from "../utils/Axios";
+import { postCommentURL } from "../utils/Urls";
 
 const ProfilePage = () => {
-  const { userStore } = useRootStore();
+  const { userStore, tweetStore } = useRootStore();
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleLike = async (id: string) => {
+    await tweetStore.handleLike(id);
+  };
+
+  const addComment = async (dataToSend: FormData, tweet: TweetDataType) => {
+    const response = await Axios.post(
+      postCommentURL(tweet.tweet.id),
+      dataToSend,
+      userStore.setFormDataConfig()
+    );
+
+    tweetStore.setCommentsCount(tweet.tweet.id, response.data);
+  };
+
+  const handleRetweet = async (id: string) => {
+    await tweetStore.handleRetweet(id);
+  };
+
   return useObserver(() => {
+    const userTweets = tweetStore.getLoggedUserTweets();
+
     return (
       <>
         <Title>{userStore.userData?.userName} </Title>
@@ -59,7 +83,7 @@ const ProfilePage = () => {
               </Button>
             </div>
 
-            <UserName>{userStore.userData?.userName}</UserName>
+            <UserName to={`/profile`}>{userStore.userData?.userName}</UserName>
             <Email>@{userStore.userData?.userName}</Email>
             <WhenJoinedInfo>
               <BsFillCalendarFill style={{ marginRight: "0.4rem" }} />
@@ -105,6 +129,16 @@ const ProfilePage = () => {
         {isOpen && (
           <ProfileModal isOpen={isOpen} closeModal={() => setIsOpen(false)} />
         )}
+        {userTweets.map((tweet) => (
+          <Tweet
+            key={tweet.tweet.id}
+            tweet={tweet}
+            userStore={userStore}
+            addComment={addComment}
+            handleLike={handleLike}
+            handleRetweet={handleRetweet}
+          />
+        ))}
       </>
     );
   });

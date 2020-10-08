@@ -52,7 +52,7 @@ export class TweetStore {
         getAllTweetsURL,
         this.userStore.setConfig()
       );
-      console.log(response.data);
+
       runInAction(() => {
         this.tweetData = response.data;
       });
@@ -143,5 +143,11 @@ export class TweetStore {
 
   getSpecifcTweet(id: string) {
     return this.tweetData.filter((data) => data.tweet.id === id);
+  }
+
+  getLoggedUserTweets() {
+    return this.tweetData.filter(
+      (data) => data.user.id === this.userStore.userData?.id
+    );
   }
 }

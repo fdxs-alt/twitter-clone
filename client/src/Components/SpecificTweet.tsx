@@ -42,7 +42,15 @@ const SpecificTweet = () => {
               }
             />
             <InfoWrapper>
-              <UserName>{specificTweet?.user.userName}</UserName>
+              <UserName
+                to={
+                  userStore.userData?.id === specificTweet?.user.id
+                    ? `/profile`
+                    : `/users/${specificTweet?.user.id}`
+                }
+              >
+                {specificTweet?.user.userName}
+              </UserName>
               <Email>{specificTweet?.user.email}</Email>
             </InfoWrapper>
           </AvatarWrapper>
@@ -69,7 +77,6 @@ const SpecificTweet = () => {
             </Time>
           </DateInfo>
         </MainTweetWrapper>
-
         <Comments id={params.id} userStore={userStore} />
       </>
     );

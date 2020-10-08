@@ -51,7 +51,15 @@ const SpecificUser = () => {
             />
           </div>
 
-          <UserName>{specificUser?.userName}</UserName>
+          <UserName
+            to={
+              userStore.userData?.id === specificUser?.id
+                ? `/profile`
+                : `/users/${specificUser?.id}`
+            }
+          >
+            {specificUser?.userName}
+          </UserName>
           <Email>@{specificUser?.userName}</Email>
           <WhenJoinedInfo>
             <BsFillCalendarFill style={{ marginRight: "0.4rem" }} />

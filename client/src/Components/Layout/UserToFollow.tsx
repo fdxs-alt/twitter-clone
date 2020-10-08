@@ -30,12 +30,9 @@ const UserToFollow: React.FC<Props> = ({ user }) => {
       setLoading(true);
 
       try {
-        const result = await Axios.post(followUserURL(id), null, config);
-        console.log(result);
+        await Axios.post(followUserURL(id), null, config);
         setIsFollowed(!isFollowed);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
       setLoading(false);
     },
     [isFollowed]
