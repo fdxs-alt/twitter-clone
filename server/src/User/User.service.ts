@@ -316,12 +316,38 @@ export class UserService {
             throw new BadRequestException({ message: "User doesn't exist" });
         }
 
-        const { following, followers, ...rest } = user;
+        const { following, followers, tweets, ...rest } = user;
 
         return {
             ...rest,
+            tweets,
             followingCount: following.length,
             followersCount: followers.length,
         };
+    }
+    async getFollowing(userId: string) {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['following'],
+        });
+
+        if (!user) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+
+        return user.following;
+    }
+
+    async getFollowers(userId: string) {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+            relations: ['followers'],
+        });
+
+        if (!user) {
+            throw new BadRequestException({ message: "User doesn't exist" });
+        }
+        
+        return user.followers;
     }
 }

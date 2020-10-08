@@ -117,10 +117,10 @@ const ProfilePage = () => {
               )}
             </InfoContent>
             <WhenJoinedInfo>
-              <ProfileLink to="/followers">
+              <ProfileLink to={`/followers/${userStore.userData?.id}`}>
                 {userStore.userData?.followersCount} Followers
               </ProfileLink>
-              <ProfileLink to="/following">
+              <ProfileLink to={`/following/${userStore.userData?.id}`}>
                 {userStore.userData?.followingCount} Following
               </ProfileLink>
             </WhenJoinedInfo>

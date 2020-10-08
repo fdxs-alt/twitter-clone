@@ -8,7 +8,7 @@ import {
 import { UserData, UserStore } from "./UserStore";
 import Axios from "../utils/Axios";
 
-interface Tweet {
+export interface Tweet {
   commentsCount: number;
   gif: string;
   id: string;

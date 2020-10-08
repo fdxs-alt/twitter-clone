@@ -105,4 +105,16 @@ export class UserController {
     getSpecificUser(@Param('id') id: string) {
         return this.userService.getSpecifcUser(id);
     }
+
+    @Get('followers/:id')
+    @UseGuards(AuthGuard)
+    getFollowers(@Param('id') id: string) {
+        return this.userService.getFollowers(id);
+    }
+
+    @Get('following/:id')
+    @UseGuards(AuthGuard)
+    getFollowing(@Param('id') id: string) {
+        return this.userService.getFollowing(id);
+    }
 }

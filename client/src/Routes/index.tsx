@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Layout from "../Components/Layout/Layout";
 import SpecificTweet from "../Components/SpecificTweet";
+import Followers from "../Pages/Followers";
+import Following from "../Pages/Following";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import Main from "../Pages/Main/Main";
 import ProfilePage from "../Pages/ProfilePage";
@@ -21,6 +23,8 @@ const Index = () => {
             <ProtectedRoute exact path="/profile" component={ProfilePage} />
             <ProtectedRoute path="/tweet/:id" component={SpecificTweet} />
             <ProtectedRoute path="/users/:id" component={SpecificUser} />
+            <ProtectedRoute path="/following/:id" component={Following} />
+            <ProtectedRoute path="/followers/:id" component={Followers} />
           </Layout>
         </Route>
       </Switch>

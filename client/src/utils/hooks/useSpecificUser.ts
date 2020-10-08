@@ -2,11 +2,11 @@ import { getSpecificUserURL } from "./../Urls";
 import { useEffect, useState } from "react";
 import { AxiosRequestConfig } from "axios";
 import { UserData } from "../../Store/UserStore";
-import { TweetDataType } from "../../Store/TweetStore";
+import { Tweet } from "../../Store/TweetStore";
 import Axios from "../Axios";
 
 interface User extends UserData {
-  tweets: TweetDataType[];
+  tweets: Tweet[];
 }
 function useSpecificUser(config: AxiosRequestConfig, id: string) {
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ function useSpecificUser(config: AxiosRequestConfig, id: string) {
 
       try {
         const response = await Axios.get(getSpecificUserURL(id), config);
-
+        console.log(response.data);
         setSpecificUser(response.data);
       } catch (error) {}
       setLoading(false);
