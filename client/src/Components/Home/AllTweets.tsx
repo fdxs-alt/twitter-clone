@@ -4,6 +4,7 @@ import Tweet from "./Tweet";
 import { useObserver } from "mobx-react-lite";
 
 import useAllTweets from "../../utils/hooks/useAllTweets";
+import Loader from "../Loader";
 const AllTweets = () => {
   const { userStore, tweetStore } = useRootStore();
 
@@ -13,7 +14,7 @@ const AllTweets = () => {
   );
 
   return useObserver(() => {
-    if (tweetStore.tweetsLoading) return <h1>Loading...</h1>;
+    if (tweetStore.tweetsLoading) return <Loader />;
 
     return (
       <>

@@ -20,13 +20,14 @@ import {
 } from "../Style/ComponentStyles/SpecifcTweetStyles";
 import useSpecificTweet from "../utils/hooks/useSpecificTweet";
 import { Avatar } from "../Style/ComponentStyles/FollowUserStyles";
+import Loader from "./Loader";
 
 const SpecificTweet = () => {
   const params: { id: string } = useParams();
   const { userStore } = useRootStore();
   const { loading, specificTweet } = useSpecificTweet(userStore, params.id);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loader />;
   else
     return (
       <>

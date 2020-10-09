@@ -3,7 +3,7 @@ import React from "react";
 import { useRootStore } from "../../Store/RootStore";
 import useUsersToFollow, { User } from "../../utils/hooks/useUsersToFollow";
 import { WhoToFollowTitle } from "../../Style/ComponentStyles/FollowUserStyles";
-import { Button } from "../../Style/ComponentStyles/TagStyles";
+import { Button, LoaderWrapper } from "../../Style/ComponentStyles/TagStyles";
 import UserToFollow from "./UserToFollow";
 
 const FollowUsers = () => {
@@ -11,7 +11,7 @@ const FollowUsers = () => {
   const { loading, usersToFollow, setPage } = useUsersToFollow(userStore);
 
   return useObserver(() => {
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoaderWrapper>Loading...</LoaderWrapper>;
     else
       return (
         <div>

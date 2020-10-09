@@ -18,7 +18,7 @@ function useSpecificUser(config: AxiosRequestConfig, id: string) {
 
       try {
         const response = await Axios.get(getSpecificUserURL(id), config);
-        console.log(response.data);
+
         setSpecificUser(response.data);
       } catch (error) {}
       setLoading(false);

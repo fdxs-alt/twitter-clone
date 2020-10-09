@@ -41,3 +41,9 @@ export const followUserURL = (id: string) => {
 export const getSpecificUserURL = (id: string) => {
   return `auth/user/${id}`;
 };
+export const getFollowersURL = (id: string) => {
+  return `auth/followers/${id}`;
+};
+export const getFollowingURL = (id: string) => {
+  return `auth/following/${id}`;
+};

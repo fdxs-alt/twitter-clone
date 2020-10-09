@@ -7,6 +7,7 @@ import {
   TrendingTitle,
   Tag,
   Button,
+  LoaderWrapper,
 } from "../../Style/ComponentStyles/TagStyles";
 import useTags from "../../utils/hooks/useTags";
 
@@ -16,7 +17,7 @@ const Tags = () => {
   const history = useHistory();
 
   return useObserver(() => {
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoaderWrapper>Loading...</LoaderWrapper>;
     else
       return (
         <div>

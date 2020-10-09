@@ -27,3 +27,10 @@ export const Button = styled.button`
     outline: none;
   }
 `;
+export const LoaderWrapper = styled.div`
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.6rem;
+
+`

@@ -35,7 +35,7 @@ const UserToFollow: React.FC<Props> = ({ user }) => {
       } catch (error) {}
       setLoading(false);
     },
-    [isFollowed]
+    [isFollowed, config]
   );
 
   return (

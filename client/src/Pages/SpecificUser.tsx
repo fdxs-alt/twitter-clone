@@ -21,14 +21,15 @@ import Default from "../Images/default_profile_400x400.png";
 import { useRootStore } from "../Store/RootStore";
 import { useParams } from "react-router-dom";
 import useSpecificUser from "../utils/hooks/useSpecificUser";
+import Loader from "../Components/Loader";
 
 const SpecificUser = () => {
   const { userStore } = useRootStore();
-  const params = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const config = useMemo(() => userStore.setConfig(), [userStore]);
-  const { loading, specificUser } = useSpecificUser(config, params.id);
+  const { loading, specificUser } = useSpecificUser(config, id);
 
-  if (loading) return null;
+  if (loading) return <Loader />;
   return (
     <>
       <Title>{specificUser?.userName} </Title>
@@ -93,10 +94,10 @@ const SpecificUser = () => {
             )}
           </InfoContent>
           <WhenJoinedInfo>
-            <ProfileLink to="/followers">
+            <ProfileLink to={`/followers/${specificUser?.id}`}>
               {specificUser?.followersCount} Followers
             </ProfileLink>
-            <ProfileLink to="/following">
+            <ProfileLink to={`/following/${specificUser?.id}`}>
               {specificUser?.followingCount} Following
             </ProfileLink>
           </WhenJoinedInfo>

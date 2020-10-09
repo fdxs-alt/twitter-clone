@@ -3,6 +3,7 @@ import { TweetDataType } from "../Store/TweetStore";
 import { UserStore } from "../Store/UserStore";
 import useComments from "../utils/hooks/useComments";
 import Tweet from "./Home/Tweet";
+import Loader from "./Loader";
 
 interface Props {
   id: string;
@@ -18,7 +19,7 @@ const Comments: React.FC<Props> = ({ id, userStore }) => {
     handleLike,
   } = useComments(userStore, id);
 
-  if (loading) return null;
+  if (loading) return <Loader />;
 
   return (
     <>
