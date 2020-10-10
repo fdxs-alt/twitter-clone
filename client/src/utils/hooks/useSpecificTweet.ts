@@ -5,7 +5,9 @@ import { UserStore } from "../../Store/UserStore";
 import { getSpecifcTweetURL } from "../Urls";
 function useSpecificTweet(userStore: UserStore, id: string) {
   const [loading, setLoading] = useState(true);
-  const [specificTweet, setSpecificTweet] = useState<TweetDataType | null>(null);
+  const [specificTweet, setSpecificTweet] = useState<TweetDataType | null>(
+    null
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -25,6 +27,7 @@ function useSpecificTweet(userStore: UserStore, id: string) {
 
     return () => {
       setSpecificTweet(null);
+      setLoading(false);
     };
   }, [userStore, id]);
 

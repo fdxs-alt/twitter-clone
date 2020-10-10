@@ -18,7 +18,7 @@ const Following = () => {
     <>
       <Title>Following</Title>
       {following.map((user) => (
-        <Follower user={user} userStore={userStore} />
+        <Follower user={user} userStore={userStore} key={user.id} />
       ))}
     </>
   );

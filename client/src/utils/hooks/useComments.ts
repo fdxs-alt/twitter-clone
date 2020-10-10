@@ -104,7 +104,6 @@ function useComments(userStore: UserStore, id: string) {
     };
 
     getALlComments();
-    return () => {};
   }, [id, userStore]);
 
   return { loading, comments, addComment, handleLike, handleRetweet };

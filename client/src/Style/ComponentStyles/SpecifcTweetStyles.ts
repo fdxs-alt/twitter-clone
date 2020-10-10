@@ -53,5 +53,5 @@ export const DateInfo = styled.div`
 `;
 export const Time = styled.time`
   color: ${(props) => props.theme.colors.darkGray};
-  font-size: 1rem;
+  font-size: 0.9rem;
 `;

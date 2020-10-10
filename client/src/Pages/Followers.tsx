@@ -12,14 +12,13 @@ const Followers = () => {
 
   const config = useMemo(() => userStore.setConfig(), [userStore]);
   const { loading, followers } = useFollowers(id, config);
-  console.log(followers);
   if (loading) return <Loader />;
 
   return (
     <>
       <Title>Followers</Title>
       {followers.map((user) => (
-        <Follower user={user} userStore={userStore} />
+        <Follower user={user} userStore={userStore} key={user.id} />
       ))}
     </>
   );

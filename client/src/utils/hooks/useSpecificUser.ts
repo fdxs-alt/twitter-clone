@@ -5,7 +5,7 @@ import { UserData } from "../../Store/UserStore";
 import { Tweet } from "../../Store/TweetStore";
 import Axios from "../Axios";
 
-interface User extends UserData {
+export interface User extends UserData {
   tweets: Tweet[];
 }
 function useSpecificUser(config: AxiosRequestConfig, id: string) {
@@ -27,7 +27,7 @@ function useSpecificUser(config: AxiosRequestConfig, id: string) {
     getSpecificUser();
   }, [config, id]);
 
-  return { specificUser, loading };
+  return { specificUser, loading, setSpecificUser };
 }
 
 export default useSpecificUser;

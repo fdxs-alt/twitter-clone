@@ -1,12 +1,8 @@
 import { action, observable, runInAction } from "mobx";
-import {
-  getAllTweetsURL,
-  likeURL,
-  postTweetURL,
-  retweetUrL,
-} from "../utils/Urls";
+import { getAllTweetsURL } from "../utils/Urls";
 import { UserData, UserStore } from "./UserStore";
 import Axios from "../utils/Axios";
+import { like, post, retweet } from "../utils/API";
 
 export interface Tweet {
   commentsCount: number;
@@ -64,11 +60,7 @@ export class TweetStore {
   @action
   async handleLike(id: string) {
     try {
-      const response = await Axios.patch(
-        likeURL(id),
-        null,
-        this.userStore.setConfig()
-      );
+      const response = await like(id, this.userStore.setConfig());
 
       const element = this.tweetData.findIndex(
         (element) => element.tweet.id === id
@@ -89,11 +81,7 @@ export class TweetStore {
   @action
   async handleRetweet(id: string) {
     try {
-      const response = await Axios.patch(
-        retweetUrL(id),
-        null,
-        this.userStore.setConfig()
-      );
+      const response = await retweet(id, this.userStore.setConfig());
 
       const element = this.tweetData.findIndex(
         (element) => element.tweet.id === id
@@ -130,11 +118,7 @@ export class TweetStore {
   @action
   async addPost(dataToSend: FormData) {
     try {
-      const response = await Axios.post(
-        postTweetURL,
-        dataToSend,
-        this.userStore.setConfig()
-      );
+      const response = await post(dataToSend, this.userStore.setConfig());
       runInAction(() => {
         this.tweetData = [response.data, ...this.tweetData];
       });

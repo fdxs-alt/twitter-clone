@@ -5,7 +5,8 @@ export const UserWrapper = styled.div`
   padding: 0.4rem;
   color: white;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
 `;
 export const UserTitle = styled(Link)`
   text-decoration: none;
@@ -34,4 +35,11 @@ export const Email = styled.div`
   color: ${(props) => props.theme.colors.darkGray};
   padding: 0 0.2rem;
   font-size: 0.8rem;
+`;
+export const Description = styled.p`
+  width: 90%;
+  float: right;
+  justify-self: flex-end;
+  font-size: 0.9rem;
+  padding: 0.2rem 1.1rem;
 `;

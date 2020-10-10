@@ -44,7 +44,6 @@ function useFollowing(id: string, config: AxiosRequestConfig) {
       try {
         const response = await Axios.get(getFollowingURL(id), config);
         setFollowing(response.data);
-        console.log(response.data);
       } catch (error) {}
       setLoading(false);
     };

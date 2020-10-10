@@ -8,11 +8,13 @@ import {
   UserTitle,
   UserWrapper,
   Email,
+  Description,
 } from "../Style/ComponentStyles/FollowingAndFollowersStyles";
 import { FollowButton } from "../Style/ComponentStyles/FollowUserStyles";
+import { User } from "../utils/hooks/useFollowing";
 
 interface Props {
-  user: any;
+  user: User;
   userStore: UserStore;
 }
 const Follower: React.FC<Props> = ({ user, userStore }) => {
@@ -33,7 +35,15 @@ const Follower: React.FC<Props> = ({ user, userStore }) => {
           <Avatar src={user.avatar ? user.avatar.url : Default} />
           <InfoWrapper>
             <div>
-              <UserTitle to={`/user/${user.id}`}>{user.userName}</UserTitle>
+              <UserTitle
+                to={
+                  userStore.userData?.id === user.id
+                    ? `/profile`
+                    : `/users/${user.id}`
+                }
+              >
+                {user.userName}
+              </UserTitle>
               <Email>@{user.email}</Email>
             </div>
             <FollowButton
@@ -47,6 +57,7 @@ const Follower: React.FC<Props> = ({ user, userStore }) => {
             </FollowButton>
           </InfoWrapper>
         </div>
+        {user.description && <Description>{user.description}</Description>}
       </UserWrapper>
     );
   });
