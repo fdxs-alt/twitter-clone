@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import Follower from "../Components/Follower";
 import Loader from "../Components/Loader";
 import { useRootStore } from "../Store/RootStore";
+import { Title } from "../Style/ComponentStyles/SharedStyles";
 import useFollowers from "../utils/hooks/useFollowers";
 
 const Followers = () => {
@@ -13,7 +15,14 @@ const Followers = () => {
   console.log(followers);
   if (loading) return <Loader />;
 
-  return <div></div>;
+  return (
+    <>
+      <Title>Followers</Title>
+      {followers.map((user) => (
+        <Follower user={user} userStore={userStore} />
+      ))}
+    </>
+  );
 };
 
 export default Followers;

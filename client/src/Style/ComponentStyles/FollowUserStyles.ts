@@ -24,7 +24,7 @@ export const UserWrapper = styled.div`
 `;
 
 export const UserLink = styled(Link)`
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: white;
   text-decoration: none;
   cursor: pointer;
@@ -42,7 +42,7 @@ export const Avatar = styled.img`
   border-radius: 50%;
 `;
 interface FollowButton {
-  followed: boolean;
+  followed?: boolean;
 }
 export const FollowButton = styled.button<FollowButton>`
   border: none;

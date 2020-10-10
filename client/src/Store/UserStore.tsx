@@ -1,6 +1,7 @@
 import Axios from "../utils/Axios";
 import { observable, action, runInAction } from "mobx";
 import {
+  followUserURL,
   loginURL,
   logoutURL,
   revokeURL,
@@ -48,6 +49,8 @@ export interface UserData {
   userName: string;
   followingCount: number;
   followersCount: number;
+  followers: string[];
+  following: string[];
 }
 export class UserStore {
   @observable accessToken: string = "";
@@ -191,5 +194,35 @@ export class UserStore {
         this.error = error.response.data.message;
       });
     }
+  }
+
+  @action
+  async setFollowing(data: string, isFollowing?: boolean) {
+    try {
+      const response = await Axios.post(
+        followUserURL(data),
+        null,
+        this.setConfig()
+      );
+      let newState: UserData;
+      if (response.data) {
+        newState = {
+          ...(this.userData as UserData),
+          following: [response.data, ...this.userData!.following],
+          followingCount: [response.data, ...this.userData!.following].length,
+        };
+      } else {
+        newState = {
+          ...(this.userData as UserData),
+          following: [...this.userData!.following.filter((id) => id !== data)],
+          followingCount: [
+            ...this.userData!.following.filter((id) => id !== data),
+          ].length,
+        };
+      }
+      runInAction(() => {
+        this.userData = newState;
+      });
+    } catch (error) {}
   }
 }

@@ -92,6 +92,8 @@ export class UserService {
             ...rest,
             followingCount: following ? following.length : 0,
             followersCount: followers ? followers.length : 0,
+            followers: followers ? followers.map(follower => follower.id) : [],
+            following: following ? following.map(follower => follower.id) : [],
         };
 
         return {
@@ -133,6 +135,8 @@ export class UserService {
             ...rest,
             followingCount: following ? following.length : 0,
             followersCount: followers ? followers.length : 0,
+            followers: followers ? followers.map(follower => follower.id) : [],
+            following: following ? following.map(follower => follower.id) : [],
         };
         res.cookie('jrc', this.createRefreshToken(user.id), {
             httpOnly: true,
@@ -177,6 +181,8 @@ export class UserService {
             ...rest,
             followingCount: !!following.length ? following.length : 0,
             followersCount: !!followers.length ? followers.length : 0,
+            followers: followers ? followers.map(follower => follower.id) : [],
+            following: following ? following.map(follower => follower.id) : [],
         };
 
         return {
@@ -277,13 +283,13 @@ export class UserService {
             user.followers = user.followers.filter(user => {
                 return user.id !== loggedUser.id;
             });
+            await user.save();
+            return null;
         } else {
             user.followers.push(loggedUser);
+            await user.save();
+            return user.id;
         }
-
-        await user.save();
-
-        return true;
     }
 
     async getUsersToFollow(id: string, numberToSkip: number) {
@@ -347,7 +353,7 @@ export class UserService {
         if (!user) {
             throw new BadRequestException({ message: "User doesn't exist" });
         }
-        
+
         return user.followers;
     }
 }
