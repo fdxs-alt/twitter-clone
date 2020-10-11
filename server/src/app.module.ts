@@ -1,3 +1,6 @@
+import { Chat } from './Shared/Entities/Chat.entity';
+import { MessageImages } from './Shared/Entities/MessageImage.entity';
+import { Message } from './Shared/Entities/Message.entity';
 import { Tag } from './Shared/Entities/Tag.entity';
 import { TweetModule } from './Tweet/Tweet.module';
 import { Tweet } from './Shared/Entities/Tweet.entity';
@@ -8,6 +11,7 @@ import { UserModule } from './User/User.module';
 import { User } from './Shared/Entities/User.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 @Module({
     imports: [
         TypeOrmModule.forRoot({
@@ -19,7 +23,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             database: process.env.database,
             logging: false,
             synchronize: true,
-            entities: [User, Avatar, Background, TweetImage, Tweet, Tag],
+            entities: [User, Avatar, Background, TweetImage, Tweet, Tag, Message, MessageImages, Chat],
             keepConnectionAlive: true,
         }),
         UserModule,
