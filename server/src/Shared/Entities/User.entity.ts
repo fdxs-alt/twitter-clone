@@ -16,7 +16,7 @@ import {
     OneToMany,
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
-import { createTransport } from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
 @Entity()
 export class User extends BaseEntity {
@@ -134,18 +134,10 @@ export class User extends BaseEntity {
 
     @AfterInsert()
     async sendEmail() {
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         try {
-            const transporter = createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.email,
-                    pass: process.env.pass,
-                },
-                logger: true,
-            });
-
-            await transporter.sendMail({
-                from: 'verify@twitter.com',
+            const msg = {
+                from: 'kuba1207710@gmail.com',
                 to: this.email,
                 subject: `${this.code} is your code`,
                 html: `
@@ -155,7 +147,9 @@ export class User extends BaseEntity {
                 <h1>${this.code}</h1>
                 </div>   
                 `,
-            });
+            };
+            await sgMail.send(msg);
+            console.log('Email sent succesfully');
         } catch (error) {
             return;
         }
