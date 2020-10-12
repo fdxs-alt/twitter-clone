@@ -36,7 +36,7 @@ export class Chat extends BaseEntity {
     @OneToMany(
         () => Message,
         messages => messages.chat,
-        { onDelete: 'CASCADE' },
+        { onDelete: 'CASCADE', nullable: true },
     )
     messages: Message[];
 }

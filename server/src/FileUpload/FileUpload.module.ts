@@ -4,9 +4,17 @@ import { FileService } from './../FileUpload/FileUpload.service';
 import { TweetImage } from './../Shared/Entities/TweetImage.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MessageImages } from 'src/Shared/Entities/MessageImage.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([TweetImage, Background, Avatar])],
+    imports: [
+        TypeOrmModule.forFeature([
+            TweetImage,
+            Background,
+            Avatar,
+            MessageImages,
+        ]),
+    ],
     exports: [
         TypeOrmModule.forFeature([TweetImage, Background, Avatar]),
         FileService,

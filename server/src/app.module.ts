@@ -11,6 +11,8 @@ import { UserModule } from './User/User.module';
 import { User } from './Shared/Entities/User.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ChatroomModule } from './Chatroom/Chatroom.module';
+import { MessageEventsModule } from './Message/MessageEvents.module';
 
 @Module({
     imports: [
@@ -23,11 +25,23 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             database: process.env.database,
             logging: false,
             synchronize: true,
-            entities: [User, Avatar, Background, TweetImage, Tweet, Tag, Message, MessageImages, Chat],
+            entities: [
+                User,
+                Avatar,
+                Background,
+                TweetImage,
+                Tweet,
+                Tag,
+                Chat,
+                Message,
+                MessageImages,
+            ],
             keepConnectionAlive: true,
         }),
         UserModule,
         TweetModule,
+        ChatroomModule,
+        MessageEventsModule,
     ],
 })
 export class AppModule {}

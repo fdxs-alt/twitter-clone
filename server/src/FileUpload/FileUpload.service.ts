@@ -1,3 +1,4 @@
+import { MessageImages } from './../Shared/Entities/MessageImage.entity';
 import { TweetImage } from './../Shared/Entities/TweetImage.entity';
 import { Avatar } from '../Shared/Entities/Avatar.entity';
 import { Injectable } from '@nestjs/common';
@@ -18,6 +19,9 @@ export class FileService {
 
         @InjectRepository(TweetImage)
         private tweetImageRepository: Repository<TweetImage>,
+
+        @InjectRepository(MessageImages)
+        private messageImagesRepository: Repository<MessageImages>,
     ) {}
 
     async addImagesToTweet(files: Express.Multer.File[]) {
@@ -71,5 +75,22 @@ export class FileService {
                 ACL: 'public-read',
             })
             .promise();
+    }
+
+    async addImagesToMessage(files: Express.Multer.File[]) {
+        const s3 = new S3();
+
+        const sendImages = files.map(async file => {
+            const upload = await this.uploadFile(file.buffer, s3);
+
+            const image = this.messageImagesRepository.create({
+                key: upload.Key,
+                url: upload.Location,
+            });
+
+            return await image.save();
+        });
+
+        return await Promise.all(sendImages);
     }
 }
