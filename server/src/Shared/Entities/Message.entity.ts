@@ -1,5 +1,6 @@
 import { Chat } from './Chat.entity';
 import {
+    BaseEntity,
     Column,
     CreateDateColumn,
     Entity,
@@ -10,7 +11,7 @@ import {
 import { MessageImages } from './MessageImage.entity';
 
 @Entity()
-export class Message {
+export class Message extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -22,6 +23,9 @@ export class Message {
 
     @Column('text', { nullable: true })
     gif: string;
+
+    @Column('varchar')
+    issuedBy: string;
 
     @ManyToOne(
         () => Chat,

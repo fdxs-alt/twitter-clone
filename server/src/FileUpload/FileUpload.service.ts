@@ -77,7 +77,7 @@ export class FileService {
             .promise();
     }
 
-    async addImagesToMessage(files: Express.Multer.File[]) {
+    async addImagesToMessage(files: [{ buffer: Buffer; name: string }]) {
         const s3 = new S3();
 
         const sendImages = files.map(async file => {

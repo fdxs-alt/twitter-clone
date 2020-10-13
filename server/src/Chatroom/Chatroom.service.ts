@@ -50,4 +50,17 @@ export class ChatService {
 
         return messages;
     }
+
+    async deleteChat(chatId: string) {
+        const chat = await this.chatRepository.findOne({
+            where: { id: chatId },
+        });
+        
+        if (!chat)
+            throw new BadRequestException({ message: 'Cannot find chat' });
+
+        await chat.remove();
+
+        return true;
+    }
 }
