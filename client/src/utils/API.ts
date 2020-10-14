@@ -1,4 +1,10 @@
-import { likeURL, postCommentURL, postTweetURL, retweetUrL } from "./Urls";
+import {
+  getChatsURL,
+  likeURL,
+  postCommentURL,
+  postTweetURL,
+  retweetUrL,
+} from "./Urls";
 import Axios from "./Axios";
 import { AxiosRequestConfig } from "axios";
 import { Tweet } from "../Store/TweetStore";
@@ -59,4 +65,9 @@ export function getNewComments(tweets: Tweet[], data: any, id: string) {
   };
 
   return newTweets;
+}
+export async function getChats(config: AxiosRequestConfig) {
+  const response = await Axios.get(getChatsURL, config);
+
+  return response;
 }

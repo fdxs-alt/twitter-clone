@@ -47,3 +47,5 @@ export const getFollowersURL = (id: string) => {
 export const getFollowingURL = (id: string) => {
   return `auth/following/${id}`;
 };
+
+export const getChatsURL = "/mess/chats";

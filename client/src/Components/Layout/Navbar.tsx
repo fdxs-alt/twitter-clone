@@ -46,7 +46,7 @@ const Navbar = () => {
             <BiBell fontSize={24} style={{ marginRight: "1.2rem" }} />
             Notifications
           </IconWrapper>
-          <IconWrapper to="/home">
+          <IconWrapper to="/chats">
             <BiMessage fontSize={24} style={{ marginRight: "1.2rem" }} />
             Messages
           </IconWrapper>

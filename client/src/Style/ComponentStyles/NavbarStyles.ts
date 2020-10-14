@@ -49,6 +49,7 @@ export const IconWrapper = styled(Link)`
   align-items: center;
   width: fit-content;
   border-radius: 1.5rem;
+  border: 2px solid ${(props) => props.theme.colors.primary};
   &:hover {
     background-color: ${(props) => props.theme.colors.hoverDark};
     color: ${(props) => props.theme.colors.secondary};

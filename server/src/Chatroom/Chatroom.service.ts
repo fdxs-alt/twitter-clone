@@ -55,12 +55,28 @@ export class ChatService {
         const chat = await this.chatRepository.findOne({
             where: { id: chatId },
         });
-        
+
         if (!chat)
             throw new BadRequestException({ message: 'Cannot find chat' });
 
         await chat.remove();
 
         return true;
+    }
+
+    async getUserChats(userId: string) {
+        const user = await this.userRepository.findOne({
+            where: { id: userId },
+        });
+
+        if (!user) {
+            throw new BadRequestException({ message: 'Cannot find user' });
+        }
+
+        const chats = await this.chatRepository.find({
+            where: [{ creator: user }, { answerer: user }],
+        });
+
+        return chats;
     }
 }
