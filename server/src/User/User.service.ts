@@ -356,4 +356,13 @@ export class UserService {
 
         return user.followers;
     }
+
+    async searchForUser(criterium: string) {
+        const user = await this.userRepository.findOne({
+            where: [{ userName: criterium }, { userName: criterium }],
+        });
+
+        if (!user) return { user: null };
+        return user;
+    }
 }

@@ -8,11 +8,13 @@ import useClickOutside from "../../utils/hooks/useClickOutside";
 interface Props {
   open: boolean;
   closeModal: () => void;
+  isPadding: boolean;
 }
 const Modal: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   open,
   closeModal,
+  isPadding,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -22,7 +24,9 @@ const Modal: React.FC<React.PropsWithChildren<Props>> = ({
 
   return (
     <Wrapper>
-      <ModalContent ref={ref}>{children}</ModalContent>
+      <ModalContent ref={ref} isPadding={isPadding}>
+        {children}
+      </ModalContent>
     </Wrapper>
   );
 };

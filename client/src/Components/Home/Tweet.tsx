@@ -137,7 +137,7 @@ const Tweet: React.FC<Props> = ({
           </TweetInfoWrapper>
         </Wrapper>
         {isOpen && (
-          <Modal open={isOpen} closeModal={() => setIsOpen(false)}>
+          <Modal open={isOpen} closeModal={() => setIsOpen(false)} isPadding>
             <Container>
               <Wrapper style={{ border: "none" }}>
                 <AvatarWrapper>

@@ -28,7 +28,7 @@ const WhatsHappening = () => {
       <JoinTitle>Join Twitter today.</JoinTitle>
       <SignUpButton onClick={() => setIsOpen(true)}>Sign up</SignUpButton>
       {isOpen && (
-        <Modal open={isOpen} closeModal={closeModal}>
+        <Modal open={isOpen} closeModal={closeModal} isPadding>
           <RegisterForm />
         </Modal>
       )}

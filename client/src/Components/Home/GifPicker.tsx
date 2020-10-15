@@ -23,7 +23,7 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
     return <GifButton onClick={() => setIsOpen(true)} fontSize={28} />;
   } else if (isOpen && loading) {
     return (
-      <Modal open={isOpen} closeModal={() => setIsOpen(false)}>
+      <Modal open={isOpen} closeModal={() => setIsOpen(false)} isPadding>
         <div style={{ display: "flex", flexDirection: "column" }}></div>
         <LoadingMessage>Loading...</LoadingMessage>
         <SearchContainer>
@@ -42,7 +42,7 @@ const GifPicker: React.FC<Props> = ({ setGif }) => {
     );
   } else
     return (
-      <Modal open={isOpen} closeModal={() => setIsOpen(false)}>
+      <Modal open={isOpen} closeModal={() => setIsOpen(false)} isPadding>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <SearchContainer>
             <SearchInput

@@ -60,13 +60,16 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-export const ModalContent = styled.div`
+interface isPadding {
+  isPadding: boolean;
+}
+export const ModalContent = styled.div<isPadding>`
   width: 40%;
   max-width: 700px;
   height: 75%;
   overflow-x: hidden;
   background-color: ${(props) => props.theme.colors.primary};
-  padding: 1.2rem;
+  padding: ${(props) => (props.isPadding ? "1.2rem" : '0')};
   border-radius: 0.8rem;
 `;
 export const RegisterError = styled.h2`

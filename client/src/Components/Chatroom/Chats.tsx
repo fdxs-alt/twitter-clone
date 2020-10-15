@@ -1,51 +1,23 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRootStore } from "../../Store/RootStore";
-import styled from "styled-components";
 import { Title } from "../../Style/ComponentStyles/SharedStyles";
 import { useObserver } from "mobx-react-lite";
 import Loader from "../Loader";
-
-const Container = styled.div`
-  width: 35%;
-  border-right: 1px solid ${(props) => props.theme.colors.hoverDark};
-
-  & > div {
-    border: 1px solid ${(props) => props.theme.colors.hoverDark};
-  }
-  & > form {
-    border: 1px solid ${(props) => props.theme.colors.hoverDark};
-    border-bottom: 10px solid ${(props) => props.theme.colors.hoverDark};
-  }
-`;
-const SearchContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 0.8rem;
-  align-items: center;
-`;
-
-const SearchInput = styled.input`
-  background-color: ${(props) => props.theme.colors.dark};
-  color: white;
-  width: 95%;
-  border-radius: 1.5rem;
-  padding: 0.9rem;
-  font-size: 0.9rem;
-  border: 1px solid ${(props) => props.theme.colors.dark};
-  &::placeholder {
-    color: ${(props) => props.theme.colors.darkGray};
-  }
-
-  &:focus,
-  :hover {
-    color: ${(props) => props.theme.colors.secondary};
-    border: 1px solid ${(props) => props.theme.colors.secondary};
-    outline: none;
-  }
-`;
+import { BiMessageAdd } from "react-icons/bi";
+import Modal from "../Layout/Modal";
+import UsersSearch from "./UsersSearch";
+import {} from "../../Style/ComponentStyles/AllTwetsStyle";
+import {
+  AddChatButton,
+  SearchContainer,
+  SearchInput,
+  Container,
+} from "../../Style/ComponentStyles/ChatStyles";
 
 const Chats = () => {
   const { chatStore } = useRootStore();
+  const [filter, setFilter] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     chatStore.getAllChats();
@@ -56,10 +28,31 @@ const Chats = () => {
 
     return (
       <Container>
-        <Title>Messages</Title>
+        <Title>
+          Messages
+          <AddChatButton type="button" onClick={() => setOpen(true)}>
+            <BiMessageAdd fontSize={28} />
+          </AddChatButton>
+        </Title>
         <SearchContainer>
-          <SearchInput type="text" placeholder="Search for people" />
+          <SearchInput
+            type="text"
+            value={filter}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFilter(e.target.value)
+            }
+            placeholder="Search for people"
+          />
         </SearchContainer>
+        {open && (
+          <Modal
+            open={open}
+            closeModal={() => setOpen(false)}
+            isPadding={false}
+          >
+            <UsersSearch close={() => setOpen(false)} />
+          </Modal>
+        )}
       </Container>
     );
   });

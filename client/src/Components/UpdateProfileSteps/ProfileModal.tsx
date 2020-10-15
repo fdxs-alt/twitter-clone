@@ -37,7 +37,7 @@ const ProfileModal: React.FC<Props> = ({ isOpen, closeModal }) => {
 
   return useObserver(() => {
     return (
-      <Modal open={isOpen} closeModal={closeModal}>
+      <Modal open={isOpen} closeModal={closeModal} isPadding>
         <form onSubmit={handleSubmit}>
           {page === 0 && (
             <AddProfilePhoto

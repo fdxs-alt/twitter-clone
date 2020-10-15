@@ -25,4 +25,6 @@ export class ChatStore {
     }
     this.chatLoading = false;
   }
+  @action
+  async filterChats(criterium: string) {}
 }

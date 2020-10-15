@@ -15,6 +15,9 @@ export const Title = styled.div`
   font-size: 1.3rem;
   font-weight: 700;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  
 `;
 
 export const Main = styled.main`
