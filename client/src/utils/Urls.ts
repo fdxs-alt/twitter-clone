@@ -49,3 +49,7 @@ export const getFollowingURL = (id: string) => {
 };
 
 export const getChatsURL = "/mess/chats";
+
+export const getUsersSearchURL = (criterium: string) => {
+  return `auth/search/${criterium}`;
+};

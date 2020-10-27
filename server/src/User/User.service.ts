@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../Shared/Entities/User.entity';
-import { Repository, MoreThanOrEqual } from 'typeorm';
+import { Repository, MoreThanOrEqual, Like } from 'typeorm';
 import { createUserInput, loginInput, UpdateProfileInput } from './User.dto';
 import { sign, verify } from 'jsonwebtoken';
 import { Response, Request } from 'express';
@@ -358,8 +358,11 @@ export class UserService {
     }
 
     async searchForUser(criterium: string) {
-        const user = await this.userRepository.findOne({
-            where: [{ userName: criterium }, { userName: criterium }],
+        const user = await this.userRepository.find({
+            where: [
+                { userName: Like('%' + criterium + '%') },
+                { fullName: Like('%' + criterium + '%') },
+            ],
         });
 
         if (!user) return { user: null };

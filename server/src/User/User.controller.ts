@@ -117,4 +117,10 @@ export class UserController {
     getFollowing(@Param('id') id: string) {
         return this.userService.getFollowing(id);
     }
+
+    @Get('search/:criterium')
+    @UseGuards(AuthGuard)
+    getUsers(@Param('criterium') criterium: string) {
+        return this.userService.searchForUser(criterium);
+    }
 }

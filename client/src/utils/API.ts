@@ -1,5 +1,6 @@
 import {
   getChatsURL,
+  getUsersSearchURL,
   likeURL,
   postCommentURL,
   postTweetURL,
@@ -68,6 +69,14 @@ export function getNewComments(tweets: Tweet[], data: any, id: string) {
 }
 export async function getChats(config: AxiosRequestConfig) {
   const response = await Axios.get(getChatsURL, config);
+
+  return response;
+}
+export async function getSearchUsers(
+  config: AxiosRequestConfig,
+  criterium: string
+) {
+  const response = await Axios.get(getUsersSearchURL(criterium), config);
 
   return response;
 }
