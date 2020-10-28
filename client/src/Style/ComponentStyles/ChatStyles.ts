@@ -45,3 +45,45 @@ export const AddChatButton = styled.button`
   border: none;
   cursor: pointer;
 `;
+
+export const TittleWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+`;
+export const SearchInputModal = styled.input`
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #232e3b;
+  border: 1px solid #232e3b;
+  color: white;
+  &::placeholder {
+    color: ${(props) => props.theme.colors.darkGray};
+  }
+
+  outline: none;
+  &:focus {
+    border: 1px solid ${(props) => props.theme.colors.darkGray};
+  }
+`;
+export const UserWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid ${(props) => props.theme.colors.darkGray};
+  color: ${(props) => props.theme.colors.lightGray};
+  font-size: 0.9rem;
+  align-items: center;
+  cursor: pointer;
+  &:hover{
+    background-color: ${props => props.theme.colors.tweetHover};
+  }
+`;
+export const Image = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: inherit;
+  margin-right: 0.5rem;
+`;

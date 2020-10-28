@@ -53,3 +53,6 @@ export const getChatsURL = "/mess/chats";
 export const getUsersSearchURL = (criterium: string) => {
   return `auth/search/${criterium}`;
 };
+export const createChatURL = (id: string) => {
+  return `mess/create/${id}`;
+};

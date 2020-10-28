@@ -9,7 +9,7 @@ export class ChatControler {
 
     @Post('/create/:userId')
     @UseGuards(AuthGuard)
-    createChat(@User('id') id: string, @Param('id') userId: string) {
+    createChat(@User('id') id: string, @Param('userId') userId: string) {
         return this.chatService.createChat(id, userId);
     }
 

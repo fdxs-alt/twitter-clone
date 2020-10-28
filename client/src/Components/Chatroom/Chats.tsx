@@ -6,16 +6,16 @@ import Loader from "../Loader";
 import { BiMessageAdd } from "react-icons/bi";
 import Modal from "../Layout/Modal";
 import UsersSearch from "./UsersSearch";
-import {} from "../../Style/ComponentStyles/AllTwetsStyle";
 import {
   AddChatButton,
   SearchContainer,
   SearchInput,
   Container,
 } from "../../Style/ComponentStyles/ChatStyles";
+import SingleChat from "./SingleChat";
 
 const Chats = () => {
-  const { chatStore } = useRootStore();
+  const { chatStore, userStore } = useRootStore();
   const [filter, setFilter] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -53,6 +53,9 @@ const Chats = () => {
             <UsersSearch close={() => setOpen(false)} />
           </Modal>
         )}
+        {chatStore.chats.map((chat: any) => (
+          <SingleChat chat={chat} userStore={userStore} />
+        ))}
       </Container>
     );
   });

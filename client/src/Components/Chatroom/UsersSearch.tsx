@@ -1,48 +1,30 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import styled from "styled-components";
 import { useRootStore } from "../../Store/RootStore";
-import { AddChatButton } from "../../Style/ComponentStyles/ChatStyles";
+import {
+  AddChatButton,
+  TittleWrapper,
+  UserWrapper,
+  Image,
+  SearchInputModal,
+} from "../../Style/ComponentStyles/ChatStyles";
 import { Title } from "../../Style/ComponentStyles/SharedStyles";
 import { getSearchUsers } from "../../utils/API";
-
+import Default from "../../Images/default_profile_400x400.png";
 interface Props {
   close: () => void;
 }
-const TittleWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0.8rem;
-`;
-const SearchInput = styled.input`
-  width: 100%;
-  padding: 0.6rem;
-  background-color: #232e3b;
-  border: 1px solid #232e3b;
-  color: white;
-  &::placeholder {
-    color: ${(props) => props.theme.colors.darkGray};
-  }
-
-  outline: none;
-  &:focus {
-    border: 1px solid ${(props) => props.theme.colors.darkGray};
-  }
-`;
-const UserWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 1rem;
-  border-bottom: 1px solid ${(props) => props.theme.colors.darkGray};
-  color: ${(props) => props.theme.colors.lightGray};
-  font-size: 0.9rem;
-`;
 
 const UsersSearch: React.FC<Props> = ({ close }) => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<any>([]);
-  const { userStore } = useRootStore();
+  const { userStore, chatStore } = useRootStore();
   const config = useMemo(() => userStore.setConfig(), [userStore]);
 
   const getSearch = async () => {
@@ -52,6 +34,14 @@ const UsersSearch: React.FC<Props> = ({ close }) => {
       setUsers(response.data);
     } catch (error) {}
   };
+
+  const handleClick = useCallback(
+    async (id: string) => {
+      await chatStore.createChat(id);
+      close();
+    },
+    [userStore]
+  );
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -69,7 +59,7 @@ const UsersSearch: React.FC<Props> = ({ close }) => {
         </AddChatButton>
         <Title>New message</Title>
       </TittleWrapper>
-      <SearchInput
+      <SearchInputModal
         value={search}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setSearch(e.target.value)
@@ -77,7 +67,13 @@ const UsersSearch: React.FC<Props> = ({ close }) => {
         placeholder="Search people"
       />
       {users.map((user: any) => (
-        <UserWrapper key={user.id}>{user.userName}</UserWrapper>
+        <UserWrapper key={user.id} onClick={() => handleClick(user.id)}>
+          <Image src={user.avatar ? user.avatar.url : Default} />
+          <div>
+            <h4>{user.userName}</h4>
+            <p style={{ fontSize: "0.6rem" }}>@{user.email}</p>
+          </div>
+        </UserWrapper>
       ))}
     </div>
   );
