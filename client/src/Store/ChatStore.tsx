@@ -5,7 +5,7 @@ import { UserStore } from "./UserStore";
 export class ChatStore {
   @observable chatLoading = false;
   @observable chats: any = [];
-  @observable selectedChat = null;
+  @observable selectedChat: string | null = null;
   @observable error = "";
   @observable creatingChatLoading = false;
   constructor(private userStore: UserStore) {}
@@ -15,7 +15,7 @@ export class ChatStore {
     this.chatLoading = true;
     try {
       const data = await getChats(this.userStore.setConfig());
-      console.log(data.data)
+
       runInAction(() => {
         this.chats = data.data;
       });
@@ -41,5 +41,10 @@ export class ChatStore {
         this.creatingChatLoading = false;
       });
     }
+  }
+
+  @action
+  selectChat(id: string) {
+    this.selectedChat = id;
   }
 }

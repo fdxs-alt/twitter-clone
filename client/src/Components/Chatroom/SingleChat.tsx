@@ -3,18 +3,19 @@ import { UserStore } from "../../Store/UserStore";
 import { UserWrapper, Image } from "../../Style/ComponentStyles/ChatStyles";
 import Default from "../../Images/default_profile_400x400.png";
 import dayjs from "dayjs";
+import { ChatStore } from "../../Store/ChatStore";
 interface ISingleChat {
   chat: any;
   userStore: UserStore;
+  chatStore: ChatStore;
 }
-
-const SingleChat: React.FC<ISingleChat> = ({ chat, userStore }) => {
+const SingleChat: React.FC<ISingleChat> = ({ chat, userStore, chatStore }) => {
   const whoToTalk = useMemo(() => chat.answerer.id === userStore.userData?.id, [
     userStore,
   ]);
 
   return (
-    <UserWrapper key={chat.id}>
+    <UserWrapper onClick={() => chatStore.selectChat(chat.id)}>
       <Image
         src={
           whoToTalk

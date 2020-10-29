@@ -15,8 +15,9 @@ import {
 import { Repository } from 'typeorm';
 import { ConnectedSocket } from './conntectedsocket';
 import { UseGuards } from '@nestjs/common';
-
 import moment from 'moment';
+import { verify } from 'jsonwebtoken';
+
 interface MessageInterface {
     content: string;
     gif?: string;
@@ -44,12 +45,23 @@ export class MessageEventsGateway implements OnGatewayConnection {
     server: ConnectedSocket;
 
     @UseGuards(SocketGuard)
-    async handleConnection(data: string) {
+    async handleConnection(client: ConnectedSocket) {
         const event = 'joined';
+        const query = client.handshake.query.token;
 
-        return this.server
-            .to(data)
-            .emit(event, { isActive: true, user: this.server.conn.userId });
+        if (!query) {
+            return false;
+        }
+
+        const queryToken = query.split(' ');
+
+        if (queryToken[0] !== 'Bearer') {
+            throw new WsException({ message: 'User unauthorized' });
+        }
+
+        const decoded = this.validateToken(queryToken[1]);
+
+        return this.server.emit(event, { isActive: true, userId: decoded.id });
     }
 
     @UseGuards(SocketGuard)
@@ -97,7 +109,7 @@ export class MessageEventsGateway implements OnGatewayConnection {
         });
 
         updatedChat.lastActivity = (moment() as unknown) as any;
-        
+
         if (!message) throw new WsException({ message: 'Cannot find message' });
 
         await message.remove();
@@ -105,5 +117,14 @@ export class MessageEventsGateway implements OnGatewayConnection {
         return this.server
             .to(message.chat.id)
             .emit('deleted', { messageId: message.id });
+    }
+
+    validateToken(token: string) {
+        try {
+            const decoded = verify(token, process.env.ACCESS);
+            return decoded as { exp: number; iat: number; id: string };
+        } catch (error) {
+            throw new WsException({ message: 'User unauthorized' });
+        }
     }
 }

@@ -1,10 +1,6 @@
 import { ConnectedSocket } from './conntectedsocket';
 import { verify } from 'jsonwebtoken';
-import {
-    Injectable,
-    CanActivate,
-    ExecutionContext,
-} from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { WsException } from '@nestjs/websockets';
 
@@ -14,8 +10,7 @@ export class SocketGuard implements CanActivate {
         context: ExecutionContext,
     ): boolean | Promise<boolean> | Observable<boolean> {
         const client = context.switchToWs().getClient<ConnectedSocket>();
-
-        const query = client.handshake.query.token ;
+        const query = client.handshake.query.token;
 
         if (!query) {
             return false;

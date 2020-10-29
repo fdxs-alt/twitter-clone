@@ -25,7 +25,6 @@ const Chats = () => {
 
   return useObserver(() => {
     if (chatStore.chatLoading) return <Loader />;
-
     return (
       <Container>
         <Title>
@@ -54,7 +53,12 @@ const Chats = () => {
           </Modal>
         )}
         {chatStore.chats.map((chat: any) => (
-          <SingleChat chat={chat} userStore={userStore} />
+          <SingleChat
+            chat={chat}
+            userStore={userStore}
+            chatStore={chatStore}
+            key={chat.id}
+          />
         ))}
       </Container>
     );

@@ -25,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-textarea-autosize": "^8.2.0",
+    "socket.io-client": "^2.3.1",
     "styled-components": "^5.2.0",
     "typescript": "^3.7.5",
     "yup": "^0.29.3"
@@ -54,6 +55,7 @@
     "@types/emoji-mart": "^3.0.2",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-textarea-autosize": "^4.3.5",
+    "@types/socket.io-client": "^1.4.34",
     "@types/testing-library__jest-dom": "^5.9.2",
     "@types/yup": "^0.29.7",
     "jest-styled-components": "^7.0.3"
