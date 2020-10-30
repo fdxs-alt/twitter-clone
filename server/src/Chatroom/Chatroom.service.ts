@@ -77,7 +77,10 @@ export class ChatService {
         }
 
         const chats = await this.chatRepository.find({
-            where: [{ creator: user }, { answerer: user }],
+            where: [
+                { creator: { id: user.id } },
+                { answerer: { id: user.id } },
+            ],
         });
 
         return chats;

@@ -36,6 +36,7 @@ import { MessageEventsModule } from './Message/MessageEvents.module';
                 MessageImages,
             ],
             keepConnectionAlive: true,
+            synchronize: true,
         }),
         UserModule,
         TweetModule,

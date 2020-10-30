@@ -22,7 +22,7 @@ export class Message extends BaseEntity {
     issuedAt: Date;
 
     @Column('text', { nullable: true })
-    gif: string;
+    gif?: string;
 
     @Column('varchar')
     issuedBy: string;

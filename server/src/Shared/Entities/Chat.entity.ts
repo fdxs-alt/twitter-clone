@@ -3,9 +3,8 @@ import {
     BaseEntity,
     CreateDateColumn,
     Entity,
-    JoinColumn,
+    ManyToOne,
     OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Message } from './Message.entity';
@@ -21,22 +20,28 @@ export class Chat extends BaseEntity {
     @CreateDateColumn()
     lastActivity: Date;
 
-    @JoinColumn()
-    @OneToOne(() => User, {
-        eager: true,
-    })
-    creator?: User;
+    @ManyToOne(
+        () => User,
+        user => user.rcreated,
+        { eager: true },
+    )
+    creator: User;
 
-    @JoinColumn()
-    @OneToOne(() => User, {
-        eager: true,
-    })
-    answerer?: User;
+    @ManyToOne(
+        () => User,
+        user => user.ranswered,
+        { eager: true },
+    )
+    answerer: User;
 
     @OneToMany(
         () => Message,
         messages => messages.chat,
-        { onDelete: 'CASCADE', nullable: true },
+        {
+            onDelete: 'CASCADE',
+            nullable: true,
+            deferrable: 'INITIALLY DEFERRED',
+        },
     )
     messages: Message[];
 }

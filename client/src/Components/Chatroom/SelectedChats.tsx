@@ -81,10 +81,27 @@ let socket: typeof Socket;
 interface IChats {
   selectedChat: IChat | null;
 }
+interface IMessage {
+  id: string;
+  content: string;
+  issuedAt: string;
+  gif?: string;
+  issuedBy: string;
+
+  images?: [
+    {
+      id: string;
+      key: string;
+      url: string;
+      created: string;
+      updated: string;
+    }
+  ];
+}
 const SelectedChats: React.FC<IChats> = ({ selectedChat }) => {
   const { userStore } = useRootStore();
   const [active, setActive] = useState(false);
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [page, setPage] = useState(0);
   const [message, setMessage] = useState("");
 
@@ -129,6 +146,13 @@ const SelectedChats: React.FC<IChats> = ({ selectedChat }) => {
     getAllChats();
   }, [selectedChat]);
 
+  useEffect(() => {
+    if(!selectedChat) return;
+    socket.on("mess", (message: IMessage) => {
+      setMessages((prev: IMessage[]) => [...prev, message]);
+    });
+  }, [selectedChat]);
+
   const handleClick = () => {
     if (message)
       socket.emit("message", {
@@ -154,8 +178,8 @@ const SelectedChats: React.FC<IChats> = ({ selectedChat }) => {
           </div>
         </UserInfo>
         <MessagesWrapper>
-          {messages.map((mess: any) => (
-            <h1>oj</h1>
+          {messages.map((mess) => (
+            <h1>{mess.content}</h1>
           ))}
         </MessagesWrapper>
         <MessageInputWrapper>

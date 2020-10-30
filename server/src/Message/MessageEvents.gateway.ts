@@ -10,6 +10,7 @@ import {
     OnGatewayConnection,
     WsException,
     ConnectedSocket,
+    MessageBody,
 } from '@nestjs/websockets';
 import { Repository } from 'typeorm';
 import { ConnSocket } from './conntectedsocket';
@@ -57,14 +58,19 @@ export class MessageEventsGateway implements OnGatewayConnection {
         }
 
         const decoded = this.validateToken(queryToken[1]);
+        client.join(client.handshake.query.id);
 
-        return client.emit(event, { isActive: true, userId: decoded.id });
+        return client
+            .to(client.handshake.query.id)
+            .emit(event, { isActive: true, userId: decoded.id });
     }
 
     @UseGuards(SocketGuard)
     @SubscribeMessage('message')
-    async sendMessage(client: ConnSocket, data: MessageInterface) {
-        
+    async sendMessage(
+        @ConnectedSocket() client: ConnSocket,
+        @MessageBody() data: MessageInterface,
+    ) {
         const chat = await this.chatRepository.findOne({
             where: { id: data.chat },
         });
@@ -89,8 +95,10 @@ export class MessageEventsGateway implements OnGatewayConnection {
                 data.files,
             );
         }
+
         await message.save();
-        return client.to(chat.id).emit('message', message);
+        client.emit('mess', message);
+        return client.broadcast.emit('mess', message);
     }
 
     @UseGuards(SocketGuard)

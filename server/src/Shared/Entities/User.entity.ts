@@ -17,6 +17,7 @@ import {
 } from 'typeorm';
 import { hash, compare } from 'bcryptjs';
 import sgMail from '@sendgrid/mail';
+import { Chat } from './Chat.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -104,6 +105,20 @@ export class User extends BaseEntity {
         nullable: true,
     })
     background?: Background;
+
+    @OneToMany(
+        () => Chat,
+        chat => chat.creator,
+        { nullable: true },
+    )
+    rcreated: Chat[];
+
+    @OneToMany(
+        () => Chat,
+        chat => chat.answerer,
+        { nullable: true },
+    )
+    ranswered: Chat[];
 
     @BeforeInsert()
     async hashPassword() {
