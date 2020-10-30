@@ -5,15 +5,14 @@ import { Chat } from '../Shared/Entities/Chat.entity';
 import { Message } from '../Shared/Entities/Message.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
-    MessageBody,
     SubscribeMessage,
     WebSocketGateway,
-    WebSocketServer,
     OnGatewayConnection,
     WsException,
+    ConnectedSocket,
 } from '@nestjs/websockets';
 import { Repository } from 'typeorm';
-import { ConnectedSocket } from './conntectedsocket';
+import { ConnSocket } from './conntectedsocket';
 import { UseGuards } from '@nestjs/common';
 import moment from 'moment';
 import { verify } from 'jsonwebtoken';
@@ -22,7 +21,7 @@ interface MessageInterface {
     content: string;
     gif?: string;
     chat: string;
-    files: [
+    files?: [
         {
             buffer: Buffer;
             name: string;
@@ -41,12 +40,10 @@ export class MessageEventsGateway implements OnGatewayConnection {
         private readonly fileService: FileService,
     ) {}
 
-    @WebSocketServer()
-    server: ConnectedSocket;
-
     @UseGuards(SocketGuard)
-    async handleConnection(client: ConnectedSocket) {
+    async handleConnection(@ConnectedSocket() client: ConnSocket) {
         const event = 'joined';
+
         const query = client.handshake.query.token;
 
         if (!query) {
@@ -61,18 +58,19 @@ export class MessageEventsGateway implements OnGatewayConnection {
 
         const decoded = this.validateToken(queryToken[1]);
 
-        return this.server.emit(event, { isActive: true, userId: decoded.id });
+        return client.emit(event, { isActive: true, userId: decoded.id });
     }
 
     @UseGuards(SocketGuard)
     @SubscribeMessage('message')
-    async sendMessage(@MessageBody() data: MessageInterface) {
+    async sendMessage(client: ConnSocket, data: MessageInterface) {
+        
         const chat = await this.chatRepository.findOne({
             where: { id: data.chat },
         });
 
         const user = await this.userRepository.findOne({
-            where: { id: this.server.conn.userId },
+            where: { id: client.conn.decoded.id },
         });
 
         if (!user) throw new WsException({ message: 'User does not exist' });
@@ -82,23 +80,22 @@ export class MessageEventsGateway implements OnGatewayConnection {
         const message = this.messageRepository.create({
             chat,
             content: data.content,
-            gif: data.gif,
-            issuedBy: this.server.conn.userId,
+            gif: '',
+            issuedBy: client.conn.decoded.id,
         });
 
-        if (!!data.files.length) {
+        if (data.files && !!data.files.length) {
             message.images = await this.fileService.addImagesToMessage(
                 data.files,
             );
         }
         await message.save();
-
-        return this.server.to(chat.id).emit('message', message);
+        return client.to(chat.id).emit('message', message);
     }
 
     @UseGuards(SocketGuard)
     @SubscribeMessage('delete')
-    async deleteMessage(@MessageBody() data: string) {
+    async deleteMessage(client: ConnSocket, data: string) {
         const message = await this.messageRepository.findOne({
             where: { id: data },
             relations: ['chat'],
@@ -114,7 +111,7 @@ export class MessageEventsGateway implements OnGatewayConnection {
 
         await message.remove();
 
-        return this.server
+        return client
             .to(message.chat.id)
             .emit('deleted', { messageId: message.id });
     }

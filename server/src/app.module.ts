@@ -24,7 +24,6 @@ import { MessageEventsModule } from './Message/MessageEvents.module';
             password: process.env.password,
             database: process.env.database,
             logging: false,
-            synchronize: true,
             entities: [
                 User,
                 Avatar,

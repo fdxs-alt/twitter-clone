@@ -12,7 +12,7 @@ export class ChatService {
         private userRepository: Repository<User>,
         @InjectRepository(Chat)
         private chatRepository: Repository<Chat>,
-        @InjectRepository(Chat)
+        @InjectRepository(Message)
         private messageRepository: Repository<Message>,
     ) {}
 
@@ -21,12 +21,15 @@ export class ChatService {
             where: { id: creatorId },
         });
 
-        if (!creator)
+        if (!creator) {
             throw new BadRequestException({ message: 'User not found' });
+        }
 
         const user = await this.userRepository.findOne({ where: { id } });
 
-        if (!user) throw new BadRequestException({ message: 'User not found' });
+        if (!user) {
+            throw new BadRequestException({ message: 'User not found' });
+        }
 
         const chat = this.chatRepository.create({
             answerer: user,
@@ -41,9 +44,9 @@ export class ChatService {
 
     async getMessages(page: number, id: string) {
         const chat = await this.chatRepository.findOne({ where: { id } });
+
         const messages = await this.messageRepository.find({
             where: { chat },
-            relations: ['images'],
             skip: page * 10,
             take: 10,
         });

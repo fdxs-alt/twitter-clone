@@ -1,6 +1,7 @@
 import {
   createChatURL,
   getChatsURL,
+  getMessagesURL,
   getUsersSearchURL,
   likeURL,
   postCommentURL,
@@ -84,6 +85,15 @@ export async function getSearchUsers(
 
 export async function createChat(id: string, config: AxiosRequestConfig) {
   const response = await Axios.post(createChatURL(id), null, config);
+
+  return response;
+}
+export async function getMessages(
+  page: number,
+  id: string,
+  config: AxiosRequestConfig
+) {
+  const response = await Axios.get(getMessagesURL(page, id), config);
 
   return response;
 }

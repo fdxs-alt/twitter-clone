@@ -149,7 +149,6 @@ export class User extends BaseEntity {
                 `,
             };
             await sgMail.send(msg);
-            console.log('Email sent succesfully');
         } catch (error) {
             return;
         }

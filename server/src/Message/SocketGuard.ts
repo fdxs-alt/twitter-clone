@@ -1,4 +1,4 @@
-import { ConnectedSocket } from './conntectedsocket';
+import { ConnSocket } from './conntectedsocket';
 import { verify } from 'jsonwebtoken';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
@@ -9,9 +9,8 @@ export class SocketGuard implements CanActivate {
     canActivate(
         context: ExecutionContext,
     ): boolean | Promise<boolean> | Observable<boolean> {
-        const client = context.switchToWs().getClient<ConnectedSocket>();
+        const client = context.switchToWs().getClient<ConnSocket>();
         const query = client.handshake.query.token;
-
         if (!query) {
             return false;
         }
@@ -24,15 +23,15 @@ export class SocketGuard implements CanActivate {
 
         const decoded = this.validateToken(queryToken[1]);
 
-        client.conn.userId = decoded;
+        client.conn.decoded = decoded;
 
         return true;
     }
 
-    validateToken(token: string): string {
+    validateToken(token: string) {
         try {
             const decoded = verify(token, process.env.ACCESS);
-            return decoded as string;
+            return decoded as { exp: number; iat: number; id: string };
         } catch (error) {
             throw new WsException({ message: 'User unauthorized' });
         }

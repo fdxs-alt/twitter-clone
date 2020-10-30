@@ -1,11 +1,19 @@
 import { action, observable, runInAction } from "mobx";
 import { createChat, getChats } from "../utils/API";
-import { UserStore } from "./UserStore";
+import { UserData, UserStore } from "./UserStore";
+
+export interface IChat {
+  answerer: UserData;
+  createdAt: string;
+  lastActivity: string;
+  creator: UserData;
+  id: string;
+}
 
 export class ChatStore {
   @observable chatLoading = false;
-  @observable chats: any = [];
-  @observable selectedChat: string | null = null;
+  @observable chats: IChat[] = [];
+  @observable selectedChat: IChat | null = null;
   @observable error = "";
   @observable creatingChatLoading = false;
   constructor(private userStore: UserStore) {}
@@ -15,7 +23,6 @@ export class ChatStore {
     this.chatLoading = true;
     try {
       const data = await getChats(this.userStore.setConfig());
-
       runInAction(() => {
         this.chats = data.data;
       });
@@ -37,7 +44,6 @@ export class ChatStore {
       });
     } catch (error) {
       runInAction(() => {
-        console.log(error.response);
         this.creatingChatLoading = false;
       });
     }
@@ -45,6 +51,6 @@ export class ChatStore {
 
   @action
   selectChat(id: string) {
-    this.selectedChat = id;
+    this.selectedChat = this.chats.filter((chat: any) => chat.id === id)[0];
   }
 }
