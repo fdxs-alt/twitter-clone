@@ -6,7 +6,7 @@ import {
   logoutURL,
   revokeURL,
   updateProfileURL,
-  verifyURL,
+  verifyURL
 } from "../utils/Urls";
 import { AxiosRequestConfig } from "axios";
 
@@ -56,7 +56,7 @@ export class UserStore {
   @observable accessToken: string = "";
   @observable userData?: UserData;
   @observable isLoading = false;
-  @observable revokeLoading = false;
+  @observable revokeLoading = true;
   @observable error = "";
   @observable isAuthenticated = false;
 
@@ -67,7 +67,7 @@ export class UserStore {
 
     const data = {
       email: input.email,
-      password: input.password,
+      password: input.password
     };
 
     try {
@@ -93,7 +93,7 @@ export class UserStore {
 
     const data = {
       email: input.email,
-      code: parseInt(input.code),
+      code: parseInt(input.code)
     };
 
     try {
@@ -158,8 +158,8 @@ export class UserStore {
   setConfig() {
     const config: AxiosRequestConfig = {
       headers: {
-        "Content-type": "application/json",
-      },
+        "Content-type": "application/json"
+      }
     };
 
     config.headers["Authorization"] = this.accessToken;
@@ -169,7 +169,7 @@ export class UserStore {
 
   setFormDataConfig() {
     const config: AxiosRequestConfig = {
-      headers: {},
+      headers: {}
     };
 
     config.headers["Authorization"] = this.accessToken;
@@ -209,15 +209,15 @@ export class UserStore {
         newState = {
           ...(this.userData as UserData),
           following: [response.data, ...this.userData!.following],
-          followingCount: [response.data, ...this.userData!.following].length,
+          followingCount: [response.data, ...this.userData!.following].length
         };
       } else {
         newState = {
           ...(this.userData as UserData),
-          following: [...this.userData!.following.filter((id) => id !== data)],
+          following: [...this.userData!.following.filter(id => id !== data)],
           followingCount: [
-            ...this.userData!.following.filter((id) => id !== data),
-          ].length,
+            ...this.userData!.following.filter(id => id !== data)
+          ].length
         };
       }
       runInAction(() => {

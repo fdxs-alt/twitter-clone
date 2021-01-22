@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { config } from 'aws-sdk';
 import { urlencoded, json } from 'express';
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5000;
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
