@@ -1,0 +1,23 @@
+{
+  "name": "twitter-clone",
+  "version": "1.0.0",
+  "description": "twitter-clone",
+  "scripts": {
+    "start:client": "cd ./client && npm start",
+    "start:server": "cd ./server && npm run start:dev",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fdxs-alt/twitter-clone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fdxs-alt/twitter-clone/issues"
+  },
+  "homepage": "https://github.com/fdxs-alt/twitter-clone#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

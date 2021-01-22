@@ -21,4 +21,10 @@ Add following env variables to your .env file in server folder:
    REFRESH=  
    Go to client app:
 5. cd ./client && npm install && npm start
-6. cd ./server && npm install && npm run start:dev
+6. cd ./server && npm install && npm run start:dev  
+   OR
+7. cd ./twitter-clone
+8. npm install
+9. cd ./client && npm install
+10. cd ./server && npm install
+11. cd .. && npm start
